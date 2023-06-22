@@ -2,6 +2,7 @@ import '../App.css';
 import 'animate.css';
 import 'aos/dist/aos.css';
 
+import 'viewerjs/dist/viewer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -9,9 +10,14 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useState, useRef, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { Carousel } from 'react-responsive-carousel';
+import { JustifiedGrid } from '@egjs/react-grid';
 
 import Swal from 'sweetalert2';
+import Viewer from 'viewerjs';
 import AOS from 'aos';
+
+import theme from '../utils/theme.js';
+import model from '../utils/model.js';
 
 import Avatar from './Avatar';
 
@@ -23,28 +29,31 @@ const Portfolio = () => {
     const [showUIXUXDesign, setshowUIXUXDesign] = useState(false);
     const [showProfile, setshowProfile] = useState(true);
     const [showEducation, setshowEducation] = useState(false);
+    const [windowSize, setWindowSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
 
     const sectionRef = useRef(null);
-
-    var apps = {
-        'webApps': [
-            { 'name': 'Repro', 'image': theme.reproChatbot, 'description': 'A chatbot for young adults’ access to reproductive and sexual health. It bridges the gap between youths and their SRH through on-line chat conversation.', 'link': 'https://repro-capstone.onrender.com/', 'github': 'https://github.com/vannirriesarmiento/repro', 'techstack': ['Dialogflow', 'Node JS', 'React JS', 'Firebase', 'Render'], },
-            { 'name': 'Repro Admin', 'image': theme.reproAdmin, 'description': 'A comprehensive admin system for Repro. It provides a user-friendly dashboard to track incoming records and generates PDFs for healthcare workers.', 'link': 'https://admin-repro-capstone.web.app/', 'github': 'https://github.com/vannirriesarmiento/repro-admin', 'techstack': ['React JS', 'Firebase'], }
-        ],
-        'mobileApps': [
-            { 'name': 'Bevast', 'image': theme.bevast, 'description': 'Made using Nuxify\'s Flirt Template. A collaborative concept project of a cutting-edge mobile banking application. Available in dark and light modes.', 'link': '', 'techstack': ['Dart', 'Flutter'], },
-            { 'name': 'Heremi', 'image': theme.heremi, 'description': 'The ultimate health companion! Another collaboration project that\'s a solution for medicine adherence— a reminder app for your healthcare needs.', 'link': 'https://youtu.be/0xwTPKQp9m0', 'techstack': ['Android Native', 'PostgreSQL'] },
-        ],
-    };
-
-    var designs = {
-        'graphic': [theme.frame1, theme.frame2, theme.frame3, theme.frame4, theme.frame5],
-        'uiux': [theme.heremi1, theme.heremi2, theme.heremi3, theme.heremi4, theme.heremi5, theme.heremi6, theme.heremi7, theme.ool1, theme.ool2, theme.ool3]
-    };
 
     useEffect(() => {
         AOS.init();
     });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const computeAge = () => {
         const today = new Date();
@@ -95,15 +104,35 @@ const Portfolio = () => {
         }
     }
 
-    const openModal = (e) => {
-        e.preventDefault();
+    const openImageModal = (index) => {
+        const gallery = new Viewer(document.getElementById('images'), {
+            toolbar: false,
+            movable: false,
+            rotatable: false,
+            title: 0,
+            focus: false,
+        });
+        gallery.view(index);
+    }
 
+    const openTextModal = (e) => {
+        e.preventDefault();
         Swal.fire({
             title: 'Whoops!',
             text: 'Demo isn\'t available for now, but will be soon.',
             icon: 'error',
-            confirmButtonText: 'Okay'
+            showCloseButton: true,
+            showConfirmButton: false
         });
+    }
+
+    const isSmallSize = () => {
+        if (isMobile) {
+            return true;
+        } else if (windowSize.width < 600) {
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -112,6 +141,7 @@ const Portfolio = () => {
                 {showProfile &&
                     <div className='text-center'>
                         <Avatar />
+
                         <h1 className='title' data-aos="fade-up" data-aos-duration="1000">My name's Vann!</h1>
                         <div className='intro mx-auto' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                             <div>
@@ -121,13 +151,13 @@ const Portfolio = () => {
                             </div>
                         </div>
                         <div className="justify-content-center mt-4" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
-                            {!isMobile &&
+                            {!isSmallSize() &&
                                 <>
                                     <button className='button intro-nav' onClick={(e) => scrolltoBody(e)}>Projects&nbsp;<i className="bi bi-caret-down-fill"></i></button>
                                     <button className='button intro-nav' onClick={(e) => changeIntro(e)}>Education&nbsp;<i className="bi bi-mortarboard-fill"></i></button>
                                 </>}
                             <span className='intro-icons align-middle'>
-                                {isMobile &&
+                                {isSmallSize() &&
                                     <>
                                         <a href='/' onClick={(e) => scrolltoBody(e)}>
                                             <i className="greenbg bi bi-caret-down-fill"></i>
@@ -160,13 +190,13 @@ const Portfolio = () => {
                     <div className='d-flex flex-column mb-3' data-aos="flip-left">
                         <div className='d-flex justify-content-between'>
                             <button className='m-2 button intro-nav' onClick={changeIntro}>
-                                <i className="bi bi-caret-left-fill"></i>{!isMobile && <>&nbsp;Back</>}
+                                <i className="bi bi-caret-left-fill"></i>{!isSmallSize() && <>&nbsp;Back</>}
                             </button>
                         </div>
                         <div className='intro intro-box p-0'>
-                            {!isMobile && <img src={theme.gradpic} class="avatar w-50 float-end" alt="Graduation Portrait" />}
+                            {!isSmallSize() && <img src={theme.gradpic} className="w-50 float-end" alt="Graduation Portrait" />}
                             <div className='pt-2 px-3'>
-                                {!isMobile && <>
+                                {!isSmallSize() && <>
                                     <h5 className='title subtitle my-1'>Higher Secondary</h5>
                                     <p><b>Davao Doctors College Inc.</b>
                                         <br />(2017-2019)
@@ -190,7 +220,7 @@ const Portfolio = () => {
             </div>
             <div ref={sectionRef} className='body-container' data-aos="fade-up">
                 <div className='body-container-padding container-fluid'>
-                    {isMobile ? (
+                    {isSmallSize() ? (
                         <>
                             <div className="d-flex align-content-between flex-wrap justify-content-center">
                                 <h1 className='title mt-5' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">My Projects</h1>
@@ -218,9 +248,9 @@ const Portfolio = () => {
                         <div className='row animate__animated animate__fadeIn '>
                             {(showWebApp || showMobileApp) &&
                                 <>
-                                    {apps[returnCategory()].map((app, index) => (
+                                    {model.apps[returnCategory()].map((app, index) => (
                                         <div className="col text-center py-4 my-3" key={index} data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-                                            {isMobile ?
+                                            {isSmallSize() ?
                                                 (
                                                     <img src={app.image} alt={app.name} className='img-fluid' />
                                                 ) : (
@@ -230,22 +260,40 @@ const Portfolio = () => {
                                             {app.techstack.map((tech, techIndex) => (
                                                 <span className="badge text-bg-warning mx-1" key={techIndex}>{tech}</span>
                                             ))}
-                                            {isMobile ? <p className='my-3'>{app.description}</p> : <p className='mx-5 my-3'>{app.description}</p>}
+                                            {isSmallSize() ? <p className='my-3'>{app.description}</p> : <p className='mx-5 my-3'>{app.description}</p>}
                                             {showWebApp ?
                                                 <>
                                                     <a className='button body-button' href={app.link} target='_blank' rel="noreferrer">View App</a>
                                                     <a className='button body-button' href={app.github} target='_blank' rel="noreferrer">Github</a>
                                                 </> :
-                                                <a className='button body-button' href='/' onClick={(e) => openModal(e)}>View App</a>}
+                                                <a className='button body-button' href='/' onClick={(e) => openTextModal(e)}>View App</a>}
                                         </div>
                                     ))}
                                 </>}
                         </div>
                     </div>
                 </div>
-                {(showGraphicDesign || showUIXUXDesign) &&
+                {showGraphicDesign &&
+                    <>
+                        <JustifiedGrid className="item mb-4"
+                            gap={20} id="images"
+                            defaultDirection={"end"}
+                            columnRange={[1, 4]}
+                            rowRange={0}
+                            sizeRange={[200, 1000]}
+                            isCroppedSize={false}
+                            displayedRow={-1}
+                        >
+                            {model.designs[returnCategory()].map((design, index) => (
+                                <img key={index} onClick={() => openImageModal(index)} id="image" alt="Graphic Design" src={design} data-aos="fade-up" data-aos-duration="1000" />
+                            ))}
+                        </JustifiedGrid>
+                    </>
+                }
+
+                {showUIXUXDesign &&
                     <Carousel className='animate__animated animate__fadeIn text-center mx-auto p-0' autoPlay={true} infiniteLoop={true}>
-                        {designs[returnCategory()].map((design, index) => (
+                        {model.designs[returnCategory()].map((design, index) => (
                             <div key={index}>
                                 <img src={design} alt="Design" />
                             </div>
@@ -255,7 +303,7 @@ const Portfolio = () => {
             </div>
             <footer>
                 <div className="scroll-top">
-                    <b onClick={scrollToTop}><i class="bi bi-caret-up-fill"></i></b>
+                    <b onClick={scrollToTop}><i className="bi bi-caret-up-fill"></i></b>
                 </div>
             </footer>
 
