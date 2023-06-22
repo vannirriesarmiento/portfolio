@@ -13,7 +13,7 @@ import { Carousel } from 'react-responsive-carousel';
 import Swal from 'sweetalert2';
 import AOS from 'aos';
 
-import theme from '../config/theme.js';
+import Avatar from './Avatar';
 
 const Portfolio = () => {
 
@@ -111,7 +111,7 @@ const Portfolio = () => {
             <div className='intro-container flex mx-auto'>
                 {showProfile &&
                     <div className='text-center'>
-                        <img src={theme.avatar} alt="Self Portrait" className="avatar animate__animated animate__pulse" />
+                        <Avatar />
                         <h1 className='title' data-aos="fade-up" data-aos-duration="1000">My name's Vann!</h1>
                         <div className='intro mx-auto' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                             <div>
