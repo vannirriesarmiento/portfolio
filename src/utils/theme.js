@@ -3,6 +3,7 @@ import avatar1 from '../assets/img/avatars/1.png';
 import avatar2 from '../assets/img/avatars/2.png';
 import avatar3 from '../assets/img/avatars/3.png';
 import avatar4 from '../assets/img/avatars/4.png';
+import avatar5 from '../assets/img/avatars/5.png';
 import avatarborder from '../assets/img/avatars/avatar-border.png';
 
 import gradpic from '../assets/img/grad-pic.jpg';
@@ -51,6 +52,7 @@ const theme = {
     avatar2,
     avatar3,
     avatar4,
+    avatar5,
     avatarborder,
     gradpic,
     bevast,
