@@ -14,6 +14,7 @@ const Avatar = () => {
     const [currentImage, setCurrentImage] = useState(0);
 
     useEffect(() => {
+
         const interval = setInterval(() => {
             setTimeout(() => {
                 setCurrentImage((prevImage) => (prevImage + 1) % model.images.length);
@@ -25,7 +26,8 @@ const Avatar = () => {
 
     return (
         <div className="image-stack animate__animated animate__pulse">
-            <img src={theme.avatarborder} alt="Border" className="avatar image-ontop" />
+            <img src={theme.float1} alt="Border" className="avatar image-ontop animate__animated animate__pulse animate__slow animate__infinite infinite" />
+            <img src={theme.float2} alt="Border" className="avatar image-ontop animate__animated animate__pulse animate__slower animate__infinite infinite" />
             <img src={model.images[currentImage]} alt="Avatar" className="avatar round" />
         </div>
     );
