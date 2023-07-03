@@ -7,6 +7,7 @@ import avatar5 from '../assets/img/avatars/5.png';
 import float1 from '../assets/img/floats/1.png';
 import float2 from '../assets/img/floats/2.png';
 import float3 from '../assets/img/floats/3.svg';
+import float4 from '../assets/img/floats/4.png';
 
 import gradpic from '../assets/img/grad-pic.jpg';
 
@@ -50,6 +51,7 @@ const theme = {
     float1,
     float2,
     float3,
+    float4,
     gradpic,
     logo,
     bevast,
