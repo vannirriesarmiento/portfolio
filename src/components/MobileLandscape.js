@@ -12,10 +12,12 @@ const MobileLandscape = () => {
 
     if (isMobile && isLandscape) {
         return (
-            <div className='intro-container flex mx-auto p-5'>
-                <div className='intro'>
-                    <p className='title'>Whoops!</p>
-                    Sorry about that. Website isn't available in this view as of the moment. Stay tuned for improvements soon!
+            <div className='background'>
+                <div className='intro-container flex mx-auto p-5'>
+                    <div className='intro'>
+                        <p className='title'>Whoops!</p>
+                        Sorry about that. Website isn't available in this view as of the moment. Stay tuned for improvements soon!
+                    </div>
                 </div>
             </div>
         );
