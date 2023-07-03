@@ -1,17 +1,24 @@
-import avatar from '../assets/img/avatar.png';
 import avatar1 from '../assets/img/avatars/1.png';
 import avatar2 from '../assets/img/avatars/2.png';
 import avatar3 from '../assets/img/avatars/3.png';
 import avatar4 from '../assets/img/avatars/4.png';
 import avatar5 from '../assets/img/avatars/5.png';
-import avatarborder from '../assets/img/avatars/avatar-border.png';
+
+import float1 from '../assets/img/floats/1.png';
+import float2 from '../assets/img/floats/2.png';
+import float3 from '../assets/img/floats/3.svg';
 
 import gradpic from '../assets/img/grad-pic.jpg';
+
+import logo from '../assets/img/app-logo.png';
 
 import bevast from '../assets/img/mobileapps/bevast.png';
 import heremi from '../assets/img/mobileapps/heremi.png';
 import reproChatbot from '../assets/img/webapps/repro.png';
 import reproAdmin from '../assets/img/webapps/repro-admin.png';
+
+import uiux1 from '../assets/img/ui ux/1.png';
+import uiux2 from '../assets/img/ui ux/2.png';
 
 import graphic1 from '../assets/img/graphics/1.png';
 import graphic2 from '../assets/img/graphics/2.png';
@@ -34,31 +41,23 @@ import graphic18 from '../assets/img/graphics/18.jpg';
 import graphic19 from '../assets/img/graphics/19.png';
 import graphic20 from '../assets/img/graphics/20.png';
 
-import heremi1 from '../assets/img/ui ux/heremi/1.png';
-import heremi2 from '../assets/img/ui ux/heremi/2.png';
-import heremi3 from '../assets/img/ui ux/heremi/3.png';
-import heremi4 from '../assets/img/ui ux/heremi/4.png';
-import heremi5 from '../assets/img/ui ux/heremi/5.png';
-import heremi6 from '../assets/img/ui ux/heremi/6.png';
-import heremi7 from '../assets/img/ui ux/heremi/7.png';
-
-import ool1 from '../assets/img/ui ux/ool/1.png';
-import ool2 from '../assets/img/ui ux/ool/2.png';
-import ool3 from '../assets/img/ui ux/ool/3.png';
-
 const theme = {
-    avatar,
     avatar1,
     avatar2,
     avatar3,
     avatar4,
     avatar5,
-    avatarborder,
+    float1,
+    float2,
+    float3,
     gradpic,
+    logo,
     bevast,
     heremi,
     reproChatbot,
     reproAdmin,
+    uiux1,
+    uiux2,
     graphic1,
     graphic2,
     graphic3,
@@ -79,16 +78,6 @@ const theme = {
     graphic18,
     graphic19,
     graphic20,
-    heremi1,
-    heremi2,
-    heremi3,
-    heremi4,
-    heremi5,
-    heremi6,
-    heremi7,
-    ool1,
-    ool2,
-    ool3
 };
 
 export default theme;
