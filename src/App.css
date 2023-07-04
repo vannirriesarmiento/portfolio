@@ -179,6 +179,27 @@ footer b {
   margin: auto;
 }
 
+.rotate-animation {
+  animation: rotation 2s infinite linear;
+}
+
+.pulse-animate {
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.5, 1.5);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+
 .preloader-bg {
   width: 100vw;
   height: 100vh;
