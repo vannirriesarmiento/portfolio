@@ -48,6 +48,10 @@ body {
   margin: 0;
   font-size: 2vh;
   overflow-x: hidden !important;
+  background-size: cover;
+  background-image: url("assets/img/background.png");
+  background-position: center;
+  background-repeat: repeat;
 }
 
 body a i {
@@ -124,14 +128,13 @@ footer b {
   padding: 6vh 0vh;
 }
 
-
 .background {
   margin: 0;
   background-size: cover;
   background-image: url("assets/img/background.png");
   background-position: center;
   background-repeat: no-repeat;
-  height: 130vh;
+  height: 100vh;
 }
 
 .background-mobile {
@@ -174,10 +177,6 @@ footer b {
   font-size: 2.2vh;
   background-color: #ffffff;
   border-top: 0.4vh solid #000000;
-}
-
-.body-container-padding {
-  padding: 2% 5%;
 }
 
 .logo {
