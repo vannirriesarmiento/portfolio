@@ -15,20 +15,18 @@ const Divider = () => {
 
         document.getElementById("divider").style.transition = "1s";
 
-        window.addEventListener('scroll', function () {
-            if (timer !== null) {
-                clearTimeout(timer);
-                let percent = (root[scrolltotop] || body[scrolltotop]) / ((root[height] || body[height]) - root.clientHeight) * 100;
-                textPath.setAttribute("startOffset", (percent * - 85) + 2200);
-                document.getElementById("divider").style.filter = "blur(3px)";
-            }
-            timer = setTimeout(function () {
-                document.getElementById("divider").style.filter = "blur(0px)";
-            }, 150);
-        }, false);
-
-
-    });
+            window.addEventListener('scroll', function () {
+                if (timer !== null) {
+                    clearTimeout(timer);
+                    let percent = (root[scrolltotop] || body[scrolltotop]) / ((root[height] || body[height]) - root.clientHeight) * 100;
+                    textPath.setAttribute("startOffset", (percent * - 85) + 2200);
+                    document.getElementById("divider").style.filter = "blur(3px)";
+                }
+                timer = setTimeout(function () {
+                    document.getElementById("divider").style.filter = "blur(0px)";
+                }, 150);
+            }, false);
+    }, []);
 
     return (
         <>
