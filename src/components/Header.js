@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { isSafari } from 'react-device-detect';
+import { isMobile, isSafari } from 'react-device-detect';
 
 import '../App.css';
 
@@ -45,7 +45,7 @@ const Header = ({ scrollToBody, isSmallSize }) => {
 
         return age;
     }
-    
+
 
     return (
         <>
@@ -53,8 +53,8 @@ const Header = ({ scrollToBody, isSmallSize }) => {
                 {showProfile &&
                     <div className='text-center'>
                         <div className="image-stack animate__animated animate__pulse">
-                            <img src={theme.float1} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate':'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
-                            <img src={theme.float2} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate':'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
+                            <img src={theme.float1} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate' : 'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
+                            <img src={theme.float2} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate' : 'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
                             <img src={model.images[currentImage]} alt="Avatar" className="avatar round" />
                         </div>
                         <h1 className='title' data-aos="fade-up" data-aos-duration="1000">I like to Create & Code!</h1>
@@ -109,26 +109,22 @@ const Header = ({ scrollToBody, isSmallSize }) => {
                                 <i className="bi bi-caret-left-fill"></i>{!isSmallSize() && <>&nbsp;Back</>}
                             </button>
                         </div>
-                        <div className='intro intro-box p-0'>
-                            {!isSmallSize() && <img src={theme.gradpic} className="img-fluid w-50 float-end" alt="Graduation Portrait" />}
-                            <div className='pt-2 px-3'>
-                                {!isSmallSize() && <>
-                                    <h5 className='title subtitle my-1'>Higher Secondary</h5>
-                                    <p><b>Davao Doctors College Inc.</b>
-                                        <br />(2017-2019)
-                                        <br />General Academic Strand
-                                    </p>
-                                </>}
-                                <h5 className='title subtitle my-1'>Tertiary</h5>
-                                <p><b>University of the Immaculate Conception</b>
-                                    <br />(2019-2023)
-                                    <br />BS in Information Technology
-                                    <br />Specialized in Healthcare Technologies
-                                </p>
-                                <b>AWARDS</b>
-                                <p><i>Cum Laude</i>, <i>Special Talent</i>, <i>Philippine Startup Challenge Nationals</i>, and <i>Philippine Startup Challenge Regionals</i> (Student Category)</p>
-                                <b>CERTIFICATION</b><br />
-                                TOPCIT Level II (Practical Competency Test)
+                        <div className={`${isMobile ? null : 'gradpic'}`}>
+                            <div className={`intro p-0 ${isMobile ? null : 'w-50'}`}>
+                                <div className="row align-items-center">
+                                    <div className="col px-5 py-4">
+                                        <h5 className='title subtitle my-1'>Tertiary</h5>
+                                        <p><b>University of the Immaculate Conception</b>
+                                            <br />(2019-2023)
+                                            <br />BS in Information Technology
+                                            <br />Specialized in Healthcare Technologies
+                                        </p>
+                                        <b>AWARDS</b>
+                                        <p><i>Cum Laude</i>, <i>Special Talent</i>, <i>Philippine Startup Challenge Nationals</i>, and <i>Philippine Startup Challenge Regionals</i> (Student Category)</p>
+                                        <b>CERTIFICATION</b><br />
+                                        TOPCIT Level II (Practical Competency Test)
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
