@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Vann S: Developer & Designer",
+  "name": "Welcome to my page~ This is my very own collection of projects. Go check 'em out!",
   "icons": [
     {
       "src": "app-logo.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#FDBFD5",
+  "background_color": "#FBF0E6"
 }
