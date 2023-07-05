@@ -17,7 +17,6 @@ const Header = ({ scrollToBody, isSmallSize }) => {
     const [showProfile, setshowProfile] = useState(true);
 
     useEffect(() => {
-
         const interval = setInterval(() => {
             setTimeout(() => {
                 setCurrentImage((prevImage) => (prevImage + 1) % model.images.length);
