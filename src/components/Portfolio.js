@@ -169,7 +169,7 @@ const Portfolio = () => {
                     <div className='background'>
                         <Header scrollToBody={e => scrolltoBody(e)} isSmallSize={isSmallSize} />
 
-                        <div ref={sectionRef} className='body-container text-center py3' data-aos="fade-up">
+                        <div ref={sectionRef} className='body-container text-center pt3' data-aos="fade-up">
 
                             <div className='my-5 py-4 mx-3'>
                                 <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
@@ -185,13 +185,12 @@ const Portfolio = () => {
                             </div>
 
                             <div className="container w-75">
-
                                 {model.apps.map((app, index) => (
                                     <div className="row align-items-center" key={index}>
-                                        <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos={`${isSmallSize() ? 'zoom-in':'fade-right'}`}>
+                                        <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-right'}`}>
                                             <img src={app.image} alt={app.name} className='w-75' />
                                         </div>
-                                        <div className="col-12 col-md-6 mb-5" data-aos={`${isSmallSize() ? 'zoom-in':'fade-left'}`}>
+                                        <div className="col-12 col-md-6 mb-5" data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-left'}`}>
                                             <h2 className='title mt-4'>{app.name}</h2>
                                             <ul className="nav justify-content-center">
                                                 {app.techstack.map((tech, techIndex) => (
@@ -214,7 +213,6 @@ const Portfolio = () => {
                             <Divider />
 
                             <div className='container mt-5 pt-5 w-75'>
-
                                 <div className='my-5 py-4 mx-3'>
                                     <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                                         Gallery of&nbsp;
@@ -242,7 +240,6 @@ const Portfolio = () => {
                                         <label htmlFor="toggleButton3" data-text="Visual"></label>
                                         <div className="toggle-button__icon"></div>
                                     </div>
-
                                 </div>
 
                                 {showAll &&
@@ -255,12 +252,10 @@ const Portfolio = () => {
                                     returnGallery(0, graphics, [1, 3])
                                 }
                             </div>
+
+                            <br /><br /><br />
+                            <Footer />
                         </div>
-
-                        <br /><br />
-
-                        <Footer />
-
                     </div>
                 </>
             );
