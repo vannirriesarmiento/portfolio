@@ -188,10 +188,10 @@ const Portfolio = () => {
 
                                 {model.apps.map((app, index) => (
                                     <div className="row align-items-center" key={index}>
-                                        <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos="fade-right">
+                                        <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos={`${isSmallSize() ? 'zoom-in':'fade-right'}`}>
                                             <img src={app.image} alt={app.name} className='w-75' />
                                         </div>
-                                        <div className="col-12 col-md-6 mb-5" data-aos="fade-left">
+                                        <div className="col-12 col-md-6 mb-5" data-aos={`${isSmallSize() ? 'zoom-in':'fade-left'}`}>
                                             <h2 className='title mt-4'>{app.name}</h2>
                                             <ul className="nav justify-content-center">
                                                 {app.techstack.map((tech, techIndex) => (
