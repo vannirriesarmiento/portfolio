@@ -36,7 +36,12 @@
     height: 22vh;
     width: 22vh;
   }
+}
 
+@media only screen and (max-width: 1199px) and (orientation: portrait) {
+  .html {
+    overflow-x: hidden !important;
+  }
 }
 
 body {
@@ -119,11 +124,6 @@ footer b {
   padding: 6vh 0vh;
 }
 
-/* mmargin */
-
-.mtn1 {
-  margin-top: -30vh;
-}
 
 .background {
   margin: 0;
@@ -132,6 +132,12 @@ footer b {
   background-position: center;
   background-repeat: no-repeat;
   height: 130vh;
+}
+
+.background-mobile {
+  height: 100vh !important;
+  width: 100vw !important;
+  overflow: hidden;
 }
 
 .title {
@@ -191,9 +197,11 @@ footer b {
   0% {
     transform: scale(1, 1);
   }
+
   50% {
     transform: scale(1.5, 1.5);
   }
+
   100% {
     transform: scale(1, 1);
   }
@@ -560,40 +568,47 @@ figure {
   height: 50vh;
   position: relative;
   background-color: #FDBFD5;
-  /* background-image: linear-gradient(180deg, #FFFFFF 30%, #FDBFD5 100%); */
-}
+  }
+
 .shape-divider.shape-divider-bottom svg {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
 }
-.parallax > use {
+
+.parallax>use {
   animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
 }
-.parallax > use:nth-child(1) {
+
+.parallax>use:nth-child(1) {
   animation-delay: -2s;
   animation-duration: 7s;
 }
-.parallax > use:nth-child(2) {
+
+.parallax>use:nth-child(2) {
   animation-delay: -3s;
   animation-duration: 10s;
 }
-.parallax > use:nth-child(3) {
+
+.parallax>use:nth-child(3) {
   animation-delay: -4s;
   animation-duration: 15s;
 }
-.parallax > use:nth-child(4) {
+
+.parallax>use:nth-child(4) {
   animation-delay: -5s;
   animation-duration: 25s;
 }
+
 @keyframes move-forever {
   0% {
     transform: translate3d(-90px, 0, 0);
- }
+  }
+
   100% {
     transform: translate3d(85px, 0, 0);
- }
+  }
 }
 
 .float {
@@ -609,6 +624,7 @@ figure {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(359deg);
   }
