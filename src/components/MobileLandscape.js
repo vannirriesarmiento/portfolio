@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const MobileLandscape = () => {
     
     return (
-        <div className='background'>
+        <div className='background background-mobile'>
             <div className='intro-container flex mx-auto p-5'>
                 <div className='intro'>
                     <p className='title'>Whoops!</p>
