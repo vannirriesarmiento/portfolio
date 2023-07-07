@@ -54,7 +54,7 @@ const Header = ({ scrollToBody, isSmallSize }) => {
                     <div className='text-center'>
                         <div className="image-stack animate__animated animate__pulse">
                             <img src={theme.float1} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate' : 'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
-                            <img src={theme.float2} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate' : 'animate__animated animate__pulse animate__slow animate__infinite infinite'}`} />
+                            <img src={theme.float2} alt="Border" className={`avatar image-ontop ${isSafari ? 'pulse-animate' : 'animate__animated animate__pulse animate__slower animate__infinite infinite'}`} />
                             <img src={model.images[currentImage]} alt="Avatar" className="avatar round" />
                         </div>
                         <h1 className='title' data-aos="fade-up" data-aos-duration="1000">I like to Create & Code!</h1>
