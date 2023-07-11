@@ -171,6 +171,7 @@ const Portfolio = () => {
 
                         <div ref={sectionRef} className='body-container text-center pt3' data-aos="fade-up">
 
+                            <br /><br />
                             <div className='my-5 py-4 mx-3'>
                                 <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                                     My&nbsp;
@@ -209,7 +210,7 @@ const Portfolio = () => {
                                 ))}
                             </div>
 
-                            <br /><br /><br />
+                            <br /><br />
                             <Divider />
 
                             <div className='container mt-5 pt-5 w-75'>
