@@ -13,24 +13,46 @@ const Divider = () => {
 
         var timer = null;
 
-        document.getElementById("divider").style.transition = "1s";
-
-            window.addEventListener('scroll', function () {
-                if (timer !== null) {
-                    clearTimeout(timer);
-                    let percent = (root[scrolltotop] || body[scrolltotop]) / ((root[height] || body[height]) - root.clientHeight) * 100;
-                    textPath.setAttribute("startOffset", (percent * - 85) + 2200);
-                    document.getElementById("divider").style.filter = "blur(3px)";
-                }
-                timer = setTimeout(function () {
-                    document.getElementById("divider").style.filter = "blur(0px)";
-                }, 150);
-            }, false);
+        window.addEventListener('scroll', function () {
+            if (timer !== null) {
+                clearTimeout(timer);
+                let percent = (root[scrolltotop] || body[scrolltotop]) / ((root[height] || body[height]) - root.clientHeight) * 100;
+                textPath.setAttribute("startOffset", (percent * - 85) + 2200);
+                document.getElementById("divider").style.filter = "url(#distort)";
+            }
+            timer = setTimeout(function () {
+                document.getElementById("divider").style.filter = "url(#glow)";
+            }, 150);
+        }, false);
     }, []);
 
     return (
         <>
-            <svg width="100%" height="15vw" viewBox="100 0 948.72 60.55">
+            <svg>
+                <defs>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="10" result="glow" />
+                        <feTurbulence baseFrequency="0.01 0.01" numOctaves="1" result="noise" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="R" result="displacement"/>
+                        <feMerge>
+                            <feMergeNode in="glow" />
+                            <feMergeNode in="displacement" />
+                        </feMerge>
+                    </filter>
+                    <filter id="distort">
+                        <feGaussianBlur stdDeviation="10" result="glow" />
+                        <feTurbulence type="fractalNoise" baseFrequency="0 0.1" numOctaves="2" seed="2" stitchTiles="noStitch" x="-100%" y="0%" result="noise" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="R" result="displacement" />
+                        <feMerge>
+                            <feMergeNode in="glow" />
+                            <feMergeNode in="displacement" />
+                        </feMerge>
+                    </filter>
+                </defs>
+            </svg>
+
+
+            <svg width="100%" height="18vw" viewBox="100 0 948.72 60.55">
                 <path
                     id="curve"
                     fill="transparent"
@@ -44,9 +66,6 @@ const Divider = () => {
                     }}
                 >
                     <textPath
-                        style={{
-                            transform: "translate3d(0,0,0)",
-                        }}
                         alignmentBaseline="top"
                         href="#curve"
                         id="divider"
