@@ -65,40 +65,38 @@ const Header = ({ scrollToBody, isSmallSize }) => {
                                 My hobbies include dancing, reading, and making art!
                             </div>
                         </div>
-                        <div className="justify-content-center mt-4" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
+                        <div className="nav justify-content-center mt-4" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
                             {!isSmallSize() &&
                                 <>
-                                    <button type="button" className='button intro-nav' onClick={scrollToBody}>Projects&nbsp;<i className="bi bi-caret-down-fill"></i></button>
-                                    <button type="button" className='button intro-nav' onClick={(e) => changeIntro(e)}>Education&nbsp;<i className="bi bi-mortarboard-fill"></i></button>
+                                    <button type="button" className='button nav-item intro-nav' onClick={scrollToBody}>Projects&nbsp;<i className="bi bi-caret-down-fill"></i></button>
+                                    <button type="button" className='button nav-item intro-nav' onClick={(e) => changeIntro(e)}>Education&nbsp;<i className="bi bi-mortarboard-fill"></i></button>
                                 </>
                             }
-                            <span className='intro-icons align-middle'>
-                                {isSmallSize() &&
-                                    <>
-                                        <a href='/' onClick={scrollToBody}>
-                                            <i className="greenbg bi bi-caret-down-fill"></i>
-                                        </a>
-                                        <a href='/' onClick={(e) => changeIntro(e)}>
-                                            <i className="greenbg bi bi-mortarboard-fill"></i>
-                                        </a>
-                                    </>
-                                }
-                                <a href='https://www.linkedin.com/in/mae-kristine-vannirrie-sarmiento/' target='_blank' rel="noreferrer">
-                                    <i className="bi bi-linkedin"></i>
-                                </a>
-                                <a href="https://github.com/vannirriesarmiento" target='_blank' rel="noreferrer">
-                                    <i className="bi bi-github"></i>
-                                </a>
-                                <a href="https://youtube.com/@vsarmiento" target='_blank' rel="noreferrer">
-                                    <i className="bi bi-youtube"></i>
-                                </a>
-                                <a href="https://dribbble.com/vsarmiento" target='_blank' rel="noreferrer">
-                                    <i className="bi bi-dribbble"></i>
-                                </a>
-                                <a href="mailto:sarmiento.mkv@gmail.com">
-                                    <i className="bi bi-envelope-fill"></i>
-                                </a>
-                            </span>
+                            {isSmallSize() &&
+                                <>
+                                    <a className='nav-item intro-icons greenbg' href='/' onClick={scrollToBody}>
+                                        <i className="bi bi-caret-down-fill"></i>
+                                    </a>
+                                    <a className='nav-item intro-icons greenbg' href='/' onClick={(e) => changeIntro(e)}>
+                                        <i className="bi bi-mortarboard-fill"></i>
+                                    </a>
+                                </>
+                            }
+                            <a className='nav-item intro-icons' href='https://www.linkedin.com/in/mae-kristine-vannirrie-sarmiento/' target='_blank' rel="noreferrer">
+                                <i className="bi bi-linkedin"></i>
+                            </a>
+                            <a className='nav-item intro-icons' href="https://github.com/vannirriesarmiento" target='_blank' rel="noreferrer">
+                                <i className="bi bi-github"></i>
+                            </a>
+                            <a className='nav-item intro-icons' href="https://youtube.com/@vsarmiento" target='_blank' rel="noreferrer">
+                                <i className="bi bi-youtube"></i>
+                            </a>
+                            <a className='nav-item intro-icons' href="https://dribbble.com/vsarmiento" target='_blank' rel="noreferrer">
+                                <i className="bi bi-dribbble"></i>
+                            </a>
+                            <a className='nav-item intro-icons' href="mailto:sarmiento.mkv@gmail.com">
+                                <i className="bi bi-envelope-fill"></i>
+                            </a>
                         </div>
                     </div>
                 }
