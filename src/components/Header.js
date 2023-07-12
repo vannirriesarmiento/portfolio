@@ -102,8 +102,8 @@ const Header = ({ scrollToBody, isSmallSize }) => {
                 }
                 {showEducation &&
                     <div className='d-flex flex-column mb-3' data-aos="flip-left">
-                        <div className='d-flex justify-content-between'>
-                            <button className='m-2 button intro-nav' onClick={changeIntro}>
+                        <div className='nav'>
+                            <button className='button intro-nav nav-item m-2' onClick={changeIntro}>
                                 <i className="bi bi-caret-left-fill"></i>{!isSmallSize() && <>&nbsp;Back</>}
                             </button>
                         </div>
