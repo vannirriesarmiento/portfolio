@@ -169,93 +169,95 @@ const Portfolio = () => {
                     <div className='background'>
                         <Header scrollToBody={e => scrolltoBody(e)} isSmallSize={isSmallSize} />
 
-                        <div ref={sectionRef} className='body-container text-center pt3' data-aos="fade-up">
+                        <div className='body-background'>
+                            <div ref={sectionRef} className='body-container text-center pt3' data-aos="fade-up">
 
-                            <br /><br />
-                            <div className='my-5 py-4 mx-3'>
-                                <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-                                    My&nbsp;
-                                    <span className='outlined'>
-                                        Applications
-                                    </span>
-                                    &nbsp; Pool
-                                </h1>
-                                <p className='subtitle' data-aos="fade-up" data-aos-delay="350" data-aos-duration="1000">
-                                    Here are a few past development projects I've worked on.
-                                </p>
-                            </div>
-
-                            <div className="container w-75">
-                                {model.apps.map((app, index) => (
-                                    <div className="row align-items-center" key={index}>
-                                        <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-right'}`}>
-                                            <img src={app.image} alt={app.name} className='w-75' />
-                                        </div>
-                                        <div className="col-12 col-md-6 mb-5" data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-left'}`}>
-                                            <h2 className='title mt-4'>{app.name}</h2>
-                                            <ul className="nav justify-content-center">
-                                                {app.techstack.map((tech, techIndex) => (
-                                                    <li className="chip nav-item m-1" key={techIndex}>{tech}</li>
-                                                ))}
-                                            </ul>
-                                            <p className='my-3'>{app.description}</p>
-                                            {app.name !== 'Bevast' ? (
-                                                <a href={app.link} target='_blank' rel="noreferrer" className='button body-button'>View App</a>
-                                            ) : (
-                                                <a href="/" onClick={e => openTextModal(e)} rel="noreferrer" className='button body-button'>View App</a>
-                                            )}
-                                            <a className='button body-button' href={app.github} target='_blank' rel="noreferrer">Github</a>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <br /><br />
-                            <Divider />
-
-                            <div className='container mt-5 pt-5 w-75'>
+                                <br /><br />
                                 <div className='my-5 py-4 mx-3'>
                                     <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-                                        Gallery of&nbsp;
+                                        My&nbsp;
                                         <span className='outlined'>
-                                            Designs
+                                            Applications
                                         </span>
-                                        &nbsp;I Did
+                                        &nbsp; Pool
                                     </h1>
-                                    <p className='subtitle' data-aos="fade-up" data-aos-delay="350" data-aos-duration="1000">Some of the works from my archives that I'm proud of.</p>
-
-                                    <br /><br />
-
-                                    <div className="toggle-button toggle-button--valo" data-aos="fade-up">
-                                        <input id="toggleButton1" name="radio1" type="radio" defaultChecked="true" onChange={() => updateGallery('all')}></input>
-                                        <label htmlFor="toggleButton1" data-text="All"></label>
-                                        <div className="toggle-button__icon"></div>
-                                    </div>
-                                    <div className="toggle-button toggle-button--valo" data-aos="fade-up" data-aos-delay="300">
-                                        <input id="toggleButton2" name="radio1" type="radio" onChange={() => updateGallery('uiux')}></input>
-                                        <label htmlFor="toggleButton2" data-text="UI UX"></label>
-                                        <div className="toggle-button__icon"></div>
-                                    </div>
-                                    <div className="toggle-button toggle-button--valo" data-aos="fade-up" data-aos-delay="500">
-                                        <input id="toggleButton3" name="radio1" type="radio" onChange={() => updateGallery('graphic')}></input>
-                                        <label htmlFor="toggleButton3" data-text="Visual"></label>
-                                        <div className="toggle-button__icon"></div>
-                                    </div>
+                                    <p className='subtitle' data-aos="fade-up" data-aos-delay="350" data-aos-duration="1000">
+                                        Here are a few past development projects I've worked on.
+                                    </p>
                                 </div>
 
-                                {showAll &&
-                                    returnGallery(1, model.designs, [1, 4])
-                                }
-                                {showUIXUXDesign &&
-                                    returnGallery(1, uiux, [1, 3])
-                                }
-                                {showGraphicDesign &&
-                                    returnGallery(0, graphics, [1, 3])
-                                }
-                            </div>
+                                <div className="container w-75">
+                                    {model.apps.map((app, index) => (
+                                        <div className="row align-items-center" key={index}>
+                                            <div className={`col-12 col-md-6 mb-5 ${(index % 2 !== 0 && !isSmallSize()) ? 'order-1' : 'order-0'}`} data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-right'}`}>
+                                                <img src={app.image} alt={app.name} className='w-75' />
+                                            </div>
+                                            <div className="col-12 col-md-6 mb-5" data-aos={`${isSmallSize() ? 'zoom-in' : 'fade-left'}`}>
+                                                <h2 className='title mt-4'>{app.name}</h2>
+                                                <ul className="nav justify-content-center">
+                                                    {app.techstack.map((tech, techIndex) => (
+                                                        <li className="chip nav-item m-1" key={techIndex}>{tech}</li>
+                                                    ))}
+                                                </ul>
+                                                <p className='my-3'>{app.description}</p>
+                                                {app.name !== 'Bevast' ? (
+                                                    <a href={app.link} target='_blank' rel="noreferrer" className='button body-button'>View App</a>
+                                                ) : (
+                                                    <a href="/" onClick={e => openTextModal(e)} rel="noreferrer" className='button body-button'>View App</a>
+                                                )}
+                                                <a className='button body-button' href={app.github} target='_blank' rel="noreferrer">Github</a>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
 
-                            <br /><br /><br />
-                            <Footer />
+                                <br /><br />
+                                <Divider />
+
+                                <div className='container mt-5 pt-5 w-75'>
+                                    <div className='my-5 py-4 mx-3'>
+                                        <h1 className='bodytitle text-break' data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+                                            Gallery of&nbsp;
+                                            <span className='outlined'>
+                                                Designs
+                                            </span>
+                                            &nbsp;I Did
+                                        </h1>
+                                        <p className='subtitle' data-aos="fade-up" data-aos-delay="350" data-aos-duration="1000">Some of the works from my archives that I'm proud of.</p>
+
+                                        <br /><br />
+
+                                        <div className="toggle-button toggle-button--valo" data-aos="fade-up">
+                                            <input id="toggleButton1" name="radio1" type="radio" defaultChecked="true" onChange={() => updateGallery('all')}></input>
+                                            <label htmlFor="toggleButton1" data-text="All"></label>
+                                            <div className="toggle-button__icon"></div>
+                                        </div>
+                                        <div className="toggle-button toggle-button--valo" data-aos="fade-up" data-aos-delay="300">
+                                            <input id="toggleButton2" name="radio1" type="radio" onChange={() => updateGallery('uiux')}></input>
+                                            <label htmlFor="toggleButton2" data-text="UI UX"></label>
+                                            <div className="toggle-button__icon"></div>
+                                        </div>
+                                        <div className="toggle-button toggle-button--valo" data-aos="fade-up" data-aos-delay="500">
+                                            <input id="toggleButton3" name="radio1" type="radio" onChange={() => updateGallery('graphic')}></input>
+                                            <label htmlFor="toggleButton3" data-text="Visual"></label>
+                                            <div className="toggle-button__icon"></div>
+                                        </div>
+                                    </div>
+
+                                    {showAll &&
+                                        returnGallery(1, model.designs, [1, 4])
+                                    }
+                                    {showUIXUXDesign &&
+                                        returnGallery(1, uiux, [1, 3])
+                                    }
+                                    {showGraphicDesign &&
+                                        returnGallery(0, graphics, [1, 3])
+                                    }
+                                </div>
+
+                                <br /><br /><br />
+                                <Footer />
+                            </div>
                         </div>
                     </div>
                 </>
