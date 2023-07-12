@@ -62,7 +62,7 @@ body {
   font-size: 2vh;
   overflow-x: hidden !important;
   background-size: cover;
-  background-image: url("assets/img/background.png");
+  background-color: white;
   background-position: center;
   background-repeat: repeat;
 }
@@ -183,6 +183,16 @@ footer b {
 .dividertext2 {
   font-family: 'Agrandir-Bold';
   fill: #FDBFD5;
+}
+
+.body-background {
+  margin: 0;
+  font-size: 2vh;
+  overflow: hidden !important;
+  background-size: contain;
+  background-image: url("assets/img/background.png");
+  background-position: center;
+  background-repeat: repeat;
 }
 
 .body-container {
