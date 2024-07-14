@@ -3,9 +3,11 @@
 
   
 
-It's finally live. I've collated all the projects I'm proud of, also added little bit of myself. Interested? Get to know me as a Developer, Designer, and Assistant!
+It's finally live. I've collated all the projects I'm proud of, also added little bit of myself. Interested? Get to know me as a Developer, Designer, and Assistant! 
 
-[https://vannirriesarmiento.github.io/portfolio](https://vannirriesarmiento.github.io/portfolio)
+&nbsp;
+
+DEMO: [https://vannirriesarmiento.github.io/portfolio](https://vannirriesarmiento.github.io/portfolio)
 
 
 &nbsp;
