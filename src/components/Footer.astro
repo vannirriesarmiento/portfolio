@@ -1,0 +1,69 @@
+---
+import { Image } from "astro:assets";
+
+import StarIcon from "./StarIcon.astro";
+import FooterLink from "./FooterLink.astro";
+import MarqueeFooter from "./MarqueeFooter.astro";
+import Vector from "../assets/img/vector/vector (3).png";
+
+import divider from "../assets/img/vector/footer.svg";
+---
+
+<div class="relative">
+    <Image src={Vector} alt="Decorative" class="footer-smiley w-20 lg:w-28 1xl:w-36" />
+    <Image src={divider} alt="Decorative" class="w-full" />
+    <div class="section-padding my-14">
+        <section class="section-container">
+            <div class="flex flex-col gap-5 items-center">
+                <div
+                    class="flex flex-col gap-1 text-center items-center md:px-3 lg:px-0"
+                >
+                    <div class="flex flex-row items-center gap-4" data-aos="fade-up">
+                        <StarIcon />
+                        <h2>Let's talk?</h2>
+                        <StarIcon />
+                    </div>
+                    <p class="text-xl pt-2"
+                    data-aos="fade-up" data-aos-delay="200">
+                        Get in touch with me today!<br />
+                        I’m always open to discussing design and dev work.
+                    </p>
+                </div>
+                <div class="flex flex-row gap-4"
+                    data-aos="fade-up" data-aos-delay="400">
+                    <FooterLink
+                        icon=""
+                        color="yellow"
+                        classname="font-awesome-solid"
+                        link="mailto:sarmiento.mkv@gmail.com"
+                    />
+                    <FooterLink
+                        icon=""
+                        color="purple"
+                        classname="font-awesome-solid"
+                        link="tel:+971582994734"
+                    />
+                    <FooterLink
+                        icon=""
+                        color="blue"
+                        classname="font-awesome-brands"
+                        link="https://www.linkedin.com/in/mae-kristine-vannirrie-sarmiento/"
+                    />
+                    <FooterLink
+                        icon=""
+                        color="green"
+                        classname="font-awesome-brands"
+                        link="https://wa.link/y4dtpr"
+                    />
+                    <FooterLink
+                        icon=""
+                        color="pink"
+                        classname="font-awesome-brands"
+                        link="https://dribbble.com/vsarmiento"
+                    />
+                </div>
+            </div>
+        </section>
+    </div>
+    <MarqueeFooter />
+</div>

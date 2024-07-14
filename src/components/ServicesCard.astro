@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+
+const { name, description, icon, animation } = Astro.props;
+---
+
+<div class="service-card" data-aos="fade-zoom-in" data-aos-delay={`${animation}`}>
+    <div class="service-card-inner">
+        <Image
+            src={icon}
+            alt={name}
+            class="w-24 h-24 xs:w-20 xs:h-20 mb-2 object-scale-down"
+        />
+        <h6>{name}</h6>
+        <p>{description}</p>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+---
+import ServicesCard from "./ServicesCard.astro";
+import SectionHeading from "./SectionHeading.astro";
+import MarqueePortfolio from "./MarqueePortfolio.astro";
+
+import webdev from "../assets/img/vector/webdev.svg";
+import uiux from "../assets/img/vector/uiux.svg";
+import va from "../assets/img/vector/va.svg";
+---
+
+<div
+    class="w-full relative flex flex-col items-center overflow-hidden"
+>
+    <MarqueePortfolio />
+    <div class="section-padding">
+        <div class="section-container">
+            <SectionHeading
+                heading="What I Can Do for You"
+                subtext="Services"
+            />
+            <div
+                class="w-full flex xs:flex-col sm:flex-row gap-4 lg:gap-8 place-content-between"
+            >
+                <ServicesCard
+                    name="Web Development"
+                    description="Let us bring your vision to life with clean, efficient code, and a dash of creativity."
+                    animation="200"
+                    icon={webdev}
+                />
+                <ServicesCard
+                    name="UI UX / Graphic Design"
+                    description="Creating beautiful and user-friendly designs are my forte. Let's make something amazing together!"
+                    animation="400"
+                    icon={uiux}
+                />
+                <ServicesCard
+                    name="Virtual Assistance"
+                    description="Overwhelmed with tasks? I'll be your right-hand helper handling day-to-day stuff so you can focus on what you do best."
+                    animation="600"
+                    icon={va}
+                />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import MeritsGallery from "./MeritsGallery";
+
+import merit from "../assets/img/vector/merit.svg";
+---
+
+<div class="section">
+    <div class="section-padding">
+        <section class="merit-container">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
+                <div class="flex flex-col justify-center w-full h-full">
+                    <SectionHeading
+                        heading="achievements & certifications"
+                        subtext="merits"
+                        icon={merit}
+                    />
+                </div>
+                <MeritsGallery client:only="react"/>
+            </div>
+        </section>
+    </div>
+</div>

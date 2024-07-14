@@ -1,0 +1,76 @@
+---
+import Splash from "../components/Splash.astro";
+import Hero from "../components/Hero";
+import Services from "../components/Services.astro";
+import Resume from "../components/Resume.astro";
+import Merits from "../components/Merits.astro";
+import Portfolio from "../components/Portfolio.astro";
+import Footer from "../components/Footer.astro";
+
+import "../assets/style.css";
+import "aos/dist/aos.css";
+
+const {
+	title = "Van S: Developer & Designer",
+	description = "Welcome to my page~ This is my very own collection of projects. Go check 'em out!",
+	seo_image = "/seo-img.png",
+} = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="48x48"
+			href="/favicon-48.png"
+		/>
+		<link rel="apple-touch-icon" sizes="72x72" href="/favicon-256.png" />
+		<meta content={title} property="og:title" />
+		<meta content={seo_image} property="og:image" />
+		<meta content={title} property="twitter:title" />
+		<meta content={seo_image} property="twitter:image" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<Splash />
+		<Hero
+			client:load
+			name="Mae Kristine Vannirrie Sarmiento"
+			title="Front-end Web Developer"
+		/>
+		<Services />
+		<Resume />
+		<Merits />
+		<Portfolio />
+		<Footer />
+	</body>
+</html>
+<script>
+	import { aosInit } from "../assets/aos";
+	aosInit();
+
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("hero").style.opacity = "0";
+		document.getElementById("hero").style.marginTop = "200px";
+		document.getElementById("view-all").style.opacity = "0";
+		document.body.style.overflow = "hidden";
+		setTimeout(function () {
+			document.getElementById("splash").style.opacity = "0";
+			setTimeout(() => {
+				document.getElementById("splash").style.display = "none";
+				document.getElementById("hero").style.opacity = "1";
+				document.getElementById("hero").style.marginTop = "0px";
+				setTimeout(() => {
+					document.getElementById("view-all").style.opacity = "1";
+				}, 600);
+			}, 400);
+			document.body.style.overflow = "scroll";
+		}, 1000);
+	});
+</script>

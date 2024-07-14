@@ -1,0 +1,9 @@
+---
+const {icon, link, color, classname} = Astro.props;
+---
+<a href={link} target="_blank" class={`footer-link ${classname}`}>
+    <div class="footer-link-inner">
+        <div class={`footer-link-color  ${color}`}></div>
+        <p class="z-10">{icon}</p>
+    </div>
+</a>

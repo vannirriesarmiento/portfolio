@@ -1,0 +1,15 @@
+---
+const { name, classname } = Astro.props;
+---
+
+<div class="flex flex-row place-content-between gap-3">
+    {name}
+    <div class="skill-range">
+        <div
+            class={`skill-range-value ${classname}`}
+            data-aos="fade-right"
+            data-aos-easing="ease-in-sine"
+        >
+        </div>
+    </div>
+</div>

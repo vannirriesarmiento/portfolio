@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+import StarIcon from "../components/StarIcon.astro";
+
+const {
+    heading,
+    subtext,
+    icon,
+    color,
+    container = "section-container",
+} = Astro.props;
+---
+
+<div class={`section ${color}`} data-aos="fade-up">
+    <div class="section-padding">
+        <section class={container}>
+            <div
+                class="flex flex-col gap-1 text-center items-center md:px-3 lg:px-0"
+                data-aos="fade-up"
+            >
+                <div class="section-subtext">
+                    <StarIcon />
+                    <h5>{subtext}</h5>
+                    <StarIcon />
+                </div>
+                <h2>{heading}</h2>
+                {
+                    icon && (
+                        <Image
+                            src={icon}
+                            alt={subtext}
+                            class="w-10 lg:w-18 md:w-16 md:pt-1"
+                        />
+                    )
+                }
+            </div>
+            <slot />
+        </section>
+    </div>
+</div>

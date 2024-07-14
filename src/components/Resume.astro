@@ -1,0 +1,208 @@
+---
+import Section from "../layout/Section.astro";
+import StarIcon from "../components/StarIcon.astro";
+import ResumeCard from "./ResumeCard";
+import ResumeRange from "./ResumeRange.astro";
+import ResumeButton from "./ResumeButton";
+
+import education from "../assets/img/vector/education.svg";
+import expertise from "../assets/img/vector/expertise.svg";
+---
+
+<Section heading="Peek my Background" subtext="Resume" color="blue">
+    <div
+        class="flex flex-col xl:flex-row gap-12 xs:gap-8 place-content-between md:w-5/6 xs:w-full xl:w-full pb-5 md:pb-7"
+    >
+        <div class="flex flex-col gap-5 w-full place-content-between" data-aos="fade-zoom-in">
+            <div class="flex flex-row gap-4">
+                <img src={education.src} alt="Education" class="w-7 xs:w-5" />
+                <h3>Education</h3>
+            </div>
+            <div class="leading-loose">
+                <div class="flex flex-row place-content-between w-full xs:pb-1">
+                    <p class="font-semibold xs:leading-relaxed">
+                        Bachelor of Science in Information Technology
+                    </p>
+                    <p class="font-semibold flex-shrink-0 xs:leading-relaxed">
+                        2019-2023
+                    </p>
+                </div>
+                <p>University of Immaculate Conception</p>
+                <ul>
+                    <li>Specialized in Healthcare Technologies</li>
+                    <li>Cum Laude, GPA 3.697</li>
+                    <li>Special Talent</li>
+                </ul>
+            </div>
+            <div class="leading-loose">
+                <div class="flex flex-row place-content-between w-full xs:pb-1">
+                    <p class="font-semibold xs:leading-relaxed">
+                        General Academic Strand (GAS)
+                    </p>
+                    <p class="font-semibold flex-shrink-0 xs:leading-relaxed">
+                        2017-2019
+                    </p>
+                </div>
+                <p>Davao Doctors College Inc.</p>
+                <ul>
+                    <li>Consistent Dean Lister</li>
+                </ul>
+            </div>
+            <div class="leading-loose">
+                <div class="flex flex-row place-content-between w-full xs:pb-1">
+                    <p class="font-semibold xs:leading-relaxed">
+                        Basic Education
+                    </p>
+                    <p class="font-semibold flex-shrink-0 xs:leading-relaxed">
+                        2014-2017
+                    </p>
+                </div>
+                <p>Holy Cross of Davao College</p>
+            </div>
+        </div>
+        <hr data-aos="fade-zoom-in" />
+        <div class="flex flex-col w-full gap-5" data-aos="fade-zoom-in">
+            <div class="flex flex-row gap-4">
+                <img src={expertise.src} alt="Expertise" class="w-7 xs:w-5" />
+                <h3>Expertise</h3>
+            </div>
+            <p class="text-justify">
+                All throughout my education and the start of my career, I have
+                jumped into different niches— collecting various skills and
+                learnings. I can do so much for you, such as...
+            </p>
+            <div
+                class="grid grid-cols-1 ss:grid-cols-2 pl-6 ss:pl-0 sm:grid-cols-2 gap-y-4"
+            >
+                <div class="leading-loose">
+                    <p class="font-semibold">Graphic Design</p>
+                    <ul>
+                        <li>Canva</li>
+                        <li>Adobe Photoshop</li>
+                        <li>Adobe Illustrator</li>
+                    </ul>
+                </div>
+                <div class="leading-loose">
+                    <p class="font-semibold">UI UX Design</p>
+                    <ul>
+                        <li>Figma</li>
+                        <li>Proto IO</li>
+                        <li>Adobe XD</li>
+                    </ul>
+                </div>
+                <div class="leading-loose">
+                    <p class="font-semibold">Web Development</p>
+                    <ul>
+                        <li>Webflow</li>
+                        <li>Shopify</li>
+                        <li>Astro</li>
+                        <li>React</li>
+                    </ul>
+                </div>
+                <div class="leading-loose">
+                    <p class="font-semibold">Virtual Assistance</p>
+                    <ul>
+                        <li>Email & Calendar Control</li>
+                        <li>Microsoft Office Suite</li>
+                        <li>Google Workspace</li>
+                        <li>Project Management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="work-experiences" data-aos="fade-up">
+        <h2
+            class="flex flex-row gap-2 py-8 xs:py-4 md:py-6 w-52 sm:w-auto items-center text-center"
+        >
+            Work Experience <span class="hidden sm:block"><StarIcon /></span
+            ><span class="hidden sm:block"><StarIcon /></span>
+        </h2>
+        <ResumeCard
+            client:idle
+            company="Pinterest Pin Designer, Molly’s Home Guide"
+            year="June 2024 – Present"
+            list={[
+                "<b>Generated and created over 60+ Pinterest pins</b>, all adhering to the brand's quality standards.",
+                "Ensured all designs were <b>in compliance with industry-standard practices</b> for seamless integration in Pinterest.",
+            ]}
+        />
+        <ResumeCard
+            client:idle
+            company="Junior Web Developer, Otterdev"
+            year="August 2023 - Present"
+            list={[
+                "Implemented and maintained various responsive web front-end applications using technologies like Shopify, Webflow, Astro, and Sanity, <b>achieving 90% and above optimal site performance.</b>",
+                "Optimized websites for performance, accessibility, and <b>SEO which resulted in 3% increase in website traffic and improved user experience and search engine rankings.</b>",
+                "Converted design mockups into fully functional websites and immediately adapted to last minute client changes or amendments, <b>enhancing and improving customer satisfaction.</b>",
+                "Worked with cross-functional teams to <b>deliver cost-saving projects on time</b> using agile method.",
+                "Completed multi-page Webflow sites with modern animations <b>within a 2-week timeframe.</b>",
+            ]}
+        />
+        <ResumeCard
+            client:idle
+            company="Executive Virtual Assistant, Real Agency"
+            year="July - September 2023"
+            list={[
+                "Researched & created a comprehensive AI affiliate programs database, <b>resulting in an additional revenue stream.</b>",
+                "<b>Effectively engaged with diverse audiences</b> due to my skillfully created marketing posters, eBooks, etc.",
+                "Demonstrated proficiency in learning and utilizing AI tools for tasks, <b>improving office efficiency.</b>",
+                "Successfully managed executive calendars, scheduled and coordinated meetings, distributed detailed meeting minutes, and actively participated in calls, <b>resulting in enhanced overall workflow efficiency.</b>",
+                "<b>Trained new employee</b> in company & regulatory compliances for smooth onboarding.",
+            ]}
+        />
+        <ResumeCard
+            client:idle
+            company="Software Developer Intern, Nuxify"
+            year="February - May 2023"
+            list={[
+                "Collaborated with a team of developers to enhance an internal project, contributing new features development and bugs resolution <b>causing 5% increase in delivery time.</b>",
+                "Adapted to company coding standards and best practices while actively participating in code reviews <b>ensuring code base’s high readability causing streamlined development processes.</b>",
+                "Conducted research and development on diverse programming concepts, languages, and frameworks <b>leading to a new income revenue stream</b> and improved project outcomes.",
+            ]}
+        />
+        <ResumeCard
+            client:idle
+            company="Virtual Editor, Harrison Media"
+            year="June – August 2021"
+            list={[
+                "<b>Coordinated with writers to infuse textual elements into designs</b> to make it more meaningful and accurate.",
+                "Sought and tailored existing stock photos to every Wordpress article <b>to match it more to context.</b>",
+                "<b>Effectively engaged with diverse audiences</b> due to my skillful marketing posters, eBooks, etc."
+            ]}
+        />
+        <ResumeCard
+            client:idle
+            company="Virtual Assistant, CE Web Properties"
+            year="March 2021 – February 2023"
+            list={[
+                "<b>Managed and regularly updated content for 4-6 WordPress websites</b>, ensuring consistent quality and relevance.",
+                "Implemented and optimized SEO strategies for website content, <b>significantly improving organic traffic by 8%.</b>",
+                "<b>Fostered a collaborative and positive working environment</b> between the employer and other Virtual Assistants.",
+                "Published and meticulously proofread numerous articles, <b>maintaining 100% high accuracy and readability.</b>",
+                "<b>Designed and produced original infographics, graphs, and other visual content</b> to effectively convey information.",
+            ]}
+        />
+        <div class="technical-skill gap-2 w-full py-8 xs:py-4 md:py-6" data-aos="fade-zoom-in">
+            <span class="hidden sm:block"><StarIcon /></span><span
+                class="hidden sm:block"><StarIcon /></span
+            >
+            <h2 class="w-52 sm:w-auto">Technical Skills</h2>
+        </div>
+        <div class="work-experience" data-aos="fade-zoom-in">
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-4 sm:grid-flow-col gap-x-7 gap-y-3"
+            >
+                <ResumeRange name="HTML5 & CSS3" classname="_5" />
+                <ResumeRange name="Vanilla JavaScript" classname="_5" />
+                <ResumeRange name="Next JS, React" classname="_4" />
+                <ResumeRange name="Nuxt JS, Vue" classname="_3" />
+                <ResumeRange name="Svelte JS, SvelteKit" classname="_3" />
+                <ResumeRange name="Shopify Liquid" classname="_4" />
+                <ResumeRange name="Astro JS" classname="_3" />
+                <ResumeRange name="Git Version Control" classname="_4_5" />
+            </div>
+        </div>
+    </div>
+    <ResumeButton client:visible/>
+</Section>
