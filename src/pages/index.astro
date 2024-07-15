@@ -12,7 +12,8 @@ import "aos/dist/aos.css";
 
 const {
 	title = "Van S: Developer & Designer",
-	description = "Welcome to my page~ This is my very own collection of projects. Go check 'em out!"
+	description = "Welcome to my page~ This is my very own collection of projects. Go check 'em out!",
+	seo_image = "https://vannirriesarmiento.github.io/portfolio/seo-img.png",
 } = Astro.props;
 ---
 
@@ -28,9 +29,9 @@ const {
 		/>
 		<link rel="apple-touch-icon" sizes="72x72" href="./favicon-256.png" />
 		<meta content={title} property="og:title" />
-		<meta content="./seo-img.png", property="og:image" />
+		<meta content={seo_image} property="og:image" />
 		<meta content={title} property="twitter:title" />
-		<meta content="./seo-img.png", property="twitter:image" />
+		<meta content={seo_image} property="twitter:image" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
