@@ -83,7 +83,7 @@ const Hero = (props) => {
                                         1+ years of experience. 10+ successful projects. 10+ happy
                                         clients.
                                     </p>
-                                    <a className="hero-link mx-auto sm:m-0" href="#portfolio" id="view-all">
+                                    <a className="hero-link mx-auto sm:m-0" href="#more" id="view-all">
                                         View All My Works <span className="font-awesome-solid"></span>
                                         <div className="hero-link-underline"></div>
                                     </a>
