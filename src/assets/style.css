@@ -613,7 +613,7 @@ ul {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: center !important;
 }
 
 .work-experiences {
@@ -1379,7 +1379,6 @@ ul {
     }
 
     .hero-swiper-slide {
-        align-items: center !important;
         justify-content: center;
     }
 
