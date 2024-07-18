@@ -1379,6 +1379,7 @@ ul {
     }
 
     .hero-swiper-slide {
+        align-items: center;
         justify-content: center;
     }
 
