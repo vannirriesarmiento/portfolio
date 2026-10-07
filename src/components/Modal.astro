@@ -1,0 +1,136 @@
+---
+import "animate.css";
+
+const { id, title } = Astro.props;
+---
+
+<div
+    id={id}
+    class="modal animate__animated"
+    role="dialog"
+    aria-label={title}
+    aria-modal="true"
+    aria-hidden="true"
+    fs-scrolldisable-element="when-visible"
+>
+    <button type="button" class="modal-close" aria-label={`Close ${title}`}>
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+    </button>
+    <div class="modal-content">
+        <slot />
+    </div>
+</div>
+
+<script>
+    const entranceAnimation = "animate__fadeIn";
+    const exitAnimation = "animate__fadeOut";
+    const animationFallbackDuration = 500;
+    const modalTriggers = document.querySelectorAll<HTMLElement>(
+        '[aria-haspopup="dialog"][aria-controls]',
+    );
+    const openingTriggers = new WeakMap<HTMLElement, HTMLElement>();
+
+    function openModal(modal: HTMLElement, trigger: HTMLElement) {
+        const modalContent = modal.querySelector<HTMLElement>(".modal-content");
+        const closeButton =
+            modal.querySelector<HTMLButtonElement>(".modal-close");
+
+        modal.dataset.closing = "false";
+        modal.classList.remove(exitAnimation);
+        modal.classList.add("is-open", entranceAnimation);
+        modal.setAttribute("aria-hidden", "false");
+        openingTriggers.set(modal, trigger);
+        modal.dispatchEvent(new CustomEvent("modal:open", { bubbles: true }));
+
+        if (modalContent) {
+            modalContent.scrollTop = 0;
+            modalContent.scrollLeft = 0;
+        }
+
+        closeButton?.focus({ preventScroll: true });
+
+        requestAnimationFrame(() => {
+            if (modalContent) modalContent.scrollTop = 0;
+        });
+
+        function handleEntranceEnd(event: AnimationEvent) {
+            if (event.target !== modal) return;
+
+            modal.classList.remove(entranceAnimation);
+            modal.removeEventListener("animationend", handleEntranceEnd);
+        }
+
+        modal.addEventListener("animationend", handleEntranceEnd);
+    }
+
+    function closeModal(modal: HTMLElement) {
+        if (!modal.classList.contains("is-open") || modal.dataset.closing === "true") {
+            return;
+        }
+
+        modal.dataset.closing = "true";
+        modal.classList.remove(entranceAnimation);
+        modal.classList.add(exitAnimation);
+
+        let fallbackTimer = window.setTimeout(finishClosing, animationFallbackDuration);
+
+        function finishClosing() {
+            if (modal.dataset.closing !== "true") return;
+
+            window.clearTimeout(fallbackTimer);
+            modal.removeEventListener("animationend", handleAnimationEnd);
+            modal.classList.remove("is-open", exitAnimation);
+            modal.setAttribute("aria-hidden", "true");
+            modal.dataset.closing = "false";
+            openingTriggers.get(modal)?.focus({ preventScroll: true });
+            openingTriggers.delete(modal);
+        }
+
+        function handleAnimationEnd(event: AnimationEvent) {
+            if (event.target === modal) finishClosing();
+        }
+
+        modal.addEventListener("animationend", handleAnimationEnd);
+    }
+
+    modalTriggers.forEach((trigger) => {
+        const modalId = trigger.getAttribute("aria-controls");
+        const modal = modalId ? document.getElementById(modalId) : null;
+
+        if (!modal) return;
+
+        trigger.addEventListener("click", (event) => {
+            event.preventDefault();
+            openModal(modal, trigger);
+        });
+
+        modal.querySelector<HTMLButtonElement>(".modal-close")?.addEventListener(
+            "click",
+            () => closeModal(modal),
+        );
+    });
+
+    const requestedModalId = new URLSearchParams(window.location.search).get(
+        "open",
+    );
+    const requestedModal = requestedModalId
+        ? document.getElementById(requestedModalId)
+        : null;
+    const requestedTrigger = requestedModalId
+        ? Array.from(modalTriggers).find(
+              (trigger) =>
+                  trigger.getAttribute("aria-controls") === requestedModalId,
+          )
+        : null;
+
+    if (requestedModal && requestedTrigger) {
+        requestAnimationFrame(() => openModal(requestedModal, requestedTrigger));
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+
+        const openModalElement = document.querySelector<HTMLElement>(".modal.is-open");
+        if (openModalElement) closeModal(openModalElement);
+    });
+</script>

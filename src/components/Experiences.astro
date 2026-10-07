@@ -1,0 +1,113 @@
+---
+import Experience from "./Experience.astro";
+import Heading from "./Heading.astro";
+import TechMarquee from "./TechMarquee.astro";
+import MainButton from "./MainButton.astro";
+
+import bso from "../assets/img/about/bso.webp";
+import otterdev from "../assets/img/about/otterdev.webp";
+import nuxify from "../assets/img/about/nuxify.webp";
+import ai from "../assets/img/about/ai.webp";
+import astro from "../assets/img/about/astro.webp";
+import canva from "../assets/img/about/canva.webp";
+import chatgpt from "../assets/img/about/chatgpt.webp";
+import claude from "../assets/img/about/claude.webp";
+import css from "../assets/img/about/css.webp";
+import figma from "../assets/img/about/figma.webp";
+import framer from "../assets/img/about/framer.webp";
+import gemini from "../assets/img/about/gemini.webp";
+import git from "../assets/img/about/git.webp";
+import gsap from "../assets/img/about/gsap.webp";
+import html from "../assets/img/about/html.webp";
+import js from "../assets/img/about/js.webp";
+import ps from "../assets/img/about/ps.webp";
+import react from "../assets/img/about/react.webp";
+import restapi from "../assets/img/about/restapi.webp";
+import shopify from "../assets/img/about/shopify.webp";
+import stitch from "../assets/img/about/stitch.webp";
+import ts from "../assets/img/about/ts.webp";
+import webflow from "../assets/img/about/webflow.webp";
+import xd from "../assets/img/about/xd.webp";
+import lottielab from "../assets/img/about/lottielab.webp"
+import spline from "../assets/img/about/spline.webp"
+
+const designTech = [
+    { name: "Figma", src: figma },
+    { name: "AdobeXD", src: xd },
+    { name: "Illustrator", src: ai },
+    { name: "Photoshop", src: ps },
+    { name: "ChatGPT", src: chatgpt },
+    { name: "Claude", src: claude },
+    { name: "Stitch", src: stitch },
+    { name: "Canva", src: canva },
+    { name: "Lottielab", src: lottielab },
+    { name: "Spline", src: spline }
+];
+
+const developmentTech = [
+    { name: "Astro", src: astro },
+    { name: "CSS", src: css },
+    { name: "Framer", src: framer },
+    { name: "Gemini", src: gemini },
+    { name: "Git", src: git },
+    { name: "GSAP", src: gsap },
+    { name: "HTML", src: html },
+    { name: "JavaScript", src: js },
+    { name: "React", src: react },
+    { name: "REST API", src: restapi },
+    { name: "Shopify", src: shopify },
+    { name: "TypeScript", src: ts },
+    { name: "Webflow", src: webflow },
+    { name: "ChatGPT", src: chatgpt },
+    { name: "Claude", src: claude },
+];
+---
+
+<div class="modal-body" id="experience">
+    <Heading>My Experience</Heading>
+    <div class="experiences">
+        <Experience
+            company="BSO Real Estate Management LLC (UAE)"
+            position="Lead Webflow Developer & UI UX Designer"
+            duration="Aug 2024 - Present"
+            logo={bso}
+        />
+        <hr />
+        <Experience
+            company="Otterdev (Singapore)"
+            position="Junior Web Developer"
+            duration="Aug 2023 - 2024"
+            logo={otterdev}
+        />
+        <hr />
+        <Experience
+            company="Nuxify (Philippines)"
+            position="Software Engineer Intern"
+            duration="Aug 2023 - 2024"
+            logo={nuxify}
+        />
+    </div>
+    <Heading>My tech stacks</Heading>
+    <div class="tech-stacks">
+        <div class="tech-stack">
+            <div class="tech-stack__heading">
+                DEVELOP <span class="material-symbols-outlined">
+                    code_xml
+                </span>
+            </div>
+            <TechMarquee
+                items={developmentTech}
+                label="Development technology stack"
+            />
+        </div>
+        <div class="tech-stack">
+            <div class="tech-stack__heading">
+                DESIGN <span class="material-symbols-outlined"> palette </span>
+            </div>
+            <TechMarquee items={designTech} label="Design technology stack" />
+        </div>
+    </div>
+    <MainButton>
+        Download my CV <span class="material-symbols-outlined"> download </span>
+    </MainButton>
+</div>

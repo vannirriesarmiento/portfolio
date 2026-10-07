@@ -1,0 +1,193 @@
+---
+import "../styles/about.css";
+
+import Heading from "./Heading.astro";
+import Social from "./Social.astro";
+import { Image } from "astro:assets";
+
+import digital from "../assets/img/about/digital.webp";
+import skydiveVideo from "../assets/vid/skydive.webm";
+---
+
+<div class="modal-body" id="interests">
+    <Heading>My Interests</Heading>
+    <div class="digital">
+        <video
+            class="digital-video"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            aria-label="Skydiving Video"
+        >
+            <source src={skydiveVideo} type="video/webm" />
+        </video>
+        <Image
+            src={digital}
+            alt="Digital Illustration"
+            class="digital-camera"
+        />
+    </div>
+    <p class="about-text interest">
+        👋🏻 Hey there! My full name's Mae Kristine Vannirrie Sarmiento, but I'd
+        rather you just call me Van... <span class="about-text-collapsed">Exactly like the car. I'm <span id="age">25</span>&nbsp;years old,
+        originally from Philippines but currently based in Dubai, UAE. I was
+        born on the 10th of May— making me a Taurean and the eldest in the
+        family. Aside from my professional life, I spend most of my time
+        outdoors and doing my hobbies. My hobbies include dancing, reading, and
+        making art!</span><span class="about-text-button">Read More</span>
+    </p>
+    <Heading>My Socials</Heading>
+    <div class="socials">
+        <Social link="mailto:sarmiento.mkv@gmail.com">
+            <span
+                class="material-symbols-outlined"
+                style="font-variation-settings: 'FILL' 1; font-size: 1.25rem;"
+            >
+                mail
+            </span>
+        </Social>
+        <Social link="https://api.whatsapp.com/send?phone=971582994734">
+            <span
+                class="material-symbols-outlined"
+                style="font-variation-settings: 'FILL' 1; font-size: 1.25rem;"
+            >
+                phone_enabled
+            </span>
+        </Social>
+        <Social link="https://www.linkedin.com/in/vansarmiento">
+            <svg
+                width="21"
+                height="24"
+                viewBox="0 0 21 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g clip-path="url(#clip0_4326_22290)">
+                    <path
+                        d="M4.70156 21H0.346875V6.97969H4.70156V21ZM2.52187 5.06719C1.12969 5.06719 0 3.91406 0 2.52187C0 1.85156 0.267187 1.21406 0.740625 0.740625C1.21406 0.267187 1.85625 0 2.52187 0C3.1875 0 3.82969 0.267187 4.30313 0.740625C4.77656 1.21406 5.04375 1.85625 5.04375 2.52187C5.04375 3.91406 3.91406 5.06719 2.52187 5.06719ZM20.9953 21H16.65V14.175C16.65 12.5484 16.6172 10.4625 14.3859 10.4625C12.1219 10.4625 11.775 12.2297 11.775 14.0578V21H7.425V6.97969H11.6016V8.89219H11.6625C12.2438 7.79062 13.6641 6.62812 15.7828 6.62812C20.1891 6.62812 21 9.52969 21 13.2984V21H20.9953Z"
+                        fill="white"></path>
+                </g>
+                <defs>
+                    <clipPath id="clip0_4326_22290">
+                        <rect width="21" height="24" fill="white"></rect>
+                    </clipPath>
+                </defs>
+            </svg>
+        </Social>
+        <Social link="https://github.com/vannirriesarmiento">
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g clip-path="url(#clip0_4326_22307)">
+                    <path
+                        d="M10.1484 16.9922C7.05469 16.6172 4.875 14.3906 4.875 11.5078C4.875 10.3359 5.29688 9.07031 6 8.22656C5.69531 7.45312 5.74219 5.8125 6.09375 5.13281C7.03125 5.01562 8.29688 5.50781 9.04688 6.1875C9.9375 5.90625 10.875 5.76562 12.0234 5.76562C13.1719 5.76562 14.1094 5.90625 14.9531 6.16406C15.6797 5.50781 16.9688 5.01562 17.9062 5.13281C18.2344 5.76562 18.2812 7.40625 17.9766 8.20312C18.7266 9.09375 19.125 10.2891 19.125 11.5078C19.125 14.3906 16.9453 16.5703 13.8047 16.9688C14.6016 17.4844 15.1406 18.6094 15.1406 19.8984V22.3359C15.1406 23.0391 15.7266 23.4375 16.4297 23.1562C20.6719 21.5391 24 17.2969 24 12.0469C24 5.41406 18.6094 0 11.9766 0C5.34375 0 0 5.41406 0 12.0469C0 17.25 3.30469 21.5625 7.75781 23.1797C8.39062 23.4141 9 22.9922 9 22.3594V20.4844C8.67188 20.625 8.25 20.7188 7.875 20.7188C6.32812 20.7188 5.41406 19.875 4.75781 18.3047C4.5 17.6719 4.21875 17.2969 3.67969 17.2266C3.39844 17.2031 3.30469 17.0859 3.30469 16.9453C3.30469 16.6641 3.77344 16.4531 4.24219 16.4531C4.92188 16.4531 5.50781 16.875 6.11719 17.7422C6.58594 18.4219 7.07812 18.7266 7.66406 18.7266C8.25 18.7266 8.625 18.5156 9.16406 17.9766C9.5625 17.5781 9.86719 17.2266 10.1484 16.9922Z"
+                        fill="white"></path>
+                </g>
+                <defs>
+                    <clipPath id="clip0_4326_22307">
+                        <rect width="24" height="24" fill="white"></rect>
+                    </clipPath>
+                </defs>
+            </svg>
+        </Social>
+        <Social link="https://www.youtube.com/@vaniwixoxo">
+            <svg
+                width="27"
+                height="24"
+                viewBox="0 0 27 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M25.7672 5.81719C25.4766 4.70625 24.6047 3.83438 23.5031 3.53906C21.5109 3 13.5047 3 13.5047 3C13.5047 3 5.49844 3 3.50156 3.53906C2.4 3.83438 1.53281 4.70625 1.2375 5.81719C0.703125 7.82812 0.703125 12.0187 0.703125 12.0187C0.703125 12.0187 0.703125 16.2094 1.2375 18.2203C1.53281 19.3266 2.4 20.1656 3.50156 20.4609C5.49844 21 13.5047 21 13.5047 21C13.5047 21 21.5109 21 23.5078 20.4609C24.6094 20.1656 25.4766 19.3266 25.7719 18.2203C26.3062 16.2094 26.3063 12.0187 26.3063 12.0187C26.3063 12.0187 26.3062 7.82812 25.7719 5.81719H25.7672ZM10.8844 15.825V8.2125L17.5734 12.0187L10.8844 15.825Z"
+                    fill="white"></path>
+            </svg>
+        </Social>
+        <Social link="https://dribbble.com/vsarmiento">
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g clip-path="url(#clip0_4326_22333)">
+                    <path
+                        d="M12 0.375C8.91686 0.375 5.95999 1.59977 3.77988 3.77988C1.59977 5.95999 0.375 8.91686 0.375 12C0.375 15.0831 1.59977 18.04 3.77988 20.2201C5.95999 22.4002 8.91686 23.625 12 23.625C15.0831 23.625 18.04 22.4002 20.2201 20.2201C22.4002 18.04 23.625 15.0831 23.625 12C23.625 8.91686 22.4002 5.95999 20.2201 3.77988C18.04 1.59977 15.0831 0.375 12 0.375ZM19.6875 5.7375C21.0703 7.425 21.9094 9.58125 21.9281 11.925C21.6 11.8547 18.3187 11.1891 15.0141 11.6063C14.7422 10.95 14.4891 10.3687 14.1422 9.65625C17.8125 8.15625 19.4766 6.02344 19.6875 5.74219V5.7375ZM18.5812 4.58906C18.4031 4.84219 16.9078 6.85312 13.3781 8.175C11.7516 5.18437 9.94687 2.72813 9.675 2.3625C12.825 1.60313 16.1438 2.42344 18.5859 4.58906H18.5812ZM7.77656 3.02812C8.03906 3.38906 9.81094 5.84531 11.4562 8.77031C6.81094 10.0031 2.71875 9.98438 2.27812 9.97969C2.92031 6.9 4.99687 4.33594 7.77656 3.02812ZM2.07188 12.0141C2.07188 11.9109 2.07187 11.8125 2.07656 11.7094C2.5125 11.7188 7.32187 11.7797 12.2812 10.2984C12.5672 10.8562 12.8391 11.4188 13.0875 11.9813C9.49688 12.9938 6.23438 15.8953 4.62656 18.6516C3.04219 16.8891 2.07188 14.5641 2.07188 12.0141ZM5.90625 19.8469C6.94219 17.7281 9.75938 14.9906 13.7625 13.6219C15.1547 17.2453 15.7312 20.2828 15.8812 21.15C12.6891 22.5094 8.85 22.1391 5.90625 19.8422V19.8469ZM17.55 20.2453C17.4469 19.6406 16.9219 16.7344 15.6188 13.1672C18.7313 12.6703 21.4641 13.4859 21.8016 13.5938C21.3609 16.3547 19.7719 18.7406 17.5453 20.25L17.55 20.2453Z"
+                        fill="white"></path>
+                </g>
+                <defs>
+                    <clipPath id="clip0_4326_22333">
+                        <rect width="24" height="24" fill="white"></rect>
+                    </clipPath>
+                </defs>
+            </svg>
+        </Social>
+    </div>
+</div>
+<script>
+    function updateAge() {
+        const ageElement = document.querySelector("#age");
+        const birthDate = new Date(2001, 4, 10); // May is month 4 (0-indexed)
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+
+        if (ageElement) ageElement.textContent = String(age);
+    }
+
+    function initializeAboutText() {
+        const collapsedText = document.querySelector<HTMLElement>(
+            ".about-text-collapsed",
+        );
+        const textButton = document.querySelector<HTMLElement>(
+            ".about-text-button",
+        );
+
+        if (!collapsedText || !textButton) return;
+
+        function toggleAboutText() {
+            const isExpanded =
+                textButton?.getAttribute("aria-expanded") === "true";
+            const nextExpandedState = !isExpanded;
+
+            collapsedText?.classList.toggle(
+                "is-visible",
+                nextExpandedState,
+            );
+            textButton?.setAttribute(
+                "aria-expanded",
+                String(nextExpandedState),
+            );
+            if (textButton) {
+                textButton.textContent = nextExpandedState
+                    ? "Read Less"
+                    : "Read More";
+            }
+        }
+
+        textButton.addEventListener("click", toggleAboutText);
+        textButton.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+
+            event.preventDefault();
+            toggleAboutText();
+        });
+    }
+
+    updateAge();
+    initializeAboutText();
+</script>

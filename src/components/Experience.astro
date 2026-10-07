@@ -1,0 +1,18 @@
+---
+import "../styles/about.css";
+
+import Image from "astro/components/Image.astro";
+
+const { company, position, duration, logo } = Astro.props;
+---
+
+<div class="experience">
+    <Image src={logo} alt="" class="experience-logo" />
+    <div class="experience-col">
+        <div class="experience-row">
+            <h3 class="experience-position">{position}</h3>
+            <p class="experience-duration">{duration}</p>
+        </div>
+        <p class="experience-company">{company}</p>
+    </div>
+</div>

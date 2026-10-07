@@ -1,0 +1,157 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    images: ImageMetadata[];
+    title: string;
+}
+
+const { images, title } = Astro.props;
+---
+
+<section class="splide case-study-gallery" aria-label={`${title} gallery`}>
+    <div class="splide__track">
+        <ul class="splide__list">
+            {
+                images.map((image, index) => (
+                    <li class="splide__slide">
+                        <Image
+                            src={image}
+                            alt={`${title} gallery image ${index + 1}`}
+                            widths={[480, 768, 1200]}
+                            sizes="(max-width: 767px) 100vw, 900px"
+                            loading={index === 0 ? "eager" : "lazy"}
+                        />
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</section>
+
+<script>
+    import Splide from "@splidejs/splide";
+
+    document
+        .querySelectorAll<HTMLElement>(
+            ".case-study-gallery:not(.is-initialized)",
+        )
+        .forEach((gallery) => {
+            new Splide(gallery, {
+                type: "loop",
+                perPage: 1,
+                gap: "16px",
+                drag: true,
+                keyboard: "global",
+                pagination: true,
+                arrows: true,
+                speed: 550,
+            }).mount();
+        });
+</script>
+
+<style is:global>
+    @import "@splidejs/splide/css/core";
+
+    .case-study-gallery {
+        --gallery-control-size: 44px;
+        width: 100%;
+    }
+
+    .case-study-gallery .splide__track {
+        overflow: hidden;
+        border-radius: 16px;
+        background: var(--black-20);
+    }
+
+    .case-study-gallery .splide__slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 16 / 10;
+    }
+
+    .case-study-gallery .splide__slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .case-study-gallery .splide__arrows {
+        position: absolute;
+        inset: 50% 16px auto;
+        z-index: 2;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+    .case-study-gallery .splide__arrow {
+        display: grid;
+        width: var(--gallery-control-size);
+        height: var(--gallery-control-size);
+        padding: 12px;
+        border: 1px solid var(--white-50);
+        border-radius: 50%;
+        background: var(--black-50);
+        color: var(--white);
+        cursor: pointer;
+        pointer-events: auto;
+        backdrop-filter: blur(12px);
+    }
+
+    .case-study-gallery .splide__arrow svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+    }
+
+    .case-study-gallery .splide__arrow--prev svg {
+        transform: scaleX(-1);
+    }
+
+    .case-study-gallery .splide__pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .case-study-gallery .splide__pagination__page {
+        display: block;
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--white-50);
+        cursor: pointer;
+        transition: width 180ms ease, border-radius 180ms ease,
+            background-color 180ms ease;
+    }
+
+    .case-study-gallery .splide__pagination__page.is-active {
+        width: 24px;
+        border-radius: 999px;
+        background: var(--white);
+    }
+
+    @media (max-width: 600px) {
+        .case-study-gallery {
+            --gallery-control-size: 36px;
+        }
+
+        .case-study-gallery .splide__arrows {
+            inset-inline: 10px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .case-study-gallery .splide__pagination__page {
+            transition: none;
+        }
+    }
+</style>

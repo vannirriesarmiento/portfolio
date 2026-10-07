@@ -1,0 +1,366 @@
+---
+import { Image } from "astro:assets";
+import "animate.css";
+import "../styles/music-player.css";
+
+import albumCover from "../assets/img/fade into you.webp";
+import audioSource from "../assets/files/Mazzy Star - Fade Into You.mp3";
+---
+
+<aside
+    class="music-player animate__animated"
+    id="music-player"
+    aria-label="Music player"
+    aria-hidden="true"
+>
+    <button
+        class="music-player__close"
+        type="button"
+        aria-label="Close music player"
+    >
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+    </button>
+
+    <div class="music-player__content">
+        <Image
+            class="music-player__cover"
+            src={albumCover}
+            alt="So Tonight That I Might See album cover by Mazzy Star"
+            width={320}
+            height={320}
+        />
+
+        <div class="music-player__details">
+            <h2>Fade Into You</h2>
+            <p>Mazzy Star</p>
+        </div>
+
+        <div class="music-player__timeline">
+            <div class="music-player__times" aria-hidden="true">
+                <span data-current-time>0:00</span>
+                <span data-duration>0:00</span>
+            </div>
+            <input
+                class="music-player__range"
+                data-progress
+                type="range"
+                min="0"
+                max="0"
+                value="0"
+                step="0.01"
+                aria-label="Song progress"
+            />
+        </div>
+
+        <div class="music-player__controls" aria-label="Playback controls">
+            <button type="button" data-previous aria-label="Restart song">
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    skip_previous
+                </span>
+            </button>
+            <button
+                class="music-player__play"
+                type="button"
+                data-play
+                aria-label="Play Fade into You"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    play_arrow
+                </span>
+            </button>
+            <button type="button" data-next aria-label="Restart song">
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    skip_next
+                </span>
+            </button>
+        </div>
+
+        <div class="music-player__volume">
+            <span
+                class="material-symbols-outlined"
+                data-volume-icon
+                aria-hidden="true"
+            >
+                volume_up
+            </span>
+            <input
+                class="music-player__range"
+                data-volume
+                type="range"
+                min="0"
+                max="1"
+                value="0.8"
+                step="0.01"
+                aria-label="Volume"
+            />
+        </div>
+    </div>
+
+    <audio preload="metadata" src={audioSource}></audio>
+</aside>
+
+<script>
+    function initializeMusicPlayer() {
+        const player = document.querySelector<HTMLElement>("#music-player")!;
+        const trigger = document.querySelector<HTMLButtonElement>(
+            '[aria-controls="music-player"]',
+        )!;
+
+        if (!player || !trigger || player.dataset.initialized === "true") {
+            return;
+        }
+
+        const audio = player.querySelector<HTMLAudioElement>("audio")!;
+        const closeButton =
+            player.querySelector<HTMLButtonElement>(".music-player__close")!;
+        const playButton =
+            player.querySelector<HTMLButtonElement>("[data-play]")!;
+        const playIcon = playButton.querySelector<HTMLElement>(
+            ".material-symbols-outlined",
+        )!;
+        const previousButton =
+            player.querySelector<HTMLButtonElement>("[data-previous]")!;
+        const nextButton =
+            player.querySelector<HTMLButtonElement>("[data-next]")!;
+        const progress =
+            player.querySelector<HTMLInputElement>("[data-progress]")!;
+        const currentTime =
+            player.querySelector<HTMLElement>("[data-current-time]")!;
+        const duration = player.querySelector<HTMLElement>("[data-duration]")!;
+        const volume = player.querySelector<HTMLInputElement>("[data-volume]")!;
+        const volumeIcon =
+            player.querySelector<HTMLElement>("[data-volume-icon]")!;
+
+        if (
+            !audio ||
+            !closeButton ||
+            !playButton ||
+            !playIcon ||
+            !previousButton ||
+            !nextButton ||
+            !progress ||
+            !currentTime ||
+            !duration ||
+            !volume ||
+            !volumeIcon
+        ) {
+            return;
+        }
+
+        player.dataset.initialized = "true";
+        audio.volume = Number(volume.value);
+        const entranceAnimations = [
+            "animate__slideInRight",
+            "animate__fadeIn",
+        ];
+        const exitAnimations = [
+            "animate__slideOutRight",
+            "animate__fadeOut",
+        ];
+        const animationFallbackDuration = 500;
+        const mobileViewport = window.matchMedia("(max-width: 1279px)");
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        );
+
+        function formatTime(seconds: number) {
+            if (!Number.isFinite(seconds)) return "0:00";
+
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60)
+                .toString()
+                .padStart(2, "0");
+            return `${minutes}:${remainingSeconds}`;
+        }
+
+        function updateRangeFill(input: HTMLInputElement) {
+            const min = Number(input.min) || 0;
+            const max = Number(input.max) || 1;
+            const value = Number(input.value);
+            const percentage = ((value - min) / (max - min)) * 100;
+            input.style.setProperty(
+                "--range-progress",
+                `${Number.isFinite(percentage) ? percentage : 0}%`,
+            );
+        }
+
+        function updatePlayButton() {
+            const isPlaying = !audio.paused;
+            playIcon.textContent = isPlaying ? "pause" : "play_arrow";
+            playButton.setAttribute(
+                "aria-label",
+                `${isPlaying ? "Pause" : "Play"} Fade into You`,
+            );
+        }
+
+        function updateTimeline() {
+            progress.max = String(audio.duration || 0);
+            progress.value = String(audio.currentTime);
+            currentTime.textContent = formatTime(audio.currentTime);
+            duration.textContent = formatTime(audio.duration);
+            updateRangeFill(progress);
+        }
+
+        function updateVolume() {
+            const level = audio.volume;
+            volume.value = String(level);
+            volumeIcon.textContent =
+                level === 0
+                    ? "volume_off"
+                    : level < 0.5
+                      ? "volume_down"
+                      : "volume_up";
+            updateRangeFill(volume);
+        }
+
+        function openPlayer() {
+            if (player.classList.contains("is-open")) return;
+
+            player.dataset.closing = "false";
+            player.classList.remove(...exitAnimations);
+            player.classList.add("is-open");
+            if (!reducedMotion.matches) {
+                player.classList.add(
+                    mobileViewport.matches
+                        ? "animate__fadeIn"
+                        : "animate__slideInRight",
+                );
+            }
+            player.setAttribute("aria-hidden", "false");
+            trigger.setAttribute("aria-expanded", "true");
+            document.documentElement.classList.add("music-player-is-open");
+            closeButton.focus({ preventScroll: true });
+        }
+
+        function closePlayer() {
+            if (
+                !player.classList.contains("is-open") ||
+                player.dataset.closing === "true"
+            ) {
+                return;
+            }
+
+            player.dataset.closing = "true";
+            player.classList.remove(...entranceAnimations);
+
+            if (reducedMotion.matches) {
+                completeClose();
+                return;
+            }
+
+            player.classList.add(
+                mobileViewport.matches
+                    ? "animate__fadeOut"
+                    : "animate__slideOutRight",
+            );
+            const fallbackTimer = window.setTimeout(
+                finishAnimatedClose,
+                animationFallbackDuration,
+            );
+
+            function handleAnimationEnd(event: AnimationEvent) {
+                if (event.target !== player) return;
+
+                window.clearTimeout(fallbackTimer);
+                finishAnimatedClose();
+            }
+
+            function finishAnimatedClose() {
+                window.clearTimeout(fallbackTimer);
+                player.removeEventListener("animationend", handleAnimationEnd);
+                completeClose();
+            }
+
+            player.addEventListener("animationend", handleAnimationEnd);
+        }
+
+        function completeClose() {
+            player.classList.remove(
+                "is-open",
+                ...entranceAnimations,
+                ...exitAnimations,
+            );
+            player.dataset.closing = "false";
+            player.setAttribute("aria-hidden", "true");
+            trigger.setAttribute("aria-expanded", "false");
+            document.documentElement.classList.remove("music-player-is-open");
+            trigger.focus({ preventScroll: true });
+        }
+
+        function restartTrack() {
+            audio.currentTime = 0;
+            updateTimeline();
+        }
+
+        trigger.addEventListener("click", () => {
+            if (player.classList.contains("is-open")) {
+                closePlayer();
+            } else {
+                openPlayer();
+            }
+        });
+        closeButton.addEventListener("click", closePlayer);
+
+        playButton.addEventListener("click", async () => {
+            if (audio.paused) {
+                await audio.play();
+            } else {
+                audio.pause();
+            }
+        });
+
+        previousButton.addEventListener("click", restartTrack);
+        nextButton.addEventListener("click", restartTrack);
+
+        progress.addEventListener("input", () => {
+            audio.currentTime = Number(progress.value);
+            updateTimeline();
+        });
+
+        volume.addEventListener("input", () => {
+            audio.volume = Number(volume.value);
+            updateVolume();
+        });
+
+        audio.addEventListener("loadedmetadata", updateTimeline);
+        audio.addEventListener("durationchange", updateTimeline);
+        audio.addEventListener("timeupdate", updateTimeline);
+        audio.addEventListener("play", updatePlayButton);
+        audio.addEventListener("pause", updatePlayButton);
+        audio.addEventListener("ended", updatePlayButton);
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && player.classList.contains("is-open")) {
+                closePlayer();
+            }
+        });
+
+        document.addEventListener("pointerdown", (event) => {
+            if (
+                mobileViewport.matches ||
+                !player.classList.contains("is-open") ||
+                player.dataset.closing === "true"
+            ) {
+                return;
+            }
+
+            const clickedElement = event.target;
+            if (!(clickedElement instanceof Node)) return;
+
+            if (
+                player.contains(clickedElement) ||
+                trigger.contains(clickedElement)
+            ) {
+                return;
+            }
+
+            closePlayer();
+        });
+
+        updatePlayButton();
+        updateTimeline();
+        updateVolume();
+    }
+
+    initializeMusicPlayer();
+</script>

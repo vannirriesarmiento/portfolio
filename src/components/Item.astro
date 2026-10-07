@@ -1,0 +1,42 @@
+---
+import Image from "astro/components/Image.astro";
+import Modal from "./Modal.astro";
+
+const {
+    className,
+    imgData = [],
+    cursorText,
+    href,
+    actionTarget,
+} = Astro.props;
+const hasAction = Boolean(actionTarget);
+const hasModal = Boolean(
+    cursorText && !href && !hasAction && className !== "lamp",
+);
+const hasLink = Boolean(href || (cursorText && !hasModal && !hasAction));
+const isExternalLink =
+    typeof href === "string" && /^https?:\/\//.test(href);
+const Element = hasModal || hasAction ? "button" : hasLink ? "a" : "div";
+const modalId = `${className.trim().replace(/\s+/g, "-")}-modal`;
+---
+
+<Element
+    class={`item ${className}`}
+    href={href ?? (!hasModal && !hasAction && cursorText ? `#${className}` : undefined)}
+    target={isExternalLink ? "_blank" : undefined}
+    rel={isExternalLink ? "noopener noreferrer" : undefined}
+    type={hasModal || hasAction ? "button" : undefined}
+    aria-haspopup={hasModal ? "dialog" : undefined}
+    aria-controls={hasModal ? modalId : actionTarget}
+    aria-expanded={hasAction ? "false" : undefined}
+>
+    {cursorText && <div class="cursor">{cursorText}</div>}
+    {
+        imgData.map(
+            (img: { src: ImageMetadata; alt: string; class?: string }) => (
+                <Image src={img.src} alt={img.alt} class={img.class || ""} />
+            ),
+        )
+    }
+</Element>
+{hasModal && <Modal id={modalId} title={cursorText}><slot /></Modal>}

@@ -1,0 +1,21 @@
+---
+const { link = "", version = 1, label = "", value = "" } = Astro.props;
+---
+
+{
+    version === 1 ? (
+        <a href={link} target="_blank" rel="noopener noreferrer" class="social">
+            <slot />
+        </a>
+    ) : (
+        <a class="social-item" href={link}>
+            <div class="social">
+                <slot />
+            </div>
+            <div class="social-texts">
+                <div class="social-label">{label}</div>
+                <div class="social-value">{value}</div>
+            </div>
+        </a>
+    )
+}

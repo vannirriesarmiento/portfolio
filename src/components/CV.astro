@@ -1,0 +1,20 @@
+---
+import { Image } from "astro:assets";
+import Heading from "./Heading.astro";
+import MainButton from "./MainButton.astro";
+
+import cvPreview from "../assets/img/about/cv preview.svg";
+---
+
+<div class="modal-body" id="cv-content">
+    <Heading>curriculum vitae</Heading>
+    <Image
+        class="cv-preview"
+        src={cvPreview}
+        alt="Preview of Van Sarmiento's curriculum vitae"
+    />
+
+    <MainButton>
+        Download my CV <span class="material-symbols-outlined"> download </span>
+    </MainButton>
+</div>

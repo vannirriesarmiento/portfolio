@@ -1,0 +1,7 @@
+---
+const { textTransform= true } = Astro.props;
+---
+
+<h2 class=`${textTransform ? "uppercase" : ""} text-center`>
+<slot />
+</h2>

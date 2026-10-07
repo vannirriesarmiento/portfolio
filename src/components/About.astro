@@ -1,0 +1,138 @@
+---
+import "../styles/about.css";
+import { Image } from "astro:assets";
+import Heading from "./Heading.astro";
+
+import polaroid from "../assets/img/desk/polaroid.webp";
+import polaroidCode from "../assets/img/about/polaroid code.webp";
+import polaroidCreate from "../assets/img/about/polaroid create.webp";
+import noteAnd from "../assets/img/desk/note &.webp";
+import noteCode from "../assets/img/desk/note code.webp";
+import noteCreate from "../assets/img/desk/note create.webp";
+---
+
+<div class="modal-body about">
+    <div class="about-images polaroid-card" data-polaroid-card>
+        <div class="polaroid-card__inner">
+            <div class="polaroid-card__face polaroid-card__front">
+                <Image
+                    src={polaroid}
+                    alt="A polaroid photo of Van in 2026."
+                    id="polaroid-main"
+                />
+            </div>
+            <div class="polaroid-card__face polaroid-card__back">
+                <Image
+                    src={polaroidCreate}
+                    alt="A polaroid photo of Van creating."
+                    class="polaroid-back-image"
+                    id="polaroid-create"
+                />
+                <Image
+                    src={polaroidCode}
+                    alt="A polaroid photo of Van coding."
+                    class="polaroid-back-image"
+                    id="polaroid-code"
+                />
+            </div>
+        </div>
+    </div>
+    <Heading textTransform={false}>Hi, I’m Van and I love to</Heading>
+    <div class="about-notes">
+        <button
+            type="button"
+            class="about-note create"
+            data-polaroid="create"
+            aria-label="Show Van creating"
+        >
+            <Image src={noteCreate} alt="A sticky note that says create." />
+        </button>
+        <Image src={noteAnd} alt="Ampersand" class="about-note-and" />
+        <button
+            type="button"
+            class="about-note code"
+            data-polaroid="code"
+            aria-label="Show Van coding"
+        >
+            <Image src={noteCode} alt="A sticky note that says code." />
+        </button>
+    </div>
+    <div class="about-text">
+        <p>
+            <strong>
+                I’ve spent the last 3+ years working as a UI/UX Designer and
+                Webflow Developer.
+            </strong>&nbsp; I love taking complex business problems and turning
+            them into smooth, beautiful digital experiences that make life
+            easier for users.
+        </p>
+        <a class="about-link" href="#experience"
+            >Scroll for more info&nbsp;<span class="material-symbols-outlined">
+                arrow_downward
+            </span></a
+        >
+    </div>
+</div>
+
+<script>
+    const desktopHover = window.matchMedia(
+        "(hover: hover) and (pointer: fine)",
+    );
+
+    document
+        .querySelectorAll<HTMLElement>(".modal-body.about")
+        .forEach((about) => {
+            const card = about.querySelector<HTMLElement>(
+                "[data-polaroid-card]",
+            );
+            const triggers =
+                about.querySelectorAll<HTMLButtonElement>("[data-polaroid]");
+            let resetTimer: number | undefined;
+
+            if (!card) return;
+            const polaroidCard = card;
+
+            function showPolaroid(
+                trigger: HTMLButtonElement,
+                resetAfterDelay = false,
+            ) {
+                const selectedPolaroid = trigger.dataset.polaroid;
+                if (!selectedPolaroid) return;
+
+                window.clearTimeout(resetTimer);
+                polaroidCard.dataset.activePolaroid = selectedPolaroid;
+                polaroidCard.classList.add("is-flipped");
+
+                if (resetAfterDelay) {
+                    resetTimer = window.setTimeout(resetPolaroid, 2000);
+                }
+            }
+
+            function resetPolaroid() {
+                window.clearTimeout(resetTimer);
+                polaroidCard.classList.remove("is-flipped");
+            }
+
+            triggers.forEach((trigger) => {
+                trigger.addEventListener("pointerenter", () => {
+                    if (desktopHover.matches) showPolaroid(trigger);
+                });
+
+                trigger.addEventListener("pointerleave", () => {
+                    if (desktopHover.matches) resetPolaroid();
+                });
+
+                trigger.addEventListener("focus", () => {
+                    if (desktopHover.matches) showPolaroid(trigger);
+                });
+
+                trigger.addEventListener("blur", () => {
+                    if (desktopHover.matches) resetPolaroid();
+                });
+
+                trigger.addEventListener("click", () => {
+                    if (!desktopHover.matches) showPolaroid(trigger, true);
+                });
+            });
+        });
+</script>

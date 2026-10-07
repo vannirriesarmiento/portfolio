@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import "../styles/about.css";
+
+interface MarqueeItem {
+    name: string;
+    src: ImageMetadata;
+}
+
+interface Props {
+    items: MarqueeItem[];
+    label: string;
+}
+
+const { items, label } = Astro.props;
+---
+
+<section class="splide tech-marquee" aria-label={label}>
+    <div class="splide__track">
+        <ul class="splide__list">
+            {
+                items.map(({ name, src }) => (
+                    <li class="splide__slide">
+                        <Image
+                            class="tech-marquee__image"
+                            src={src}
+                            alt={name}
+                            fit="contain"
+                            loading="eager"
+                            draggable="false"
+                        />
+                        <div class="tech-marquee__label">{name}</div>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</section>
+
+<script>
+    import Splide from "@splidejs/splide";
+    import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+
+    function mountTechMarquees(root: ParentNode = document) {
+        root.querySelectorAll<HTMLElement>(
+            ".tech-marquee:not(.is-initialized)",
+        ).forEach((marquee) => {
+            const hiddenModal = marquee.closest<HTMLElement>(
+                ".modal:not(.is-open)",
+            );
+            if (hiddenModal) return;
+
+            new Splide(marquee, {
+                type: "loop",
+                autoWidth: true,
+                gap: "16px",
+                arrows: false,
+                pagination: false,
+                drag: "free",
+                snap: false,
+                autoScroll: {
+                    speed: 0.7,
+                    pauseOnHover: true,
+                    pauseOnFocus: true,
+                },
+            }).mount({ AutoScroll });
+        });
+    }
+
+    mountTechMarquees();
+
+    document.addEventListener("modal:open", (event) => {
+        if (event.target instanceof HTMLElement) {
+            const modal = event.target;
+            requestAnimationFrame(() => mountTechMarquees(modal));
+        }
+    });
+</script>
+
+<style is:global>
+    @import "@splidejs/splide/css/core";
+</style>

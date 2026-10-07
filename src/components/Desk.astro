@@ -1,0 +1,239 @@
+---
+import Item from "./Item.astro";
+import About from "./About.astro";
+import Experiences from "./Experiences.astro";
+import Interest from "./Interest.astro";
+import Contact from "./Contact.astro";
+import CV from "./CV.astro";
+import MusicPlayer from "./MusicPlayer.astro";
+import CaseStudies  from "./CaseStudies.astro";
+import Reviews from "./Reviews.astro";
+
+import bag from "../assets/img/desk/bag.webp";
+import nameTag from "../assets/img/desk/name tag.webp";
+import polaroid from "../assets/img/desk/polaroid.webp";
+import plant from "../assets/img/desk/plant.webp";
+import charger from "../assets/img/desk/charger.webp";
+import lamp from "../assets/img/desk/lamp.webp";
+import clip from "../assets/img/desk/clip.webp";
+import stickyNote from "../assets/img/desk/sticky notes.webp";
+import mac from "../assets/img/desk/mac.webp";
+import iphone1 from "../assets/img/desk/iphone 15.webp";
+import iphone2 from "../assets/img/desk/iphone 15 (1).webp";
+import lippie from "../assets/img/desk/lippie.webp";
+import airpodsBody from "../assets/img/desk/airpods body.webp";
+import airpodsEarbuds from "../assets/img/desk/airpods earbuds.webp";
+import pen from "../assets/img/desk/pen.webp";
+import maltesers from "../assets/img/desk/maltesers.webp";
+import cv from "../assets/img/desk/cv.webp";
+import extension from "../assets/img/desk/extension.webp";
+
+const clipItems = Array.from({ length: 4 }, (_, index) => ({
+    className: `clip _${index + 1}`,
+    src: clip,
+    alt: "A paper clip on the desk.",
+}));
+---
+
+<Item
+    className="bag"
+    imgData={[
+        {
+            src: bag,
+            alt: "Van's opened coach bag that contains various items inside.",
+        },
+    ]}
+/>
+
+<Item
+    className="id"
+    imgData={[
+        {
+            src: polaroid,
+            alt: "A polaroid photo of Van in 2026.",
+            class: "polaroid",
+        },
+        {
+            src: nameTag,
+            alt: "A name tag that says 'Hello, my name is Van.'",
+            class: "nametag",
+        },
+    ]}
+    cursorText="About Me"
+>
+<About/>
+<Experiences/>
+<Interest/>
+</Item>
+
+<Item
+    className="plant"
+    imgData={[{ src: plant, alt: "A small potted plant on a desk." }]}
+/>
+
+<Item
+    className="charger"
+    imgData={[{ src: charger, alt: "A rolled cord on the desk." }]}
+/>
+
+<Item
+    className="lamp"
+    imgData={[
+        {
+            src: lamp,
+            alt: "An interactive desk lamp on the right corner of the desk.",
+        },
+    ]}
+    cursorText="Turn On"
+/>
+
+{
+    clipItems.map(({ className, src, alt }) => (
+        <Item className={className} imgData={[{ src, alt }]} />
+    ))
+}
+
+<Item
+    className="sticky-note _1"
+    imgData={[
+        {
+            src: stickyNote,
+            alt: "A stack of messy sticky notes with a printed picture of 3 avatars on top of it.",
+        },
+    ]}
+/>
+
+<Item className="sticky-note _2" cursorText="Read Reviews">
+    <Reviews/>
+</Item>
+
+<Item
+    className="mac"
+    imgData={[
+        { src: mac, alt: "A MacBook Neo on the desk.", class: "macbook" },
+    ]}
+    cursorText="View Projects"
+>
+<CaseStudies/>
+</Item>
+
+<Item
+    className="iphone _1"
+    imgData={[
+        {
+            src: iphone1,
+            alt: "An interactive iPhone on the desk.",
+            class: "phone _1",
+        },
+        {
+            src: iphone2,
+            alt: "An interactive iPhone on the desk.",
+            class: "phone _2",
+        },
+    ]}
+    cursorText="Contact Me"
+>
+    <Contact/>
+</Item>
+
+<Item
+    className="lippie"
+    imgData={[
+        {
+            src: lippie,
+            alt: "A tube of pink Kiko Milani lipgloss on the desk.",
+        },
+    ]}
+/>
+
+<Item
+    className="airpods"
+    actionTarget="music-player"
+    imgData={[
+        {
+            src: airpodsBody,
+            alt: "An AirPod case on the desk.",
+            class: "airpods-body",
+        },
+        {
+            src: airpodsEarbuds,
+            alt: "A pair of AirPods earbuds on the desk.",
+            class: "airpods-earbuds",
+        },
+    ]}
+    cursorText="Play Music"
+/>
+
+<MusicPlayer />
+
+<Item
+    className="pen"
+    imgData={[{ src: pen, alt: "A pink pen on the desk." }]}
+/>
+
+<Item
+    className="maltesers"
+    imgData={[{ src: maltesers, alt: "A bag of Maltesers on the desk." }]}
+/>
+
+<Item
+    className="cv"
+    imgData={[
+        {
+            src: cv,
+            alt: "A printed copy of Van's CV clipped on to a clipboard.",
+        },
+    ]}
+    cursorText="Download CV"
+>
+<CV/>
+</Item>
+
+<Item
+    className="extension"
+    imgData={[{ src: extension, alt: "An extension cord on the desk." }]}
+/>
+
+<script>
+    function cursorHoverTransition() {
+        const items = document.querySelectorAll<HTMLElement>(".item");
+
+        items.forEach((item) => {
+            const cursor = item.querySelector<HTMLElement>(".cursor");
+
+            if (!cursor || window.innerWidth < 1280) return;
+
+            item.addEventListener("pointermove", ({ clientX, clientY }) => {
+                const { left, top } = item.getBoundingClientRect();
+                cursor.style.left = `${clientX - left}px`;
+                cursor.style.top = `${clientY - top}px`;
+            });
+
+            item.addEventListener("pointerenter", () => {
+                cursor.style.height = "128px";
+                cursor.style.width = "128px";
+            });
+
+            item.addEventListener("pointerleave", () => {
+                cursor.style.height = "0px";
+                cursor.style.width = "0px";
+            });
+        });
+    }
+
+    function blockLongPress() {
+        document.addEventListener("contextmenu", (event) => {
+            const target = event.target;
+
+            if (target instanceof HTMLElement && target.tagName === "IMG") {
+                event.preventDefault();
+            }
+        });
+    }
+
+
+    // TODO: convert to React component and use useEffect to run these functions on mount
+
+    cursorHoverTransition();
+    // blockLongPress();
+</script>

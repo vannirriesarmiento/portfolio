@@ -1,0 +1,166 @@
+---
+import Heading from "./Heading.astro";
+import Image from "astro/components/Image.astro";
+
+import quote from "../assets/img/format_quote.webp";
+import nikita from "../assets/img/nikita.webp";
+---
+
+<div class="modal-body" id="case-studies">
+    <Heading>nice things people have said about me</Heading>
+    <div class="postit-note pink">
+        <Image class="postit-note-quote" src={quote} alt="Icon" />
+        <div class="postit-note-body">
+            Lorem Ipsum
+
+            <div class="postit-person">
+                <Image class="postit-icon" src={nikita} alt="Name" />
+                <div class="postit-texts">
+                    <div class="postit-label">Name</div>
+                    Position
+                </div>
+            </div>
+        </div>
+    </div>
+    <Heading>FREEDOM WALL</Heading>
+    <div class="postit-notes-grid">
+        <div class="postit-button">
+            <span class="material-symbols-outlined"> add_2 </span>
+        </div>
+        <div class="postit-note grey">
+            <div class="positit-delete">
+                <span
+                    class="material-symbols-outlined"
+                    style="font-variation-settings: 'FILL' 1; font-size: 1.25rem;"
+                >
+                    delete
+                </span>
+            </div>
+            <div class="postit-note-body">
+                Lorem Ipsum
+
+                <p>— Name</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .postit-note {
+        position: relative;
+        width: 100%;
+        max-width: 388px;
+        height: 100%;
+        max-height: 275px;
+        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.32);
+    }
+
+    .postit-note-quote {
+        position: absolute;
+        width: 128px;
+        height: 128px;
+        top: -1px;
+        left: -1px;
+        z-index: 1;
+    }
+
+    .positit-delete {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: -16px;
+        right: -16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 100%;
+        background-color: var(--red);
+        color: var(--white);
+        cursor: pointer;
+        transition: 0.2s linear;
+    }
+
+    .positit-delete:hover {
+        background-color: #9a2020;
+    }
+
+    .postit-note-body {
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-between;
+        color: var(--black);
+        padding: 24px;
+        gap: 32px;
+    }
+
+    .postit-note.pink {
+        background-color: var(--pink);
+    }
+
+    .postit-note.grey {
+        background-color: var(--light-grey-2);
+    }
+
+    .postit-person {
+        width: 100%;
+        margin-top: auto;
+        margin-bottom: 0;
+        display: flex;
+        direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 8px;
+    }
+
+    .postit-icon {
+        display: flex;
+        flex: 0 0 auto;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .postit-texts {
+        display: flex;
+        width: 100%;
+        gap: 6px;
+        flex-direction: column;
+        font-size: 1.125rem;
+    }
+
+    .postit-label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+
+    .postit-notes-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 24px;
+    }
+
+    .postit-button {
+        width: 100%;
+        height: 100%;
+        border: 2px dashed var(--white);
+        background-color: var(--white-20);
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease;
+    }
+
+    .postit-button:hover {
+        opacity: 0.5;
+    }
+</style>
