@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check": "astro check",
+    "test:rules": "firebase emulators:exec --only firestore \"node --test tests/firestore.rules.test.mjs\"",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -17,11 +19,14 @@
     "@tailwindcss/vite": "^4.3.3",
     "animate.css": "^4.1.1",
     "astro": "^7.1.6",
+    "firebase": "^13.1.0",
     "material-symbols": "^0.47.5",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "firebase-tools": "^15.34.1",
     "typescript": "^6.0.3"
   }
 }
