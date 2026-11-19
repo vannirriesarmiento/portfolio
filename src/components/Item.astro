@@ -8,6 +8,10 @@ const {
     cursorText,
     href,
     actionTarget,
+    movable = false,
+    blockedMoveMessage,
+    storageBlockedMessage,
+    storageTarget = false,
 } = Astro.props;
 const hasAction = Boolean(actionTarget);
 const hasModal = Boolean(
@@ -16,7 +20,8 @@ const hasModal = Boolean(
 const hasLink = Boolean(href || (cursorText && !hasModal && !hasAction));
 const isExternalLink =
     typeof href === "string" && /^https?:\/\//.test(href);
-const Element = hasModal || hasAction ? "button" : hasLink ? "a" : "div";
+const isButton = hasModal || hasAction || storageTarget;
+const Element = isButton ? "button" : hasLink ? "a" : "div";
 const modalId = `${className.trim().replace(/\s+/g, "-")}-modal`;
 ---
 
@@ -25,10 +30,14 @@ const modalId = `${className.trim().replace(/\s+/g, "-")}-modal`;
     href={href ?? (!hasModal && !hasAction && cursorText ? `#${className}` : undefined)}
     target={isExternalLink ? "_blank" : undefined}
     rel={isExternalLink ? "noopener noreferrer" : undefined}
-    type={hasModal || hasAction ? "button" : undefined}
+    type={isButton ? "button" : undefined}
     aria-haspopup={hasModal ? "dialog" : undefined}
     aria-controls={hasModal ? modalId : actionTarget}
     aria-expanded={hasAction ? "false" : undefined}
+    data-desk-movable={movable ? "" : undefined}
+    data-desk-move-blocked={blockedMoveMessage ?? undefined}
+    data-desk-storage-blocked={storageBlockedMessage ?? undefined}
+    data-desk-storage-target={storageTarget ? "" : undefined}
 >
     {cursorText && <div class="cursor">{cursorText}</div>}
     {

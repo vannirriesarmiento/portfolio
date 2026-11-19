@@ -43,6 +43,7 @@
   --white-20: #FFFFFF33;
   --white-50: #FFFFFF80;
   --white-75: #FFFFFFBF;
+  --white-85: #FFFFFFD9;
   --dark-grey: #5F5F5F;
   --light-grey-1: #D9D9D9;
   --light-grey-2: #EFE9E9;
@@ -133,6 +134,10 @@ hr {
   font-size: 1rem;
 }
 
+.mobile-break {
+  display: inline block;
+}
+
 .item {
   position: absolute;
   aspect-ratio: 1 / 1;
@@ -155,7 +160,13 @@ button.item {
   height: 100%;
 }
 
-.item:is(.bag, .plant, .charger, .pen, .clip, .maltesers, .lippie):hover {
+.item[data-desk-movable] {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.item[data-desk-movable]:active {
   cursor: grabbing;
 }
 
@@ -207,10 +218,35 @@ button.item {
   opacity: 1;
 }
 
-.modal {
+.macbook {
+  position: absolute;
+  inset: 0;
+  transition: 0.2s ease;
+  transform: rotate(5deg);
+}
+
+.macbook._1 {
+  transition: 0.5s;
+}
+
+.macbook._2 {
+  opacity: 0;
+  z-index: 3;
+  transition: 0.5s;
+}
+
+.mac:hover .macbook._1 {
+  opacity: 0;
+}
+
+.mac:hover .macbook._2 {
+  opacity: 1;
+}
+
+.modal,
+.overlay {
   --animate-duration: 350ms;
   background-color: var(--black-50);
-  backdrop-filter: blur(24px);
   position: fixed;
   color: var(--white);
   top: 0;
@@ -218,23 +254,40 @@ button.item {
   width: 100vw;
   height: 100dvh;
   box-sizing: border-box;
-  padding: 24px;
-  display: none;
+  padding: 0;
   align-items: stretch;
   justify-content: stretch;
   z-index: 9999;
   overflow: hidden;
 }
 
+.overlay::before {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(24px);
+  width: 100vw;
+  height: 100dvh;
+  transition: 0.2s;
+}
+
+.modal {
+  backdrop-filter: blur(24px);
+  display: none;
+}
+
 .modal.is-open {
   display: flex;
 }
 
-.modal-content {
+.modal-content,
+.casestudy-content {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   display: flex;
   gap: 24px;
@@ -243,13 +296,16 @@ button.item {
   font-weight: 400;
 }
 
-.modal-content::-webkit-scrollbar {
+.modal-content::-webkit-scrollbar,
+.casestudy-content::-webkit-scrollbar {
   width: 8px;
   border-radius: 32px;
   background: var(--white-15);
 }
 
-.modal-content::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb,
+.casestudy-content::-webkit-scrollbar-thumb {
   background: var(--light-grey-1);
   border-radius: 32px;
 }
@@ -263,7 +319,8 @@ button.item {
   scroll-snap-align: none;
 }
 
-.modal-body {
+.modal-body,
+.casestudy-body {
   box-sizing: border-box;
   margin: 0 auto;
   display: flex;
@@ -275,7 +332,7 @@ button.item {
   width: 100%;
   max-width: 800px;
   min-height: 100%;
-  padding: 32px 0;
+  padding: 64px 0;
   z-index: 2;
 }
 
@@ -376,6 +433,13 @@ button.item {
     -webkit-user-select: none;
   }
 
+  body::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 32px;
+    background: var(--white);
+  }
+
+
   main {
     display: flex;
     height: auto;
@@ -418,11 +482,13 @@ button.item {
     scrollbar-width: none;
   }
 
-  .modal-content::-webkit-scrollbar {
+  .modal-content::-webkit-scrollbar,
+  .casestudy-content::-webkit-scrollbar {
     display: none;
   }
 
-  .modal-body {
+  .modal-body,
+  .casestudy-body {
     min-height: 100%;
     gap: 16px;
     font-size: 0.875rem;
@@ -581,16 +647,12 @@ button.item {
   }
 
   .mac {
-    max-width: calc(320px * var(--card-scale));
-    max-height: calc(227.94px * var(--card-scale));
+    width: calc(320px * var(--card-scale));
+    height: calc(227.94px * var(--card-scale));
     left: calc(-64px * var(--card-scale));
     top: calc(280px * var(--card-scale));
     aspect-ratio: auto;
     z-index: 3;
-  }
-
-  .macbook {
-    transform: rotate(5deg);
   }
 
   .iphone {
@@ -689,12 +751,6 @@ button.item {
 
   .modal-body {
     scroll-snap-align: center;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .wrapping {
-    width: min(100vw, 320px);
   }
 }
 
@@ -875,16 +931,20 @@ button.item {
   }
 
   .mac {
-    max-width: calc(772.44px * var(--desktop-scale));
-    max-height: calc(533.33px * var(--desktop-scale));
+    width: calc(772.44px * var(--desktop-scale));
+    height: calc(533.33px * var(--desktop-scale));
     left: calc(248.89px * var(--desktop-scale));
     top: calc(222.22px * var(--desktop-scale));
     aspect-ratio: auto;
     z-index: 3;
   }
 
-  .macbook {
-    transform: rotate(5deg);
+  .macbook._1 {
+    z-index: 1;
+  }
+
+  .macbook._2 {
+    z-index: 2;
   }
 
   .iphone {
@@ -1020,5 +1080,11 @@ button.item {
 @media only screen and (max-width: 480px) and (min-height: 800px) {
   main {
     overflow-y: hidden;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .mobile-break {
+    display: block;
   }
 }

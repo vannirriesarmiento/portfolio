@@ -14,11 +14,20 @@ const caseStudies = defineCollection({
             readDuration: z.number().int().positive(),
             description: z.string(),
             logo: image(),
+            previewDesktop: image().optional(),
+            previewMobile: image().optional(),
             role: z.string(),
             industry: z.string(),
             status: z.string(),
             tools: z.string(),
-            gallery: z.array(image()).default([]),
+            gallery: z
+                .array(
+                    z.union([
+                        image(),
+                        z.string().regex(/\.(?:mp4|webm)$/i),
+                    ]),
+                )
+                .default([]),
             order: z.number().int().default(0),
             draft: z.boolean().default(false),
         }),

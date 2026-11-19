@@ -1,0 +1,144 @@
+---
+import "animate.css";
+---
+
+<aside
+    class="site-toast animate__animated"
+    data-site-toast
+    role="status"
+    aria-live="polite"
+    hidden
+>
+    <span class="site-toast__icon-circle">
+        <span
+            class="material-symbols-outlined"
+            data-site-toast-icon
+            aria-hidden="true"
+        ></span>
+    </span>
+    <span data-site-toast-message></span>
+</aside>
+
+<script>
+    import type { ToastOptions, ToastVariant } from "../lib/toast";
+
+    const iconByVariant: Record<ToastVariant, string> = {
+        success: "check",
+        deleted: "delete",
+        error: "priority_high",
+        info: "info_i",
+    };
+
+    document
+        .querySelectorAll<HTMLElement>("[data-site-toast]")
+        .forEach((toast) => {
+            const icon = toast.querySelector<HTMLElement>(
+                "[data-site-toast-icon]",
+            );
+            const message = toast.querySelector<HTMLElement>(
+                "[data-site-toast-message]",
+            );
+
+            if (!icon || !message) return;
+
+            const toastIcon: HTMLElement = icon;
+            const toastMessage: HTMLElement = message;
+
+            let showTimer = 0;
+            let hideTimer = 0;
+
+            function displayToast(options: ToastOptions) {
+                window.clearTimeout(showTimer);
+                window.clearTimeout(hideTimer);
+
+                const variant = options.variant ?? "success";
+                toast.dataset.variant = variant;
+                toastIcon.textContent = options.icon ?? iconByVariant[variant];
+                toastMessage.textContent = options.message;
+                toast.hidden = false;
+                toast.classList.remove(
+                    "animate__fadeInRight",
+                    "animate__fadeOutRight",
+                );
+                void toast.offsetWidth;
+                toast.classList.add("animate__fadeInRight");
+
+                showTimer = window.setTimeout(() => {
+                    toast.classList.remove("animate__fadeInRight");
+                    toast.classList.add("animate__fadeOutRight");
+                    hideTimer = window.setTimeout(() => {
+                        toast.hidden = true;
+                    }, 300);
+                }, options.duration ?? 4000);
+            }
+
+            document.addEventListener("app:toast", (event) => {
+                const { detail } = event as CustomEvent<ToastOptions>;
+                if (detail?.message) displayToast(detail);
+            });
+        });
+</script>
+
+<style is:global>
+    .site-toast {
+        --animate-duration: 300ms;
+        position: fixed;
+        top: 64px;
+        right: 64px;
+        z-index: 10001;
+        backdrop-filter: blur(16px);
+        box-sizing: border-box;
+        display: flex;
+        width: max-content;
+        max-width: calc(100vw - 48px);
+        align-items: center;
+        gap: 10px;
+        padding: 12px 24px 12px 16px;
+        border-top: 1px solid var(--white-50);
+        border-bottom: 1px solid var(--white-50);
+        border-radius: 32px;
+        box-shadow: 2px 2px 32px rgba(0, 0, 0, 0.25);
+        background: var(--black-20);
+        color: var(--white);
+    }
+
+    .site-toast[hidden] {
+        display: none;
+    }
+
+    .site-toast__icon-circle {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        place-items: center;
+        border-radius: 50%;
+    }
+
+    .site-toast__icon-circle .material-symbols-outlined {
+        display: block;
+        color: var(--white);
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+
+    .site-toast[data-variant="success"] .site-toast__icon-circle {
+        background: var(--green);
+    }
+
+    .site-toast[data-variant="deleted"] .site-toast__icon-circle,
+    .site-toast[data-variant="error"] .site-toast__icon-circle {
+        background: var(--red);
+    }
+
+    .site-toast[data-variant="info"] .site-toast__icon-circle {
+        background: var(--dark-grey);
+    }
+
+    @media (max-width: 767px) {
+        .site-toast {
+            top: 16px;
+            right: 16px;
+        }
+    }
+</style>

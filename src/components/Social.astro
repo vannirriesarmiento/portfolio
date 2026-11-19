@@ -8,7 +8,7 @@ const { link = "", version = 1, label = "", value = "" } = Astro.props;
             <slot />
         </a>
     ) : (
-        <a class="social-item" href={link}>
+        <a class="social-item" href={link} target="_blank" rel="noopener noreferrer">
             <div class="social">
                 <slot />
             </div>

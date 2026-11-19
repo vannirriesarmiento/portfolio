@@ -1,27 +1,53 @@
 ---
 import Heading from "./Heading.astro";
-import Image from "astro/components/Image.astro";
+import Review from "./Review.astro";
+import Modal from "./Modal.astro";
+import "../styles/reviews.css";
 
-import quote from "../assets/img/format_quote.webp";
-import nikita from "../assets/img/nikita.webp";
+import nikita from "../assets/img/reviews/nikita.webp";
+import bernel from "../assets/img/reviews/bernel.webp";
+import joseph from "../assets/img/reviews/joseph.webp";
+import spinnerIcon from "../assets/img/spinner.svg";
+
+const reviews = [
+    {
+        name: "Nikita Stadnik",
+        position: "Head of IT, BSO Real Estate Management LLC",
+        review: "Working with Van Sarmiento for two years at BSO Real Estate Management was a great experience. She transformed our product vision into modern, intuitive designs, including our Webflow website, 1,194 mobile app screens, 241 client portal screens, and several supporting products. Van worked quickly, handled feedback professionally, and consistently delivered high-quality work on time. Her dedication and creativity made her an invaluable part of our team.",
+        avatar: nikita,
+    },
+    {
+        name: "Bernel Diaz",
+        position: "Freelance UI/UX Designer",
+        review: `Van and I worked together at university and during our internship. I worked as a UI/UX designer, she worked as a developer.\n\nShe is an excellent collaborator. She communicates clearly, solves problems fast, and brings strong technical skill to every project. I still turn to her for professional guidance today. I recommend her without hesitation.`,
+        avatar: bernel,
+    },
+    {
+        name: "Joseph Cedeño",
+        position: "Software Engineer, Nuxify",
+        review: "It has been a privilege to collaborate with Vannirrie. Her profound knowledge and expertise in her field are truly commendable. Vannirrie consistently delivers exceptional work, demonstrating her commitment to excellence. Her remarkable ability to grasp new concepts swiftly makes working with her on projects a seamless and efficient experience. Vannirrie is an invaluable asset to our team, and I highly recommend her for any future endeavors",
+        avatar: joseph,
+    },
+];
 ---
 
 <div class="modal-body reviews" id="reviews">
-    <Heading>nice things people have said about me</Heading>
-    <div class="postit-note pink testimonial-note">
-        <Image class="postit-note-quote" src={quote} alt="Quotation mark" />
-        <div class="postit-note-body">
-            Lorem Ipsum
-
-            <div class="postit-person">
-                <Image class="postit-icon" src={nikita} alt="Name" />
-                <div class="postit-texts">
-                    <div class="postit-label">Name</div>
-                    Position
-                </div>
-            </div>
+    <Heading
+        >nice things people<span class="mobile-break"> </span>have said about me</Heading
+    >
+    <section class="splide reviews-carousel" aria-label="Testimonials">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {
+                    reviews.map((review) => (
+                        <li class="splide__slide">
+                            <Review {...review} />
+                        </li>
+                    ))
+                }
+            </ul>
         </div>
-    </div>
+    </section>
 
     <section class="freedom-wall" data-freedom-wall>
         <Heading>FREEDOM WALL</Heading>
@@ -31,57 +57,92 @@ import nikita from "../assets/img/nikita.webp";
                 <button
                     type="button"
                     class="postit-button"
-                    data-wall-open-form
-                    aria-expanded="false"
-                    aria-controls="freedom-wall-form"
+                    aria-haspopup="dialog"
+                    aria-controls="add-note"
                 >
-                    <span class="material-symbols-outlined" aria-hidden="true">add_2</span>
+                    <span
+                        class="material-symbols-outlined"
+                        data-wall-add-icon
+                        data-spinner-src={spinnerIcon.src}
+                        aria-hidden="true">add_2</span
+                    >
                     <span>Add a note</span>
                 </button>
 
-                <form id="freedom-wall-form" class="postit-form" data-wall-form hidden>
-                    <label>
-                        <span>Your name</span>
-                        <input
-                            type="text"
-                            name="name"
-                            required
-                            maxlength="40"
-                            autocomplete="name"
-                        />
-                    </label>
-
-                    <label>
-                        <span>Your note</span>
-                        <textarea
-                            name="message"
-                            required
-                            maxlength="280"
-                            rows="4"
-                        ></textarea>
-                    </label>
-
-                    <div class="postit-form-meta">
-                        <span data-wall-character-count>0 / 280</span>
+                <Modal id="add-note" title="Add Note">
+                    <div class="postit-note grey freedom-wall-paper">
+                        <div class="postit-note-body freedom-wall-form-body">
+                            <form
+                                id="freedom-wall-form"
+                                class="freedom-wall-form"
+                                data-wall-form
+                            >
+                                <div class="freedom-wall-name-row">
+                                    <span aria-hidden="true">—</span>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Enter your name here"
+                                        required
+                                        maxlength="40"
+                                        autocomplete="name"
+                                        aria-label="Your name"
+                                    />
+                                    <span data-wall-character-count
+                                        >0 / 150</span
+                                    >
+                                </div>
+                                <div class="freedom-wall-message-field">
+                                    <textarea
+                                        name="message"
+                                        placeholder="Type your message here..."
+                                        required
+                                        maxlength="150"
+                                        rows="4"
+                                        aria-label="Your message"></textarea>
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="freedom-wall-submit"
+                                    data-wall-submit
+                                    aria-label="Publish note"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        check
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
-
-                    <div class="postit-form-actions">
-                        <button type="button" data-wall-cancel>Cancel</button>
-                        <button type="submit" data-wall-submit>Post note</button>
-                    </div>
-                </form>
+                </Modal>
             </div>
-
+            <div
+                class="postit-note none"
+                data-wall-empty
+                role="status"
+                aria-live="polite"
+                hidden
+            >
+                <div class="postit-note-body">
+                    <div
+                        class="flex w-full flex-1 flex-col items-center justify-center gap-0.5 text-center"
+                    >
+                        <span
+                            class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1; font-size: 4rem; line-height: 6rem;"
+                        >
+                            sentiment_sad
+                        </span>
+                        <p>No notes yet.</p>
+                        <p>Be the first one to add.</p>
+                    </div>
+                </div>
+            </div>
             <div class="freedom-wall-notes" data-wall-notes></div>
         </div>
 
-        <p class="freedom-wall-status" data-wall-state role="status" aria-live="polite">
-            Open the wall to load notes.
-        </p>
-        <p class="freedom-wall-feedback" data-wall-feedback role="status" aria-live="polite"></p>
-
         <template data-wall-note-template>
-            <article class="postit-note grey freedom-wall-note" data-wall-note>
+            <article class="postit-note freedom-wall-note" data-wall-note>
                 <button
                     type="button"
                     class="postit-delete"
@@ -123,6 +184,7 @@ import nikita from "../assets/img/nikita.webp";
         initializeFirebaseAnalytics,
         logFreedomWallEvent,
     } from "../lib/firebase";
+    import { showToast } from "../lib/toast";
 
     type FreedomWallNote = {
         id: string;
@@ -132,551 +194,421 @@ import nikita from "../assets/img/nikita.webp";
     };
 
     const NOTE_LIMIT = 50;
-    const MESSAGE_LIMIT = 280;
+    const MESSAGE_LIMIT = 150;
     const POST_COOLDOWN_MS = 30_000;
     const LAST_POST_KEY = "freedom-wall:last-posted-at";
 
     void initializeFirebaseAnalytics();
 
-    document.querySelectorAll<HTMLElement>("[data-freedom-wall]").forEach((wall) => {
-        const openFormButton = wall.querySelector<HTMLButtonElement>("[data-wall-open-form]");
-        const form = wall.querySelector<HTMLFormElement>("[data-wall-form]");
-        const cancelButton = wall.querySelector<HTMLButtonElement>("[data-wall-cancel]");
-        const submitButton = wall.querySelector<HTMLButtonElement>("[data-wall-submit]");
-        const nameInput = form?.elements.namedItem("name");
-        const messageInput = form?.elements.namedItem("message");
-        const characterCount = wall.querySelector<HTMLElement>("[data-wall-character-count]");
-        const notesContainer = wall.querySelector<HTMLElement>("[data-wall-notes]");
-        const noteTemplate = wall.querySelector<HTMLTemplateElement>("[data-wall-note-template]");
-        const stateMessage = wall.querySelector<HTMLElement>("[data-wall-state]");
-        const feedbackMessage = wall.querySelector<HTMLElement>("[data-wall-feedback]");
+    document
+        .querySelectorAll<HTMLElement>("[data-freedom-wall]")
+        .forEach((wall) => {
+            const form =
+                wall.querySelector<HTMLFormElement>("[data-wall-form]");
+            const addNoteButton =
+                wall.querySelector<HTMLButtonElement>(".postit-button");
+            const addButtonIcon = wall.querySelector<HTMLElement>(
+                "[data-wall-add-icon]",
+            );
+            const submitButton =
+                wall.querySelector<HTMLButtonElement>("[data-wall-submit]");
+            const nameInput = form?.elements.namedItem("name");
+            const messageInput = form?.elements.namedItem("message");
+            const characterCount = wall.querySelector<HTMLElement>(
+                "[data-wall-character-count]",
+            );
+            const notesContainer =
+                wall.querySelector<HTMLElement>("[data-wall-notes]");
+            const noteTemplate = wall.querySelector<HTMLTemplateElement>(
+                "[data-wall-note-template]",
+            );
+            const emptyState =
+                wall.querySelector<HTMLElement>("[data-wall-empty]");
+            const addNoteDialog = wall.querySelector<HTMLElement>("#add-note");
 
-        if (
-            !openFormButton ||
-            !form ||
-            !cancelButton ||
-            !submitButton ||
-            !(nameInput instanceof HTMLInputElement) ||
-            !(messageInput instanceof HTMLTextAreaElement) ||
-            !characterCount ||
-            !notesContainer ||
-            !noteTemplate ||
-            !stateMessage ||
-            !feedbackMessage
-        ) {
-            return;
-        }
-
-        const openButton: HTMLButtonElement = openFormButton;
-        const wallForm: HTMLFormElement = form;
-        const cancelFormButton: HTMLButtonElement = cancelButton;
-        const postButton: HTMLButtonElement = submitButton;
-        const nameField: HTMLInputElement = nameInput;
-        const messageField: HTMLTextAreaElement = messageInput;
-        const countLabel: HTMLElement = characterCount;
-        const noteList: HTMLElement = notesContainer;
-        const template: HTMLTemplateElement = noteTemplate;
-        const wallState: HTMLElement = stateMessage;
-        const wallFeedback: HTMLElement = feedbackMessage;
-
-        let hasStarted = false;
-        let currentUid: string | null = null;
-        let visibleNotes: FreedomWallNote[] = [];
-
-        function setComposerOpen(isOpen: boolean) {
-            openButton.hidden = isOpen;
-            openButton.setAttribute("aria-expanded", String(isOpen));
-            wallForm.hidden = !isOpen;
-            if (isOpen) nameField.focus();
-        }
-
-        function getCooldownRemaining() {
-            try {
-                const lastPostTime = Number(window.localStorage.getItem(LAST_POST_KEY));
-                if (!Number.isFinite(lastPostTime)) return 0;
-                return Math.max(0, POST_COOLDOWN_MS - (Date.now() - lastPostTime));
-            } catch {
-                return 0;
+            if (
+                !form ||
+                !addNoteButton ||
+                !addButtonIcon ||
+                !submitButton ||
+                !(nameInput instanceof HTMLInputElement) ||
+                !(messageInput instanceof HTMLTextAreaElement) ||
+                !characterCount ||
+                !notesContainer ||
+                !noteTemplate ||
+                !emptyState ||
+                !addNoteDialog
+            ) {
+                return;
             }
-        }
 
-        function savePostTime() {
-            try {
-                window.localStorage.setItem(LAST_POST_KEY, String(Date.now()));
-            } catch {
-                // Posting still works when browser storage is unavailable.
-            }
-        }
+            const wallForm: HTMLFormElement = form;
+            const addButton: HTMLButtonElement = addNoteButton;
+            const addIcon: HTMLElement = addButtonIcon;
+            const postButton: HTMLButtonElement = submitButton;
+            const nameField: HTMLInputElement = nameInput;
+            const messageField: HTMLTextAreaElement = messageInput;
+            const countLabel: HTMLElement = characterCount;
+            const noteList: HTMLElement = notesContainer;
+            const template: HTMLTemplateElement = noteTemplate;
+            const emptyNote: HTMLElement = emptyState;
 
-        function renderNotes() {
-            const fragment = document.createDocumentFragment();
+            let hasStarted = false;
+            let currentUid: string | null = null;
+            let visibleNotes: FreedomWallNote[] = [];
+            const noteColors = new Map<string, "pink" | "grey">();
+            const spinnerSrc = addIcon.dataset.spinnerSrc ?? "";
+            let spinnerElement: HTMLImageElement | null = null;
 
-            visibleNotes.forEach((note) => {
-                const noteFragment = template.content.cloneNode(true);
-                if (!(noteFragment instanceof DocumentFragment)) return;
+            function setNotesLoading(isLoading: boolean) {
+                addButton.setAttribute("aria-busy", String(isLoading));
 
-                const noteElement = noteFragment.querySelector<HTMLElement>("[data-wall-note]");
-                const messageElement = noteFragment.querySelector<HTMLElement>("[data-wall-message]");
-                const authorElement = noteFragment.querySelector<HTMLElement>("[data-wall-author]");
-                const deleteButton = noteFragment.querySelector<HTMLButtonElement>("[data-wall-delete]");
+                if (isLoading) {
+                    if (spinnerElement) return;
 
-                if (!noteElement || !messageElement || !authorElement || !deleteButton) return;
-
-                noteElement.dataset.noteId = note.id;
-                messageElement.textContent = note.message;
-                authorElement.textContent = `— ${note.name}`;
-
-                if (note.authorUid !== currentUid) {
-                    deleteButton.remove();
-                } else {
-                    deleteButton.addEventListener("click", async () => {
-                        if (!window.confirm("Delete your note from the Freedom Wall?")) return;
-
-                        deleteButton.disabled = true;
-                        wallFeedback.textContent = "Deleting your note…";
-
-                        try {
-                            const user = await ensureAnonymousUser();
-                            if (user.uid !== note.authorUid) {
-                                throw new Error("This note belongs to another visitor.");
-                            }
-
-                            await deleteDoc(doc(firestore, "freedomWallNotes", note.id));
-                            wallFeedback.textContent = "Your note was deleted.";
-                            void logFreedomWallEvent("freedom_wall_note_deleted");
-                        } catch (error) {
-                            console.error("Unable to delete Freedom Wall note", error);
-                            wallFeedback.textContent = "We couldn't delete that note. Please try again.";
-                            deleteButton.disabled = false;
-                        }
-                    });
+                    const spinner = document.createElement("img");
+                    spinner.src = spinnerSrc;
+                    spinner.className = "postit-spinner";
+                    spinner.alt = "";
+                    spinner.width = 32;
+                    spinner.height = 32;
+                    addIcon.replaceWith(spinner);
+                    spinnerElement = spinner;
+                } else if (spinnerElement) {
+                    spinnerElement.replaceWith(addIcon);
+                    spinnerElement = null;
                 }
-
-                fragment.append(noteFragment);
-            });
-
-            noteList.replaceChildren(fragment);
-        }
-
-        function startNotesListener() {
-            wallState.textContent = "Loading notes…";
-            const notesQuery = query(
-                collection(firestore, "freedomWallNotes"),
-                orderBy("createdAt", "desc"),
-                limit(NOTE_LIMIT),
-            );
-
-            onSnapshot(
-                notesQuery,
-                (snapshot) => {
-                    visibleNotes = snapshot.docs.flatMap((noteDocument) => {
-                        const data = noteDocument.data();
-                        if (
-                            typeof data.name !== "string" ||
-                            typeof data.message !== "string" ||
-                            typeof data.authorUid !== "string"
-                        ) {
-                            return [];
-                        }
-
-                        return [{
-                            id: noteDocument.id,
-                            name: data.name,
-                            message: data.message,
-                            authorUid: data.authorUid,
-                        }];
-                    });
-
-                    renderNotes();
-                    wallState.textContent = visibleNotes.length > 0
-                        ? ""
-                        : "No notes yet. Be the first to leave one.";
-                },
-                (error) => {
-                    console.error("Unable to load Freedom Wall notes", error);
-                    wallState.textContent = "We couldn't load the Freedom Wall. Please try again later.";
-                },
-            );
-        }
-
-        async function startWall() {
-            if (hasStarted) return;
-            hasStarted = true;
-            startNotesListener();
-
-            try {
-                currentUid = (await ensureAnonymousUser()).uid;
-                renderNotes();
-            } catch (error) {
-                console.error("Unable to start anonymous Firebase authentication", error);
-                wallFeedback.textContent = "Posting is unavailable right now. Please try again later.";
-            }
-        }
-
-        openButton.addEventListener("click", () => {
-            setComposerOpen(true);
-            wallFeedback.textContent = "";
-        });
-
-        cancelFormButton.addEventListener("click", () => {
-            wallForm.reset();
-            countLabel.textContent = `0 / ${MESSAGE_LIMIT}`;
-            setComposerOpen(false);
-            openButton.focus();
-        });
-
-        messageField.addEventListener("input", () => {
-            countLabel.textContent = `${messageField.value.length} / ${MESSAGE_LIMIT}`;
-        });
-
-        wallForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const name = nameField.value.trim();
-            const message = messageField.value.trim();
-            nameField.value = name;
-            messageField.value = message;
-
-            if (!name || !message || name.length > 40 || message.length > MESSAGE_LIMIT) {
-                wallFeedback.textContent = "Enter your name and a note of up to 280 characters.";
-                wallForm.reportValidity();
-                return;
             }
 
-            const cooldownRemaining = getCooldownRemaining();
-            if (cooldownRemaining > 0) {
-                wallFeedback.textContent = `Please wait ${Math.ceil(cooldownRemaining / 1000)} seconds before posting again.`;
-                return;
+            function getNoteColor(noteId: string): "pink" | "grey" {
+                const existingColor = noteColors.get(noteId);
+                if (existingColor) return existingColor;
+
+                const color = Math.random() < 0.5 ? "pink" : "grey";
+                noteColors.set(noteId, color);
+                return color;
             }
 
-            postButton.disabled = true;
-            postButton.textContent = "Posting…";
-            wallFeedback.textContent = "Posting your note…";
+            function getCooldownRemaining() {
+                try {
+                    const lastPostTime = Number(
+                        window.localStorage.getItem(LAST_POST_KEY),
+                    );
+                    if (!Number.isFinite(lastPostTime)) return 0;
+                    return Math.max(
+                        0,
+                        POST_COOLDOWN_MS - (Date.now() - lastPostTime),
+                    );
+                } catch {
+                    return 0;
+                }
+            }
 
-            try {
-                const user = await ensureAnonymousUser();
-                currentUid = user.uid;
+            function savePostTime() {
+                try {
+                    window.localStorage.setItem(
+                        LAST_POST_KEY,
+                        String(Date.now()),
+                    );
+                } catch {
+                    // Posting still works when browser storage is unavailable.
+                }
+            }
 
-                await addDoc(collection(firestore, "freedomWallNotes"), {
-                    name,
-                    message,
-                    authorUid: user.uid,
-                    createdAt: serverTimestamp(),
+            function renderNotes() {
+                const fragment = document.createDocumentFragment();
+
+                visibleNotes.forEach((note) => {
+                    const noteFragment = template.content.cloneNode(true);
+                    if (!(noteFragment instanceof DocumentFragment)) return;
+
+                    const noteElement =
+                        noteFragment.querySelector<HTMLElement>(
+                            "[data-wall-note]",
+                        );
+                    const messageElement =
+                        noteFragment.querySelector<HTMLElement>(
+                            "[data-wall-message]",
+                        );
+                    const noteBody =
+                        noteFragment.querySelector<HTMLElement>(
+                            ".postit-note-body",
+                        );
+                    const authorElement =
+                        noteFragment.querySelector<HTMLElement>(
+                            "[data-wall-author]",
+                        );
+                    const deleteButton =
+                        noteFragment.querySelector<HTMLButtonElement>(
+                            "[data-wall-delete]",
+                        );
+
+                    if (
+                        !noteElement ||
+                        !messageElement ||
+                        !noteBody ||
+                        !authorElement ||
+                        !deleteButton
+                    )
+                        return;
+
+                    noteElement.dataset.noteId = note.id;
+                    noteBody.classList.add(getNoteColor(note.id));
+                    messageElement.textContent = note.message;
+                    authorElement.textContent = `— ${note.name}`;
+
+                    if (note.authorUid !== currentUid) {
+                        deleteButton.remove();
+                    } else {
+                        deleteButton.addEventListener("click", async () => {
+                            deleteButton.disabled = true;
+                            try {
+                                const user = await ensureAnonymousUser();
+                                if (user.uid !== note.authorUid) {
+                                    throw new Error(
+                                        "This note belongs to another visitor.",
+                                    );
+                                }
+
+                                await deleteDoc(
+                                    doc(firestore, "freedomWallNotes", note.id),
+                                );
+                                visibleNotes = visibleNotes.filter(
+                                    (visibleNote) => visibleNote.id !== note.id,
+                                );
+                                renderNotes();
+                                showToast({
+                                    message: "Post It Deleted!",
+                                    variant: "deleted",
+                                });
+                                void logFreedomWallEvent(
+                                    "freedom_wall_note_deleted",
+                                );
+                            } catch (error) {
+                                console.error(
+                                    "Unable to delete Freedom Wall note",
+                                    error,
+                                );
+                                showToast({
+                                    message:
+                                        "We couldn't delete that note. Please try again.",
+                                    variant: "error",
+                                });
+                                deleteButton.disabled = false;
+                            }
+                        });
+                    }
+
+                    fragment.append(noteFragment);
                 });
 
-                savePostTime();
-                wallForm.reset();
-                countLabel.textContent = `0 / ${MESSAGE_LIMIT}`;
-                setComposerOpen(false);
-                wallFeedback.textContent = "Your note is now on the Freedom Wall.";
-                openButton.focus();
-                void logFreedomWallEvent("freedom_wall_note_created");
-            } catch (error) {
-                console.error("Unable to create Freedom Wall note", error);
-                wallFeedback.textContent = "We couldn't post your note. Please try again.";
-            } finally {
-                postButton.disabled = false;
-                postButton.textContent = "Post note";
+                noteList.replaceChildren(fragment);
+            }
+
+            function startNotesListener() {
+                setNotesLoading(true);
+                emptyNote.hidden = true;
+                const notesQuery = query(
+                    collection(firestore, "freedomWallNotes"),
+                    orderBy("createdAt", "desc"),
+                    limit(NOTE_LIMIT),
+                );
+
+                onSnapshot(
+                    notesQuery,
+                    (snapshot) => {
+                        visibleNotes = snapshot.docs.flatMap((noteDocument) => {
+                            const data = noteDocument.data();
+                            if (
+                                typeof data.name !== "string" ||
+                                typeof data.message !== "string" ||
+                                typeof data.authorUid !== "string"
+                            ) {
+                                return [];
+                            }
+
+                            return [
+                                {
+                                    id: noteDocument.id,
+                                    name: data.name,
+                                    message: data.message,
+                                    authorUid: data.authorUid,
+                                },
+                            ];
+                        });
+
+                        setNotesLoading(false);
+                        renderNotes();
+                        emptyNote.hidden = visibleNotes.length > 0;
+                    },
+                    (error) => {
+                        setNotesLoading(false);
+                        console.error(
+                            "Unable to load Freedom Wall notes",
+                            error,
+                        );
+                        showToast({
+                            message:
+                                "We couldn't load the Freedom Wall. Please try again later.",
+                            variant: "error",
+                        });
+                    },
+                );
+            }
+
+            async function startWall() {
+                if (hasStarted) return;
+                hasStarted = true;
+                startNotesListener();
+
+                try {
+                    currentUid = (await ensureAnonymousUser()).uid;
+                    renderNotes();
+                } catch (error) {
+                    console.error(
+                        "Unable to start anonymous Firebase authentication",
+                        error,
+                    );
+                    showToast({
+                        message:
+                            "Posting is unavailable right now. Please try again later.",
+                        variant: "error",
+                    });
+                }
+            }
+
+            messageField.addEventListener("input", () => {
+                countLabel.textContent = `${messageField.value.length} / ${MESSAGE_LIMIT}`;
+            });
+
+            wallForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const name = nameField.value.trim();
+                const message = messageField.value.trim();
+                nameField.value = name;
+                messageField.value = message;
+
+                if (
+                    !name ||
+                    !message ||
+                    name.length > 40 ||
+                    message.length > MESSAGE_LIMIT
+                ) {
+                    showToast({
+                        message: `Enter your name and a note of up to ${MESSAGE_LIMIT} characters.`,
+                        variant: "error",
+                    });
+                    wallForm.reportValidity();
+                    return;
+                }
+
+                const cooldownRemaining = getCooldownRemaining();
+                if (cooldownRemaining > 0) {
+                    showToast({
+                        message: `Please wait ${Math.ceil(cooldownRemaining / 1000)} seconds before posting again.`,
+                        variant: "info",
+                    });
+                    return;
+                }
+
+                postButton.disabled = true;
+
+                try {
+                    const user = await ensureAnonymousUser();
+                    currentUid = user.uid;
+
+                    await addDoc(collection(firestore, "freedomWallNotes"), {
+                        name,
+                        message,
+                        authorUid: user.uid,
+                        createdAt: serverTimestamp(),
+                    });
+
+                    savePostTime();
+                    wallForm.reset();
+                    countLabel.textContent = `0 / ${MESSAGE_LIMIT}`;
+                    showToast({
+                        message: "Post It Published!",
+                        variant: "success",
+                    });
+                    addNoteDialog
+                        .querySelector<HTMLButtonElement>(".modal-close")
+                        ?.click();
+                    void logFreedomWallEvent("freedom_wall_note_created");
+                } catch (error) {
+                    console.error("Unable to create Freedom Wall note", error);
+                    showToast({
+                        message:
+                            "We couldn't post your note. Please try again.",
+                        variant: "error",
+                    });
+                } finally {
+                    postButton.disabled = false;
+                }
+            });
+
+            addNoteDialog.addEventListener("modal:open", () => {
+                requestAnimationFrame(() => messageField.focus());
+            });
+
+            const modal = wall.closest<HTMLElement>(".modal");
+            if (modal) {
+                modal.addEventListener("modal:open", () => void startWall(), {
+                    once: true,
+                });
+                if (modal.classList.contains("is-open")) void startWall();
+            } else {
+                void startWall();
             }
         });
+</script>
 
-        const modal = wall.closest<HTMLElement>(".modal");
-        if (modal) {
-            modal.addEventListener("modal:open", () => void startWall(), { once: true });
-            if (modal.classList.contains("is-open")) void startWall();
-        } else {
-            void startWall();
+<script>
+    import Splide from "@splidejs/splide";
+
+    function mountReviews(root: ParentNode = document) {
+        root.querySelectorAll<HTMLElement>(
+            ".reviews-carousel:not(.is-initialized)",
+        ).forEach((carousel) => {
+            if (carousel.closest(".modal:not(.is-open)")) return;
+
+            const reviewCards = Array.from(
+                carousel.querySelectorAll<HTMLElement>(".testimonial-note"),
+            );
+            const pinkCardIndex = Math.floor(
+                Math.random() * reviewCards.length,
+            );
+
+            reviewCards.forEach((card, index) => {
+                card.classList.toggle("pink", index === pinkCardIndex);
+                card.classList.toggle("grey", index !== pinkCardIndex);
+            });
+
+            new Splide(carousel, {
+                type: "loop",
+                perPage: 2,
+                gap: "16px",
+                arrows: false,
+                drag: true,
+                pagination: true,
+                keyboard: "global",
+                speed: 550,
+                breakpoints: {
+                    992: { gap: "8px" },
+                    480: { perPage: 1 },
+                },
+            }).mount();
+        });
+    }
+
+    mountReviews();
+
+    document.addEventListener("modal:open", (event) => {
+        if (event.target instanceof HTMLElement) {
+            requestAnimationFrame(() =>
+                mountReviews(event.target as HTMLElement),
+            );
         }
     });
 </script>
-
-<style is:global>
-    .reviews {
-        justify-content: center;
-    }
-
-    .postit-note {
-        box-sizing: border-box;
-        position: relative;
-        width: 100%;
-        min-height: 240px;
-        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.32);
-    }
-
-    .testimonial-note {
-        max-width: 388px;
-        min-height: 275px;
-    }
-
-    .postit-note-quote {
-        position: absolute;
-        width: 128px;
-        height: 128px;
-        top: -1px;
-        left: -1px;
-        z-index: 1;
-    }
-
-    .postit-delete {
-        appearance: none;
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: -12px;
-        right: -12px;
-        width: 36px;
-        height: 36px;
-        padding: 0;
-        border: 0;
-        border-radius: 50%;
-        background-color: var(--red);
-        color: var(--white);
-        cursor: pointer;
-        transition: 0.2s linear;
-        z-index: 3;
-    }
-
-    .postit-delete:hover:not(:disabled) {
-        background-color: #9a2020;
-        transform: scale(1.06);
-    }
-
-    .postit-delete:disabled {
-        cursor: wait;
-        opacity: 0.65;
-    }
-
-    .postit-delete:focus-visible,
-    .postit-button:focus-visible,
-    .postit-form button:focus-visible,
-    .postit-form input:focus-visible,
-    .postit-form textarea:focus-visible {
-        outline: 3px solid var(--blue);
-        outline-offset: 3px;
-    }
-
-    .postit-note-body {
-        box-sizing: border-box;
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        min-height: 240px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: space-between;
-        color: var(--black);
-        padding: 24px;
-        gap: 32px;
-    }
-
-    .testimonial-note .postit-note-body {
-        min-height: 275px;
-    }
-
-    .postit-note.pink {
-        background-color: var(--pink);
-    }
-
-    .postit-note.grey {
-        background-color: var(--light-grey-2);
-    }
-
-    .postit-person {
-        width: 100%;
-        margin-top: auto;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 8px;
-    }
-
-    .postit-icon {
-        display: flex;
-        flex: 0 0 auto;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 100%;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .postit-texts {
-        display: flex;
-        width: 100%;
-        gap: 6px;
-        flex-direction: column;
-        font-size: 1.125rem;
-    }
-
-    .postit-label {
-        font-size: 0.75rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        opacity: 0.5;
-    }
-
-    .freedom-wall {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .postit-notes-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 24px;
-        align-items: stretch;
-    }
-
-    .freedom-wall-notes {
-        display: contents;
-    }
-
-    .freedom-wall-composer {
-        min-height: 240px;
-    }
-
-    .postit-button {
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        min-height: 240px;
-        border: 2px dashed var(--white);
-        background-color: var(--white-20);
-        color: var(--white);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-        font: inherit;
-        transition: 0.2s ease;
-    }
-
-    .postit-button:hover {
-        background-color: var(--white-15);
-    }
-
-    .postit-button .material-symbols-outlined {
-        font-size: 2rem;
-    }
-
-    .postit-form {
-        box-sizing: border-box;
-        min-height: 240px;
-        padding: 18px;
-        background-color: var(--light-grey-2);
-        color: var(--black);
-        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.32);
-    }
-
-    .postit-form[hidden],
-    .postit-button[hidden] {
-        display: none;
-    }
-
-    .postit-form,
-    .postit-form label {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .postit-form {
-        gap: 12px;
-    }
-
-    .postit-form label > span {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .postit-form input,
-    .postit-form textarea {
-        box-sizing: border-box;
-        width: 100%;
-        border: 1px solid var(--black-20);
-        border-radius: 0;
-        background: var(--white-75);
-        color: var(--black);
-        font: inherit;
-        padding: 8px;
-    }
-
-    .postit-form textarea {
-        min-height: 74px;
-        resize: vertical;
-    }
-
-    .postit-form-meta {
-        display: flex;
-        justify-content: flex-end;
-        color: var(--black-50);
-        font-size: 0.75rem;
-    }
-
-    .postit-form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-top: auto;
-    }
-
-    .postit-form-actions button {
-        border: 0;
-        padding: 8px 10px;
-        background: var(--black-20);
-        color: var(--black);
-        font: inherit;
-        cursor: pointer;
-    }
-
-    .postit-form-actions button[type="submit"] {
-        background: var(--blue);
-        color: var(--white);
-    }
-
-    .postit-form-actions button:disabled {
-        cursor: wait;
-        opacity: 0.65;
-    }
-
-    .freedom-wall-message {
-        overflow-wrap: anywhere;
-        white-space: pre-wrap;
-    }
-
-    .freedom-wall-author {
-        margin-top: auto;
-        overflow-wrap: anywhere;
-        font-weight: 700;
-    }
-
-    .freedom-wall-status,
-    .freedom-wall-feedback {
-        min-height: 1.25rem;
-        color: var(--white-75);
-    }
-
-    @media only screen and (max-width: 767px) {
-        .postit-notes-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .testimonial-note {
-            max-width: none;
-        }
-    }
-
-    @media only screen and (min-width: 768px) and (max-width: 991px) {
-        .postit-notes-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-    }
-</style>

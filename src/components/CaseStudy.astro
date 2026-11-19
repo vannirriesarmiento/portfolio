@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+import "../styles/casestudy.css"
+
+interface Props {
+    id: string;
+    title: string;
+    category: "design" | "development";
+    industry: string;
+    description: string;
+    readDuration: number;
+    logo: ImageMetadata;
+    previewDesktop: ImageMetadata;
+    previewMobile?: ImageMetadata;
+    eager?: boolean;
+}
+
+const {
+    id,
+    title,
+    category,
+    industry,
+    description,
+    readDuration,
+    logo,
+    previewDesktop,
+    previewMobile,
+    eager = false,
+} = Astro.props;
+---
+
+<a
+    class="case-study"
+    data-case-study-card
+    data-category={category}
+    href={`/case-studies/${id}/`}
+>
+    <div class="case-study__visual">
+        {
+            previewMobile ? (
+                <>
+                    <Image
+                        class="case-study__preview case-study__preview--desktop"
+                        src={previewDesktop}
+                        alt={`${title} preview`}
+                        widths={[320, 480, 640]}
+                        sizes="(max-width: 767px) 100vw, 320px"
+                        loading={eager ? "eager" : "lazy"}
+                    />
+                    <Image
+                        class="case-study__preview case-study__preview--mobile"
+                        src={previewMobile}
+                        alt={`${title} mobile preview`}
+                        widths={[320, 480, 640]}
+                        sizes="(max-width: 767px) 100vw, 320px"
+                        loading={eager ? "eager" : "lazy"}
+                    />
+                </>
+            ) : (
+                <Image
+                    class="case-study__preview"
+                    src={previewDesktop}
+                    alt={`${title} preview`}
+                    widths={[320, 480, 640]}
+                    sizes="(max-width: 767px) 100vw, 320px"
+                    loading={eager ? "eager" : "lazy"}
+                />
+            )
+        }
+    </div>
+    <div class="case-study__content">
+        <div class="case-study__heading">
+            <div class="case-study__logo">
+                <Image src={logo} alt={`${title} logo`} width={28} height={28} fit="contain" />
+            </div>
+            <h3>{title}</h3>
+        </div>
+        <div class="case-study__tags">
+            <span>{category === "design" ? "UI UX Design" : "Web Development"}</span>
+            <span>{industry}</span>
+        </div>
+        <p>{description}</p>
+        <div class="case-study__footer">
+            <span class="case-study__link">
+                Read Case Study
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    arrow_forward
+                </span>
+            </span>
+            <span>{readDuration}mins</span>
+        </div>
+    </div>
+</a>

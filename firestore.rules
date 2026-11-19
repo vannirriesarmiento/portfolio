@@ -23,7 +23,7 @@ service cloud.firestore {
         && request.resource.data.name.size() <= 40
         && request.resource.data.message is string
         && request.resource.data.message.size() >= 1
-        && request.resource.data.message.size() <= 280
+        && request.resource.data.message.size() <= 150
         && request.resource.data.authorUid is string
         && request.resource.data.authorUid == request.auth.uid
         && request.resource.data.createdAt is timestamp

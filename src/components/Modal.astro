@@ -1,6 +1,11 @@
 ---
 import "animate.css";
 
+interface Props {
+    id: string;
+    title: string;
+}
+
 const { id, title } = Astro.props;
 ---
 
@@ -14,7 +19,9 @@ const { id, title } = Astro.props;
     fs-scrolldisable-element="when-visible"
 >
     <button type="button" class="modal-close" aria-label={`Close ${title}`}>
-        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        <span class="material-symbols-outlined" aria-hidden="true">
+            close
+        </span>
     </button>
     <div class="modal-content">
         <slot />
@@ -64,7 +71,10 @@ const { id, title } = Astro.props;
     }
 
     function closeModal(modal: HTMLElement) {
-        if (!modal.classList.contains("is-open") || modal.dataset.closing === "true") {
+        if (
+            !modal.classList.contains("is-open") ||
+            modal.dataset.closing === "true"
+        ) {
             return;
         }
 
@@ -72,7 +82,10 @@ const { id, title } = Astro.props;
         modal.classList.remove(entranceAnimation);
         modal.classList.add(exitAnimation);
 
-        let fallbackTimer = window.setTimeout(finishClosing, animationFallbackDuration);
+        let fallbackTimer = window.setTimeout(
+            finishClosing,
+            animationFallbackDuration,
+        );
 
         function finishClosing() {
             if (modal.dataset.closing !== "true") return;
@@ -104,10 +117,13 @@ const { id, title } = Astro.props;
             openModal(modal, trigger);
         });
 
-        modal.querySelector<HTMLButtonElement>(".modal-close")?.addEventListener(
-            "click",
-            () => closeModal(modal),
-        );
+        modal
+            .querySelector<HTMLButtonElement>(".modal-close")
+            ?.addEventListener("click", () => {
+                const nestedModal =
+                    modal.querySelector<HTMLElement>(".modal.is-open");
+                closeModal(nestedModal ?? modal);
+            });
     });
 
     const requestedModalId = new URLSearchParams(window.location.search).get(
@@ -124,13 +140,18 @@ const { id, title } = Astro.props;
         : null;
 
     if (requestedModal && requestedTrigger) {
-        requestAnimationFrame(() => openModal(requestedModal, requestedTrigger));
+        requestAnimationFrame(() =>
+            openModal(requestedModal, requestedTrigger),
+        );
     }
 
     document.addEventListener("keydown", (event) => {
         if (event.key !== "Escape") return;
 
-        const openModalElement = document.querySelector<HTMLElement>(".modal.is-open");
+        const openModals = document.querySelectorAll<HTMLElement>(
+            ".modal.is-open",
+        );
+        const openModalElement = openModals.item(openModals.length - 1);
         if (openModalElement) closeModal(openModalElement);
     });
 </script>

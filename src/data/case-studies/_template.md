@@ -4,6 +4,7 @@ category: "design"
 readDuration: 6
 description: "A short summary shown on the case study card and detail page."
 logo: "../../assets/img/about/bso.webp"
+previewDesktop: "../../assets/img/about/digital.webp"
 role: "UI/UX Designer"
 industry: "Technology"
 status: "Completed"

@@ -1,157 +1,191 @@
 ---
 import { Image } from "astro:assets";
+import CaseStudyLightbox from "./CaseStudyLightbox";
 
 interface Props {
-    images: ImageMetadata[];
+    media: Array<ImageMetadata | string>;
     title: string;
 }
 
-const { images, title } = Astro.props;
+type GalleryMedia =
+    | {
+          type: "image";
+          source: ImageMetadata;
+          alt: string;
+      }
+    | {
+          type: "video";
+          source: string;
+          label: string;
+      };
+
+import "../styles/casestudy.css";
+
+const { media, title } = Astro.props;
+const galleryId = `case-study-gallery-${title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
+const videoAssets = import.meta.glob<string>(
+    "../assets/img/case-studies/**/*.{mp4,webm}",
+    { eager: true, query: "?url", import: "default" },
+);
+const galleryMedia = media.flatMap<GalleryMedia>((item, index) => {
+    if (typeof item !== "string") {
+        return [{
+            type: "image" as const,
+            source: item,
+            alt: `${title} gallery image ${index + 1}`,
+        }];
+    }
+
+    const source = videoAssets[item.replace("../../assets/", "../assets/")];
+
+    return source
+        ? [{
+            type: "video" as const,
+            source,
+            label: `${title} gallery video ${index + 1}`,
+        }]
+        : [];
+});
+const lightboxSlides = galleryMedia.map((item) => {
+    if (item.type === "image") {
+        return {
+            type: "image" as const,
+            src: item.source.src,
+            alt: item.alt,
+            width: item.source.width,
+            height: item.source.height,
+        };
+    }
+
+    return {
+        type: "video" as const,
+        sources: [{
+            src: item.source,
+            type: item.source.endsWith(".mp4") ? "video/mp4" : "video/webm",
+        }],
+    };
+});
 ---
 
-<section class="splide case-study-gallery" aria-label={`${title} gallery`}>
-    <div class="splide__track">
-        <ul class="splide__list">
-            {
-                images.map((image, index) => (
-                    <li class="splide__slide">
-                        <Image
-                            src={image}
-                            alt={`${title} gallery image ${index + 1}`}
-                            widths={[480, 768, 1200]}
-                            sizes="(max-width: 767px) 100vw, 900px"
-                            loading={index === 0 ? "eager" : "lazy"}
-                        />
-                    </li>
-                ))
-            }
-        </ul>
-    </div>
-</section>
+<div
+    class="case-study-gallery-shell"
+    data-case-study-gallery
+    data-lightbox-id={galleryId}
+>
+    <section class="splide case-study-gallery" aria-label={`${title} gallery`}>
+        <div class="splide__track">
+            <ul class="splide__list">
+                {
+                    galleryMedia.map((item, index) => {
+                        if (item.type === "image") {
+                            return (
+                                <li class="splide__slide">
+                                <button
+                                    type="button"
+                                    class="case-study-gallery__open"
+                                    data-lightbox-index={index}
+                                    aria-haspopup="dialog"
+                                    aria-label={`Open ${item.alt} in fullscreen`}
+                                >
+                                    <Image
+                                        src={item.source}
+                                        alt={item.alt}
+                                        widths={[320, 480, 640, 800, 960, 1280, 1600]}
+                                        sizes="(max-width: 767px) calc(100vw - 32px), 800px"
+                                        quality={90}
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                    />
+                                </button>
+                                </li>
+                            );
+                        }
+
+                        return (
+                            <li class="splide__slide">
+                                <button
+                                    type="button"
+                                    class="case-study-gallery__open"
+                                    data-lightbox-index={index}
+                                    aria-haspopup="dialog"
+                                    aria-label={`Open ${item.label} in fullscreen`}
+                                >
+                                    <video
+                                        src={item.source}
+                                        aria-label={item.label}
+                                        autoplay
+                                        muted
+                                        loop
+                                        playsinline
+                                        preload="metadata"
+                                    />
+                                </button>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        </div>
+    </section>
+
+    <CaseStudyLightbox
+        client:load
+        galleryId={galleryId}
+        title={title}
+        slides={lightboxSlides}
+    />
+</div>
 
 <script>
     import Splide from "@splidejs/splide";
 
     document
-        .querySelectorAll<HTMLElement>(
-            ".case-study-gallery:not(.is-initialized)",
-        )
-        .forEach((gallery) => {
+        .querySelectorAll<HTMLElement>("[data-case-study-gallery]")
+        .forEach((root) => {
+            if (root.dataset.initialized === "true") return;
+
+            const gallery = root.querySelector<HTMLElement>(
+                ".case-study-gallery",
+            );
+            const galleryId = root.dataset.lightboxId;
+
+            if (!gallery || !galleryId) return;
+
+            root.dataset.initialized = "true";
+
             new Splide(gallery, {
                 type: "loop",
                 perPage: 1,
                 gap: "16px",
                 drag: true,
-                keyboard: "global",
-                pagination: true,
-                arrows: true,
+                pagination: false,
+                arrows: false,
                 speed: 550,
+                autoplay: true,
+                interval: 3000,
+                pauseOnHover: true,
+                pauseOnFocus: true,
             }).mount();
+
+            gallery.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+
+                const trigger = target.closest<HTMLButtonElement>(
+                    "[data-lightbox-index]",
+                );
+                if (!trigger || !gallery.contains(trigger)) return;
+
+                const index = Number(trigger.dataset.lightboxIndex);
+                if (!Number.isInteger(index)) return;
+
+                window.dispatchEvent(
+                    new CustomEvent("case-study-lightbox:open", {
+                        detail: { galleryId, index, trigger },
+                    }),
+                );
+            });
         });
 </script>
-
-<style is:global>
-    @import "@splidejs/splide/css/core";
-
-    .case-study-gallery {
-        --gallery-control-size: 44px;
-        width: 100%;
-    }
-
-    .case-study-gallery .splide__track {
-        overflow: hidden;
-        border-radius: 16px;
-        background: var(--black-20);
-    }
-
-    .case-study-gallery .splide__slide {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 16 / 10;
-    }
-
-    .case-study-gallery .splide__slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .case-study-gallery .splide__arrows {
-        position: absolute;
-        inset: 50% 16px auto;
-        z-index: 2;
-        display: flex;
-        justify-content: space-between;
-        pointer-events: none;
-        transform: translateY(-50%);
-    }
-
-    .case-study-gallery .splide__arrow {
-        display: grid;
-        width: var(--gallery-control-size);
-        height: var(--gallery-control-size);
-        padding: 12px;
-        border: 1px solid var(--white-50);
-        border-radius: 50%;
-        background: var(--black-50);
-        color: var(--white);
-        cursor: pointer;
-        pointer-events: auto;
-        backdrop-filter: blur(12px);
-    }
-
-    .case-study-gallery .splide__arrow svg {
-        width: 100%;
-        height: 100%;
-        fill: currentColor;
-    }
-
-    .case-study-gallery .splide__arrow--prev svg {
-        transform: scaleX(-1);
-    }
-
-    .case-study-gallery .splide__pagination {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin: 14px 0 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .case-study-gallery .splide__pagination__page {
-        display: block;
-        width: 8px;
-        height: 8px;
-        padding: 0;
-        border: 0;
-        border-radius: 50%;
-        background: var(--white-50);
-        cursor: pointer;
-        transition: width 180ms ease, border-radius 180ms ease,
-            background-color 180ms ease;
-    }
-
-    .case-study-gallery .splide__pagination__page.is-active {
-        width: 24px;
-        border-radius: 999px;
-        background: var(--white);
-    }
-
-    @media (max-width: 600px) {
-        .case-study-gallery {
-            --gallery-control-size: 36px;
-        }
-
-        .case-study-gallery .splide__arrows {
-            inset-inline: 10px;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .case-study-gallery .splide__pagination__page {
-            transition: none;
-        }
-    }
-</style>

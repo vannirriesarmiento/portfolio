@@ -6,7 +6,7 @@ import Interest from "./Interest.astro";
 import Contact from "./Contact.astro";
 import CV from "./CV.astro";
 import MusicPlayer from "./MusicPlayer.astro";
-import CaseStudies  from "./CaseStudies.astro";
+import CaseStudies from "./CaseStudies.astro";
 import Reviews from "./Reviews.astro";
 
 import bag from "../assets/img/desk/bag.webp";
@@ -17,7 +17,8 @@ import charger from "../assets/img/desk/charger.webp";
 import lamp from "../assets/img/desk/lamp.webp";
 import clip from "../assets/img/desk/clip.webp";
 import stickyNote from "../assets/img/desk/sticky notes.webp";
-import mac from "../assets/img/desk/mac.webp";
+import macClosed from "../assets/img/desk/mac closed.webp";
+import macOpened from "../assets/img/desk/mac opened.webp";
 import iphone1 from "../assets/img/desk/iphone 15.webp";
 import iphone2 from "../assets/img/desk/iphone 15 (1).webp";
 import lippie from "../assets/img/desk/lippie.webp";
@@ -33,10 +34,12 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
     src: clip,
     alt: "A paper clip on the desk.",
 }));
+const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
 ---
 
 <Item
     className="bag"
+    storageTarget
     imgData={[
         {
             src: bag,
@@ -61,35 +64,53 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
     ]}
     cursorText="About Me"
 >
-<About/>
-<Experiences/>
-<Interest/>
+    <About />
+    <Experiences />
+    <Interest />
 </Item>
 
 <Item
     className="plant"
+    movable
+    storageBlockedMessage="Object is too big! It cannot fit inside."
     imgData={[{ src: plant, alt: "A small potted plant on a desk." }]}
 />
 
 <Item
     className="charger"
+    movable
     imgData={[{ src: charger, alt: "A rolled cord on the desk." }]}
 />
 
 <Item
     className="lamp"
+    actionTarget="lamp-spotlight"
     imgData={[
         {
             src: lamp,
             alt: "An interactive desk lamp on the right corner of the desk.",
+            class: "lamp-image",
+        },
+        {
+            src: lamp,
+            alt: "",
+            class: "lamp-inner-shadow",
         },
     ]}
     cursorText="Turn On"
 />
 
+<div
+    id="lamp-spotlight"
+    class="lamp-spotlight"
+    data-lamp-spotlight
+    aria-hidden="true"
+>
+</div>
+
 {
     clipItems.map(({ className, src, alt }) => (
-        <Item className={className} imgData={[{ src, alt }]} />
+        <Item className={className} imgData={[{ src, alt }]} movable />
     ))
 }
 
@@ -104,17 +125,26 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
 />
 
 <Item className="sticky-note _2" cursorText="Read Reviews">
-    <Reviews/>
+    <Reviews />
 </Item>
 
 <Item
     className="mac"
     imgData={[
-        { src: mac, alt: "A MacBook Neo on the desk.", class: "macbook" },
+        {
+            src: macClosed,
+            alt: "A closed MacBook Neo on the desk.",
+            class: "macbook _1",
+        },
+        {
+            src: macOpened,
+            alt: "An opened MacBook Neo on the desk.",
+            class: "macbook _2",
+        },
     ]}
     cursorText="View Projects"
 >
-<CaseStudies/>
+    <CaseStudies />
 </Item>
 
 <Item
@@ -133,11 +163,12 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
     ]}
     cursorText="Contact Me"
 >
-    <Contact/>
+    <Contact />
 </Item>
 
 <Item
     className="lippie"
+    movable
     imgData={[
         {
             src: lippie,
@@ -168,11 +199,13 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
 
 <Item
     className="pen"
+    movable
     imgData={[{ src: pen, alt: "A pink pen on the desk." }]}
 />
 
 <Item
     className="maltesers"
+    movable
     imgData={[{ src: maltesers, alt: "A bag of Maltesers on the desk." }]}
 />
 
@@ -186,15 +219,54 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
     ]}
     cursorText="Download CV"
 >
-<CV/>
+    <CV />
 </Item>
 
 <Item
     className="extension"
+    blockedMoveMessage={fixedItemMessage}
     imgData={[{ src: extension, alt: "An extension cord on the desk." }]}
 />
 
 <script>
+    import { showToast } from "../lib/toast";
+
+    function initializeLampSpotlight() {
+        const lampButton = document.querySelector<HTMLButtonElement>(
+            '[aria-controls="lamp-spotlight"]',
+        );
+        const spotlight = document.querySelector<HTMLElement>(
+            "[data-lamp-spotlight]",
+        );
+
+        if (
+            !lampButton ||
+            !spotlight ||
+            spotlight.dataset.initialized === "true"
+        ) {
+            return;
+        }
+
+        const cursor = lampButton.querySelector<HTMLElement>(".cursor");
+        spotlight.dataset.initialized = "true";
+
+        lampButton.addEventListener("click", () => {
+            const isActive = spotlight.classList.toggle("is-active");
+
+            lampButton.classList.toggle("is-lit", isActive);
+            spotlight.setAttribute("aria-hidden", String(!isActive));
+            lampButton.setAttribute("aria-expanded", String(isActive));
+            if (cursor) cursor.textContent = isActive ? "Turn Off" : "Turn On";
+
+            if (isActive) {
+                showToast({
+                    message: "Dark mode on",
+                    variant: "success",
+                });
+            }
+        });
+    }
+
     function cursorHoverTransition() {
         const items = document.querySelectorAll<HTMLElement>(".item");
 
@@ -221,6 +293,417 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
         });
     }
 
+    function initializeMovableDeskItems() {
+        const movableItems = Array.from(
+            document.querySelectorAll<HTMLElement>("[data-desk-movable]"),
+        );
+        const page = document.documentElement;
+
+        if (
+            movableItems.length === 0 ||
+            page.dataset.deskMovementInitialized === "true"
+        ) {
+            return;
+        }
+
+        page.dataset.deskMovementInitialized = "true";
+
+        const desktop = window.matchMedia(
+            "(min-width: 1280px) and (hover: hover) and (pointer: fine)",
+        );
+        const storageTarget = document.querySelector<HTMLElement>(
+            "[data-desk-storage-target]",
+        );
+        let heldItem: HTMLElement | null = null;
+        let hasShownDesktopInstruction = false;
+
+        function isPointInside(
+            target: HTMLElement,
+            clientX: number,
+            clientY: number,
+        ) {
+            const rect = target.getBoundingClientRect();
+            return (
+                clientX >= rect.left &&
+                clientX <= rect.right &&
+                clientY >= rect.top &&
+                clientY <= rect.bottom
+            );
+        }
+
+        function rectanglesOverlap(
+            first: Pick<DOMRect, "left" | "top" | "right" | "bottom">,
+            second: Pick<DOMRect, "left" | "top" | "right" | "bottom">,
+        ) {
+            const overlapWidth =
+                Math.min(first.right, second.right) -
+                Math.max(first.left, second.left);
+            const overlapHeight =
+                Math.min(first.bottom, second.bottom) -
+                Math.max(first.top, second.top);
+
+            if (overlapWidth <= 0 || overlapHeight <= 0) return false;
+
+            const firstArea =
+                (first.right - first.left) * (first.bottom - first.top);
+            const secondArea =
+                (second.right - second.left) * (second.bottom - second.top);
+            const smallerArea = Math.min(firstArea, secondArea);
+
+            return overlapWidth * overlapHeight >= smallerArea * 0.2;
+        }
+
+        function getPlacement(item: HTMLElement, clientX: number, clientY: number) {
+            const currentRect = item.getBoundingClientRect();
+            const deltaX = clientX - (currentRect.left + currentRect.width / 2);
+            const deltaY = clientY - (currentRect.top + currentRect.height / 2);
+
+            return {
+                left: item.offsetLeft + deltaX,
+                top: item.offsetTop + deltaY,
+                rect: {
+                    left: currentRect.left + deltaX,
+                    right: currentRect.right + deltaX,
+                    top: currentRect.top + deltaY,
+                    bottom: currentRect.bottom + deltaY,
+                },
+            };
+        }
+
+        function getPlacementError(
+            item: HTMLElement,
+            placementRect: Pick<DOMRect, "left" | "top" | "right" | "bottom">,
+        ) {
+            const isClickableItem = (target: HTMLElement) =>
+                target.matches("button.item, a.item") ||
+                target.hasAttribute("aria-haspopup") ||
+                target.hasAttribute("aria-controls");
+            const overlappingItems = Array.from(
+                document.querySelectorAll<HTMLElement>(".item"),
+            ).filter((target) => {
+                if (
+                    target === item ||
+                    target.classList.contains("desk-drag-preview") ||
+                    target.classList.contains("is-desk-item-stored") ||
+                    target.getClientRects().length === 0
+                ) {
+                    return false;
+                }
+
+                return rectanglesOverlap(
+                    placementRect,
+                    target.getBoundingClientRect(),
+                );
+            });
+
+            const clickableItem = overlappingItems.find(
+                (target) => {
+                    if (!isClickableItem(target)) return false;
+
+                    const targetRect = target.getBoundingClientRect();
+                    const centerX =
+                        (placementRect.left + placementRect.right) / 2;
+                    const centerY =
+                        (placementRect.top + placementRect.bottom) / 2;
+                    const insetX = targetRect.width * 0.2;
+                    const insetY = targetRect.height * 0.2;
+
+                    return (
+                        centerX >= targetRect.left + insetX &&
+                        centerX <= targetRect.right - insetX &&
+                        centerY >= targetRect.top + insetY &&
+                        centerY <= targetRect.bottom - insetY
+                    );
+                },
+            );
+
+            if (clickableItem) {
+                return "Please don't put objects on top here.";
+            }
+
+            for (const target of overlappingItems) {
+                if (isClickableItem(target)) continue;
+
+                const blockedMessage = target.dataset.deskMoveBlocked;
+                if (blockedMessage) return blockedMessage;
+
+                const canOverlapMaltesers =
+                    target.classList.contains("maltesers") &&
+                    !item.classList.contains("maltesers");
+                const canOverlapStackingGroup =
+                    item.matches(".charger, .clip, .lippie") &&
+                    target.matches(".charger, .clip, .lippie");
+                const canPlaceOnPlant =
+                    item.matches(".clip, .lippie") &&
+                    target.classList.contains("plant");
+                const canPlacePlantOnBottomItem =
+                    item.classList.contains("plant") &&
+                    target.matches(".maltesers, .charger");
+
+                if (
+                    !canOverlapMaltesers &&
+                    !canOverlapStackingGroup &&
+                    !canPlaceOnPlant &&
+                    !canPlacePlantOnBottomItem
+                ) {
+                    return "That spot is occupied. Place the object beside it.";
+                }
+            }
+
+            return null;
+        }
+
+        function placeItem(item: HTMLElement, clientX: number, clientY: number) {
+            if (
+                storageTarget &&
+                isPointInside(storageTarget, clientX, clientY)
+            ) {
+                const storageError = item.dataset.deskStorageBlocked;
+                if (storageError) {
+                    showToast({
+                        message: storageError,
+                        variant: "error",
+                    });
+                    return false;
+                }
+
+                item.classList.add("is-desk-item-stored");
+                showToast({
+                    message: "Object was successfully put inside!",
+                    variant: "success",
+                });
+                return true;
+            }
+
+            const placement = getPlacement(item, clientX, clientY);
+            const errorMessage = getPlacementError(item, placement.rect);
+
+            if (errorMessage) {
+                showToast({
+                    message: errorMessage,
+                    variant: "error",
+                });
+                return false;
+            }
+
+            item.style.left = `${placement.left}px`;
+            item.style.top = `${placement.top}px`;
+            item.style.right = "auto";
+            item.style.bottom = "auto";
+            return true;
+        }
+
+        function clearHeldItem() {
+            heldItem?.classList.remove("is-desk-item-held");
+            heldItem = null;
+        }
+
+        movableItems.forEach((item) => {
+            item.addEventListener("pointerdown", (event) => {
+                if (
+                    !desktop.matches ||
+                    event.button !== 0 ||
+                    event.isPrimary === false
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                const itemRect = item.getBoundingClientRect();
+                const preview = item.cloneNode(true) as HTMLElement;
+                preview.classList.add("desk-drag-preview");
+                preview.removeAttribute("data-desk-movable");
+                preview.setAttribute("aria-hidden", "true");
+                preview.querySelectorAll("[id]").forEach((element) =>
+                    element.removeAttribute("id"),
+                );
+                preview.style.setProperty(
+                    "--desk-preview-width",
+                    `${itemRect.width}px`,
+                );
+                preview.style.setProperty(
+                    "--desk-preview-height",
+                    `${itemRect.height}px`,
+                );
+                preview.style.setProperty(
+                    "--desk-preview-x",
+                    `${event.clientX}px`,
+                );
+                preview.style.setProperty(
+                    "--desk-preview-y",
+                    `${event.clientY}px`,
+                );
+
+                document.body.append(preview);
+                item.classList.add("is-desk-drag-source");
+                item.setPointerCapture(event.pointerId);
+
+                if (!hasShownDesktopInstruction) {
+                    hasShownDesktopInstruction = true;
+                    showToast({
+                        message:
+                            "Keep holding the object to move it; release to place it.",
+                        variant: "info",
+                    });
+                }
+
+                const updatePreview = (moveEvent: PointerEvent) => {
+                    if (moveEvent.pointerId !== event.pointerId) return;
+
+                    preview.style.setProperty(
+                        "--desk-preview-x",
+                        `${moveEvent.clientX}px`,
+                    );
+                    preview.style.setProperty(
+                        "--desk-preview-y",
+                        `${moveEvent.clientY}px`,
+                    );
+                };
+
+                const finishMovement = (
+                    finishEvent: PointerEvent,
+                    cancelled = false,
+                ) => {
+                    if (finishEvent.pointerId !== event.pointerId) return;
+
+                    item.removeEventListener("pointermove", updatePreview);
+                    item.removeEventListener("pointerup", handlePointerUp);
+                    item.removeEventListener("pointercancel", handlePointerCancel);
+                    item.classList.remove("is-desk-drag-source");
+                    preview.remove();
+
+                    if (item.hasPointerCapture(event.pointerId)) {
+                        item.releasePointerCapture(event.pointerId);
+                    }
+
+                    if (!cancelled) {
+                        placeItem(
+                            item,
+                            finishEvent.clientX,
+                            finishEvent.clientY,
+                        );
+                    }
+                };
+
+                const handlePointerUp = (upEvent: PointerEvent) =>
+                    finishMovement(upEvent);
+                const handlePointerCancel = (cancelEvent: PointerEvent) =>
+                    finishMovement(cancelEvent, true);
+
+                item.addEventListener("pointermove", updatePreview);
+                item.addEventListener("pointerup", handlePointerUp);
+                item.addEventListener("pointercancel", handlePointerCancel);
+            });
+        });
+
+        storageTarget?.addEventListener("click", (event) => {
+            if (!desktop.matches) return;
+
+            event.preventDefault();
+            showToast({
+                message:
+                    "Oops, object cannot be moved around! Try putting objects inside instead.",
+                variant: "error",
+            });
+        });
+
+        document.addEventListener(
+            "click",
+            (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+                if (
+                    target.closest(
+                        ".modal, .music-player, .site-toast, .overlay",
+                    )
+                ) {
+                    return;
+                }
+
+                const blockedItem = target.closest<HTMLElement>(
+                    "[data-desk-move-blocked]",
+                );
+
+                if (blockedItem) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    showToast({
+                        message: blockedItem.dataset.deskMoveBlocked ?? "",
+                        variant: "error",
+                    });
+                    return;
+                }
+
+                if (desktop.matches) return;
+
+                const selectedStorageTarget = target.closest<HTMLElement>(
+                    "[data-desk-storage-target]",
+                );
+
+                if (selectedStorageTarget) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+
+                    if (heldItem) {
+                        const storageError =
+                            heldItem.dataset.deskStorageBlocked;
+                        if (storageError) {
+                            showToast({
+                                message: storageError,
+                                variant: "error",
+                            });
+                            return;
+                        }
+
+                        heldItem.classList.add("is-desk-item-stored");
+                        clearHeldItem();
+                        showToast({
+                            message: "Object was successfully put inside!",
+                            variant: "success",
+                        });
+                    } else {
+                        showToast({
+                            message:
+                                "Oops! Object is too big to move around. Try putting objects inside instead!",
+                            variant: "error",
+                        });
+                    }
+                    return;
+                }
+
+                if (heldItem) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+
+                    if (placeItem(heldItem, event.clientX, event.clientY)) {
+                        clearHeldItem();
+                    }
+                    return;
+                }
+
+                const selectedItem = target.closest<HTMLElement>(
+                    "[data-desk-movable]",
+                );
+                if (!selectedItem) return;
+
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                heldItem = selectedItem;
+                heldItem.classList.add("is-desk-item-held");
+                showToast({
+                    message:
+                        "Object is on hold. Select an empty spot to place it.",
+                    variant: "info",
+                });
+            },
+            true,
+        );
+
+        desktop.addEventListener("change", clearHeldItem);
+    }
+
     function blockLongPress() {
         document.addEventListener("contextmenu", (event) => {
             const target = event.target;
@@ -231,9 +714,201 @@ const clipItems = Array.from({ length: 4 }, (_, index) => ({
         });
     }
 
-
-    // TODO: convert to React component and use useEffect to run these functions on mount
-
+    initializeLampSpotlight();
     cursorHoverTransition();
+    initializeMovableDeskItems();
     // blockLongPress();
 </script>
+
+<style>
+    .lamp-spotlight {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        width: 100vw;
+        height: 100dvh;
+        min-height: 770px;
+        pointer-events: none;
+        visibility: hidden;
+        opacity: 0;
+        background: radial-gradient(
+            circle 55vmin at 50% 50%,
+            rgba(255, 247, 198, 0.1) 0%,
+            rgba(255, 238, 166, 0.05) 66%,
+            rgba(20, 16, 12, 0.58) 74%,
+            rgba(5, 4, 3, 0.82) 82%,
+            rgba(5, 4, 3, 0.82) 100%
+        );
+        transition:
+            opacity 450ms ease,
+            visibility 0s linear 450ms;
+    }
+
+    .lamp-spotlight.is-active {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+    }
+
+    :global(.item.lamp) {
+        isolation: isolate;
+    }
+
+    :global(.item.lamp .lamp-image) {
+        position: relative;
+        z-index: 0;
+    }
+
+    :global(.item.lamp .lamp-inner-shadow) {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0;
+        filter: brightness(0.3) saturate(0.7);
+        mask-image: linear-gradient(
+            135deg,
+            transparent 28%,
+            rgba(0, 0, 0, 0.2) 54%,
+            rgba(0, 0, 0, 0.85) 78%,
+            #000 100%
+        );
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        transition: opacity 450ms ease;
+    }
+
+    :global(.item.lamp)::before,
+    :global(.item.lamp)::after {
+        position: absolute;
+        pointer-events: none;
+        content: "";
+        opacity: 0;
+        transition: opacity 450ms ease;
+    }
+
+    :global(.item.lamp)::before {
+        top: 45%;
+        left: -66%;
+        z-index: -2;
+        width: 105%;
+        height: 72%;
+        border-radius: 50%;
+        background: radial-gradient(
+            ellipse at 86% 30%,
+            rgba(255, 253, 231, 0.62) 0%,
+            rgba(255, 250, 218, 0.3) 34%,
+            rgba(255, 248, 211, 0.12) 56%,
+            rgba(255, 255, 211, 0) 76%
+        );
+        filter: blur(10px);
+        transform: rotate(-12deg);
+    }
+
+    :global(.item.lamp)::after {
+        top: 40%;
+        left: -8%;
+        z-index: -1;
+        width: 62%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle,
+            rgba(255, 254, 238, 0.84) 0%,
+            rgba(255, 251, 222, 0.42) 36%,
+            rgba(255, 249, 218, 0) 72%
+        );
+        filter: blur(10px);
+    }
+
+    :global(.item.lamp.is-lit) {
+        z-index: 9001;
+    }
+
+    :global(.item.lamp.is-lit)::before,
+    :global(.item.lamp.is-lit)::after {
+        opacity: 1;
+    }
+
+    :global(.item.lamp.is-lit .lamp-inner-shadow) {
+        opacity: 0.42;
+    }
+
+    :global(.item[data-desk-movable].maltesers) {
+        z-index: 1;
+    }
+
+    :global(.item[data-desk-movable].charger) {
+        z-index: 2;
+    }
+
+    :global(.item[data-desk-movable]:is(.clip, .lippie, .pen)) {
+        z-index: 3;
+    }
+
+    :global(.item[data-desk-movable] img) {
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+    }
+
+    :global(
+        .item:is(
+            [data-desk-movable],
+            [data-desk-storage-target],
+            [data-desk-move-blocked]
+        ):hover
+    ) {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
+    }
+
+    :global(.item.is-desk-drag-source) {
+        opacity: 0.25;
+    }
+
+    :global(.item.is-desk-item-held) {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+        opacity: 0.7;
+    }
+
+    :global(.item.is-desk-item-stored) {
+        display: none !important;
+    }
+
+    :global(.item.desk-drag-preview) {
+        position: fixed !important;
+        top: var(--desk-preview-y) !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: var(--desk-preview-x) !important;
+        z-index: 10002 !important;
+        width: var(--desk-preview-width) !important;
+        max-width: none !important;
+        height: var(--desk-preview-height) !important;
+        max-height: none !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        opacity: 0.5;
+        filter: none !important;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.5) !important;
+        transform-origin: center;
+        transition: none !important;
+    }
+
+    :global(.item.desk-drag-preview img) {
+        object-fit: contain;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .lamp-spotlight,
+        :global(.item.lamp)::before,
+        :global(.item.lamp)::after,
+        :global(.item.lamp .lamp-inner-shadow) {
+            transition: none;
+        }
+
+        :global(.item.is-desk-item-held) {
+            transition: none;
+        }
+    }
+</style>

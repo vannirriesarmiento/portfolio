@@ -110,7 +110,7 @@ test("creates reject missing fields, extra fields, and oversized values", async 
     await assertFails(
         setDoc(
             doc(database, COLLECTION, "long-message"),
-            validNote("owner-a", { message: "m".repeat(281) }),
+            validNote("owner-a", { message: "m".repeat(151) }),
         ),
     );
 });

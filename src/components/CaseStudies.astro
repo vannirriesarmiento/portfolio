@@ -1,8 +1,10 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Heading from "./Heading.astro";
+import CaseStudy from "./CaseStudy.astro";
 import CaseStudyTabs from "./CaseStudyTabs.astro";
+
+import "../styles/casestudy.css"
 
 const caseStudies = (await getCollection(
     "caseStudies",
@@ -16,41 +18,26 @@ const caseStudies = (await getCollection(
 
     <div class="case-studies" data-case-study-list>
         {
-            caseStudies.map(({ id, data }) => (
-                <a
-                    class="case-study"
-                    data-case-study-card
-                    data-category={data.category}
-                    href={`/case-studies/${id}/`}
-                >
-                    <div class="case-study__logo">
-                        <Image
-                            src={data.logo}
-                            alt={`${data.title} logo`}
-                            width={96}
-                            height={96}
-                            fit="contain"
-                        />
-                    </div>
-                    <div class="case-study__content">
-                        <div class="case-study__meta">
-                            <span>{data.category}</span>
-                            <span>{data.readDuration} min read</span>
-                        </div>
-                        <h3>{data.title}</h3>
-                        <p>{data.description}</p>
-                        <span class="case-study__link">
-                            Read case study
-                            <span
-                                class="material-symbols-outlined"
-                                aria-hidden="true"
-                            >
-                                arrow_forward
-                            </span>
-                        </span>
-                    </div>
-                </a>
-            ))
+            caseStudies.map(({ id, data }, index) => {
+                const galleryPreview = data.gallery.find(
+                    (item) => typeof item !== "string",
+                );
+
+                return (
+                    <CaseStudy
+                        id={id}
+                        title={data.title}
+                        category={data.category}
+                        industry={data.industry}
+                        description={data.description}
+                        readDuration={data.readDuration}
+                        logo={data.logo}
+                        previewDesktop={data.previewDesktop ?? galleryPreview ?? data.logo}
+                        previewMobile={data.previewMobile}
+                        eager={index === 0}
+                    />
+                );
+            })
         }
 
         <p class="case-studies__empty" hidden={caseStudies.length > 0}>
@@ -99,144 +86,3 @@ const caseStudies = (await getCollection(
         },
     );
 </script>
-
-<style>
-    .case-studies {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-        width: 100%;
-    }
-
-    .case-study {
-        display: grid;
-        grid-template-columns: 88px minmax(0, 1fr);
-        gap: 20px;
-        box-sizing: border-box;
-        padding: 20px;
-        min-width: 0;
-        overflow: hidden;
-        width: 100%;
-        border-radius: 18px;
-        border-top: 1px solid var(--white-50);
-        border-bottom: 1px solid var(--white-50);
-        background-color: var(--white-15);
-        color: var(--white);
-        text-decoration: none;
-        backdrop-filter: blur(12px);
-        transition: transform 180ms ease, background-color 180ms ease;
-    }
-
-    .case-study[hidden] {
-        display: none;
-    }
-
-    .case-study:hover {
-        transform: translateY(-3px);
-        background-color: var(--white-20);
-    }
-
-    .case-study:focus-visible {
-        outline: 2px solid var(--white);
-        outline-offset: 3px;
-    }
-
-    .case-study__logo {
-        display: grid;
-        width: 88px;
-        height: 88px;
-        place-items: center;
-        overflow: hidden;
-        border-radius: 14px;
-        background: var(--white-15);
-    }
-
-    .case-study__logo :global(img) {
-        width: 100%;
-        height: 100%;
-        padding: 12px;
-        box-sizing: border-box;
-        object-fit: contain;
-    }
-
-    .case-study__content {
-        display: flex;
-        min-width: 0;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .case-study__meta {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        color: var(--white-75);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-    }
-
-    .case-study h3 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        line-height: 1.15;
-    }
-
-    .case-study p {
-        display: -webkit-box;
-        overflow: hidden;
-        color: var(--white-75);
-        font-size: 0.925rem;
-        line-height: 1.45;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-    }
-
-    .case-study__link {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: auto;
-        font-size: 0.825rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .case-study__link .material-symbols-outlined {
-        transition: transform 180ms ease;
-    }
-
-    .case-study:hover .case-study__link .material-symbols-outlined {
-        transform: translateX(4px);
-    }
-
-    .case-studies__empty {
-        grid-column: 1 / -1;
-        padding: 48px 24px;
-        color: var(--white-75);
-        text-align: center;
-    }
-
-    @media (max-width: 767px) {
-        .case-studies {
-            grid-template-columns: 1fr;
-        }
-
-        .case-study {
-            grid-template-columns: 64px minmax(0, 1fr);
-            gap: 14px;
-            padding: 16px;
-        }
-
-        .case-study__logo {
-            width: 64px;
-            height: 64px;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .case-study,
-        .case-study__link .material-symbols-outlined {
-            transition: none;
-        }
-    }
-</style>

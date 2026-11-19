@@ -88,6 +88,12 @@ import noteCreate from "../assets/img/desk/note create.webp";
             const triggers =
                 about.querySelectorAll<HTMLButtonElement>("[data-polaroid]");
             let resetTimer: number | undefined;
+            let flipBackTimer: number | undefined;
+            let isFlippingBack = false;
+            let pendingSelection: {
+                trigger: HTMLButtonElement;
+                resetAfterDelay: boolean;
+            } | null = null;
 
             if (!card) return;
             const polaroidCard = card;
@@ -100,6 +106,12 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 if (!selectedPolaroid) return;
 
                 window.clearTimeout(resetTimer);
+
+                if (isFlippingBack) {
+                    pendingSelection = { trigger, resetAfterDelay };
+                    return;
+                }
+
                 polaroidCard.dataset.activePolaroid = selectedPolaroid;
                 polaroidCard.classList.add("is-flipped");
 
@@ -108,9 +120,35 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 }
             }
 
-            function resetPolaroid() {
+            function resetPolaroid(trigger?: HTMLButtonElement) {
                 window.clearTimeout(resetTimer);
+
+                if (pendingSelection?.trigger === trigger) {
+                    pendingSelection = null;
+                }
+
+                if (!polaroidCard.classList.contains("is-flipped")) return;
+
                 polaroidCard.classList.remove("is-flipped");
+                isFlippingBack = true;
+                window.clearTimeout(flipBackTimer);
+                flipBackTimer = window.setTimeout(() => {
+                    isFlippingBack = false;
+                    const nextSelection = pendingSelection;
+                    pendingSelection = null;
+
+                    if (
+                        nextSelection &&
+                        (nextSelection.resetAfterDelay ||
+                            nextSelection.trigger.matches(":hover") ||
+                            document.activeElement === nextSelection.trigger)
+                    ) {
+                        showPolaroid(
+                            nextSelection.trigger,
+                            nextSelection.resetAfterDelay,
+                        );
+                    }
+                }, 400);
             }
 
             triggers.forEach((trigger) => {
@@ -119,7 +157,7 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 });
 
                 trigger.addEventListener("pointerleave", () => {
-                    if (desktopHover.matches) resetPolaroid();
+                    if (desktopHover.matches) resetPolaroid(trigger);
                 });
 
                 trigger.addEventListener("focus", () => {
@@ -127,7 +165,7 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 });
 
                 trigger.addEventListener("blur", () => {
-                    if (desktopHover.matches) resetPolaroid();
+                    if (desktopHover.matches) resetPolaroid(trigger);
                 });
 
                 trigger.addEventListener("click", () => {

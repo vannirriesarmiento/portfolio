@@ -1,3 +1,7 @@
+---
+import "../styles/casestudy.css"
+---
+
 <div
     class="case-study-tabs"
     data-case-study-tabs
@@ -46,6 +50,17 @@
             );
             tabList.dataset.initialized = "true";
 
+            function updateIndicator(tab: HTMLButtonElement) {
+                tabList.style.setProperty(
+                    "--indicator-left",
+                    `${tab.offsetLeft}px`,
+                );
+                tabList.style.setProperty(
+                    "--indicator-width",
+                    `${tab.offsetWidth}px`,
+                );
+            }
+
             function selectTab(index: number, moveFocus = false) {
                 const selectedTab = tabs[index];
                 if (!selectedTab) return;
@@ -59,6 +74,8 @@
                 });
 
                 if (moveFocus) selectedTab.focus();
+
+                updateIndicator(selectedTab);
 
                 tabList.dispatchEvent(
                     new CustomEvent("case-study-filter-change", {
@@ -90,96 +107,17 @@
                     selectTab(nextIndex, true);
                 });
             });
+
+            const resizeObserver = new ResizeObserver(() => {
+                const activeIndex = Number(tabList.dataset.activeIndex ?? 0);
+                const selectedTab = tabs[activeIndex] ?? tabs[0];
+
+                if (selectedTab) updateIndicator(selectedTab);
+            });
+
+            resizeObserver.observe(tabList);
+
+            const initialTab = tabs[0];
+            if (initialTab) updateIndicator(initialTab);
         });
 </script>
-
-<style>
-    .case-study-tabs {
-        position: relative;
-        isolation: isolate;
-        box-sizing: border-box;
-        display: grid;
-        width: min(100%, 520px);
-        min-height: 52px;
-        margin-inline: auto;
-        padding: 4px;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        overflow: hidden;
-        border-top: 1px solid var(--white-50);
-        border-bottom: 1px solid var(--white-50);
-        border-radius: 999px;
-        background-color: var(--white-15);
-    }
-
-    .case-study-tabs__indicator {
-        position: absolute;
-        top: 4px;
-        bottom: 4px;
-        left: 4px;
-        z-index: -1;
-        width: calc((100% - 8px) / 3);
-        border-radius: 999px;
-        background-color: #2168f2;
-        background-image: radial-gradient(
-            ellipse 100% 100% at 50% 0%,
-            rgba(255, 255, 255, 0.4) 0%,
-            rgba(255, 255, 255, 0) 100%
-        );
-        box-shadow: 0 3px 6px rgba(36, 36, 36, 0.3);
-        transform: translateX(0);
-        transition: transform 300ms cubic-bezier(0.2, 0.75, 0.25, 1);
-    }
-
-    .case-study-tabs[data-active-index="1"]
-        .case-study-tabs__indicator {
-        transform: translateX(100%);
-    }
-
-    .case-study-tabs[data-active-index="2"]
-        .case-study-tabs__indicator {
-        transform: translateX(200%);
-    }
-
-    .case-study-tabs button {
-        appearance: none;
-        min-width: 0;
-        padding: 8px 12px;
-        border: 0;
-        background: transparent;
-        color: var(--white-75);
-        font: inherit;
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: color 200ms ease;
-    }
-
-    .case-study-tabs button[aria-selected="true"] {
-        color: var(--white);
-    }
-
-    .case-study-tabs button:focus-visible {
-        border-radius: 999px;
-        outline: 2px solid var(--white);
-        outline-offset: -4px;
-    }
-
-    @media only screen and (max-width: 480px) {
-        .case-study-tabs {
-            min-height: 46px;
-        }
-
-        .case-study-tabs button {
-            padding-inline: 6px;
-            font-size: 0.75rem;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .case-study-tabs__indicator {
-            transition: none;
-        }
-    }
-</style>

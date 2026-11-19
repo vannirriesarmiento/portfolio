@@ -1,0 +1,24 @@
+---
+import Image from "astro/components/Image.astro";
+import quote from "../assets/img/format_quote.webp";
+
+const { name, position, review, avatar } = Astro.props;
+const reviewParagraphs = String(review).split(/\n\s*\n/);
+---
+
+    <div class="postit-note grey testimonial-note">
+        <Image class="postit-note-quote" src={quote} alt="Quotation mark" />
+        <div class="postit-note-body">
+            <div class="testimonial-copy">
+                {reviewParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+
+            <div class="postit-person">
+                <Image class="postit-icon" src={avatar} alt={name} />
+                <div class="postit-texts">
+                    {name}
+                    <div class="postit-label">{position}</div>
+                </div>
+            </div>
+        </div>
+    </div>
