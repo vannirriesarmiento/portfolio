@@ -174,7 +174,7 @@ Keeping these experiences within one project created a consistent brand and doma
 <div class="case-study__cards case-study__cards--grid">
     <div class="case-study__card">
         <img
-            src="../../img/case-studies/icon-landlord.svg"
+            src="../../img/case-studies/img/icon-landlord.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -184,7 +184,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="../../img/case-studies/icon-tenant.svg"
+            src="../../img/case-studies/img/icon-tenant.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -194,7 +194,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="../../img/case-studies/icon-broker.svg"
+            src="../../img/case-studies/img/icon-broker.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -204,7 +204,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="../../img/case-studies/icon-vendor.svg"
+            src="../../img/case-studies/img/icon-vendor.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
