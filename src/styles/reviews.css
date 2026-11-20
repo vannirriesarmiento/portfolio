@@ -443,6 +443,12 @@
         gap: 20px;
     }
 
+    .postit-button,
+    .freedom-wall-composer {
+        min-height: 160px;
+        height: auto;
+    }
+
     .freedom-wall-paper {
         width: calc(100vw - 48px);
         height: min(400px, calc(100dvh - 96px));
@@ -473,6 +479,12 @@
 
     .testimonial-note {
         max-width: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .postit-notes-grid {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 

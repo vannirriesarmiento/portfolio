@@ -140,11 +140,6 @@
     opacity: 0.25;
 }
 
-.item.is-desk-item-held {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-    opacity: 0.7;
-}
-
 .item.is-desk-item-stored {
     display: none !important;
 }
@@ -174,15 +169,26 @@
     object-fit: contain;
 }
 
+@media (max-width: 1279px), (hover: none), (pointer: coarse) {
+    .item[data-desk-movable],
+    .item[data-desk-movable]:active {
+        cursor: default;
+    }
+
+    .item:is(
+        [data-desk-movable],
+        [data-desk-storage-target],
+        [data-desk-move-blocked]
+    ):hover {
+        filter: none;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .lamp-spotlight,
     .item.lamp::before,
     .item.lamp::after,
     .item.lamp .lamp-inner-shadow {
-        transition: none;
-    }
-
-    .item.is-desk-item-held {
         transition: none;
     }
 }

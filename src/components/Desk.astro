@@ -316,7 +316,6 @@ const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
         const storageTarget = document.querySelector<HTMLElement>(
             "[data-desk-storage-target]",
         );
-        let heldItem: HTMLElement | null = null;
         let hasShownDesktopInstruction = false;
 
         function isPointInside(
@@ -495,11 +494,6 @@ const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
             return true;
         }
 
-        function clearHeldItem() {
-            heldItem?.classList.remove("is-desk-item-held");
-            heldItem = null;
-        }
-
         movableItems.forEach((item) => {
             item.addEventListener("pointerdown", (event) => {
                 if (
@@ -601,8 +595,6 @@ const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
         });
 
         storageTarget?.addEventListener("click", (event) => {
-            if (!desktop.matches) return;
-
             event.preventDefault();
             showToast({
                 message:
@@ -637,87 +629,12 @@ const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
                     });
                     return;
                 }
-
-                if (desktop.matches) return;
-
-                const selectedStorageTarget = target.closest<HTMLElement>(
-                    "[data-desk-storage-target]",
-                );
-
-                if (selectedStorageTarget) {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-                    if (heldItem) {
-                        const storageError =
-                            heldItem.dataset.deskStorageBlocked;
-                        if (storageError) {
-                            showToast({
-                                message: storageError,
-                                variant: "error",
-                            });
-                            return;
-                        }
-
-                        heldItem.classList.add("is-desk-item-stored");
-                        clearHeldItem();
-                        showToast({
-                            message: "Object was successfully put inside!",
-                            variant: "success",
-                        });
-                    } else {
-                        showToast({
-                            message:
-                                "Oops! Object is too big to move around. Try putting objects inside instead!",
-                            variant: "error",
-                        });
-                    }
-                    return;
-                }
-
-                if (heldItem) {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-                    if (placeItem(heldItem, event.clientX, event.clientY)) {
-                        clearHeldItem();
-                    }
-                    return;
-                }
-
-                const selectedItem = target.closest<HTMLElement>(
-                    "[data-desk-movable]",
-                );
-                if (!selectedItem) return;
-
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                heldItem = selectedItem;
-                heldItem.classList.add("is-desk-item-held");
-                showToast({
-                    message:
-                        "Object is on hold. Select an empty spot to place it.",
-                    variant: "info",
-                });
             },
             true,
         );
-
-        desktop.addEventListener("change", clearHeldItem);
-    }
-
-    function blockLongPress() {
-        document.addEventListener("contextmenu", (event) => {
-            const target = event.target;
-
-            if (target instanceof HTMLElement && target.tagName === "IMG") {
-                event.preventDefault();
-            }
-        });
     }
 
     initializeLampSpotlight();
     cursorHoverTransition();
     initializeMovableDeskItems();
-    // blockLongPress();
 </script>
