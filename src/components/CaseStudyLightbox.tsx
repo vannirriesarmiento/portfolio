@@ -60,45 +60,76 @@ export default function CaseStudyLightbox({
         if (!root) return;
         const contentRoot = root;
 
-        const images = Array.from(
-            contentRoot.querySelectorAll<HTMLImageElement>(
-                "img:not(.case-study__card-icon)",
+        const media = Array.from(
+            contentRoot.querySelectorAll<HTMLImageElement | HTMLVideoElement>(
+                "img:not(.case-study__card-icon):not(.case-study__download-badge):not(.case-study__download-img), video.case-study__content-video",
             ),
         );
 
-        images.forEach((image, imageIndex) => {
-            image.dataset.contentLightboxIndex = String(imageIndex);
-            image.tabIndex = 0;
-            image.setAttribute("role", "button");
-            image.setAttribute("aria-haspopup", "dialog");
-            image.setAttribute(
+        function getMediaLabel(
+            item: HTMLImageElement | HTMLVideoElement,
+            itemIndex: number,
+        ) {
+            if (item instanceof HTMLImageElement) {
+                return item.alt || `${title} image ${itemIndex + 1}`;
+            }
+
+            return (
+                item.getAttribute("aria-label") ||
+                `${title} video ${itemIndex + 1}`
+            );
+        }
+
+        media.forEach((item, itemIndex) => {
+            item.dataset.contentLightboxIndex = String(itemIndex);
+            item.tabIndex = 0;
+            item.setAttribute("role", "button");
+            item.setAttribute("aria-haspopup", "dialog");
+            item.setAttribute(
                 "aria-label",
-                `Open ${image.alt || `${title} image ${imageIndex + 1}`} in fullscreen`,
+                `Open ${getMediaLabel(item, itemIndex)} in fullscreen`,
             );
         });
 
-        function openContentImage(image: HTMLImageElement) {
-            const imageIndex = Number(image.dataset.contentLightboxIndex);
-            if (!Number.isInteger(imageIndex)) return;
+        function openContentMedia(item: HTMLImageElement | HTMLVideoElement) {
+            const itemIndex = Number(item.dataset.contentLightboxIndex);
+            if (!Number.isInteger(itemIndex)) return;
 
-            const contentSlides: Slide[] = images.map(
-                (contentImage, contentIndex) => ({
-                    src: contentImage.currentSrc || contentImage.src,
-                    alt:
-                        contentImage.alt ||
-                        `${title} image ${contentIndex + 1}`,
-                    ...(contentImage.naturalWidth && contentImage.naturalHeight
-                        ? {
-                              width: contentImage.naturalWidth,
-                              height: contentImage.naturalHeight,
-                          }
-                        : {}),
-                }),
+            const contentSlides: Slide[] = media.map(
+                (contentItem, contentIndex) => {
+                    if (contentItem instanceof HTMLVideoElement) {
+                        const src = contentItem.currentSrc || contentItem.src;
+
+                        return {
+                            type: "video" as const,
+                            sources: [
+                                {
+                                    src,
+                                    type: src.toLowerCase().endsWith(".mp4")
+                                        ? "video/mp4"
+                                        : "video/webm",
+                                },
+                            ],
+                        };
+                    }
+
+                    return {
+                        src: contentItem.currentSrc || contentItem.src,
+                        alt: getMediaLabel(contentItem, contentIndex),
+                        ...(contentItem.naturalWidth &&
+                        contentItem.naturalHeight
+                            ? {
+                                  width: contentItem.naturalWidth,
+                                  height: contentItem.naturalHeight,
+                              }
+                            : {}),
+                    };
+                },
             );
 
-            triggerRef.current = image;
+            triggerRef.current = item;
             setActiveSlides(contentSlides);
-            setIndex(imageIndex);
+            setIndex(itemIndex);
             setOpen(true);
         }
 
@@ -106,23 +137,27 @@ export default function CaseStudyLightbox({
             const target = event.target;
             if (!(target instanceof Element)) return;
 
-            const image = target.closest<HTMLImageElement>(
-                "img[data-content-lightbox-index]",
+            const item = target.closest<HTMLImageElement | HTMLVideoElement>(
+                "img[data-content-lightbox-index], video[data-content-lightbox-index]",
             );
-            if (!image || !contentRoot.contains(image)) return;
+            if (!item || !contentRoot.contains(item)) return;
 
-            openContentImage(image);
+            openContentMedia(item);
         }
 
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key !== "Enter" && event.key !== " ") return;
 
             const target = event.target;
-            if (!(target instanceof HTMLImageElement)) return;
-            if (!target.matches("img[data-content-lightbox-index]")) return;
+            if (
+                !(target instanceof HTMLImageElement) &&
+                !(target instanceof HTMLVideoElement)
+            )
+                return;
+            if (!target.matches("[data-content-lightbox-index]")) return;
 
             event.preventDefault();
-            openContentImage(target);
+            openContentMedia(target);
         }
 
         contentRoot.addEventListener("click", handleClick);

@@ -84,14 +84,14 @@ The design process followed each feature from early exploration to production. <
 
 ### User Research
 
-The research initially focused on brokers, since they were BSO Club’s first target audience. I conducted user interviews and usability tests to understand how they searched for properties, advertised units, arranged viewings, submitted offers, and followed active deals.
+The research initially focused on BSO Club’s internal brokerage team, who worked closely with brokers and understood their day-to-day workflows. Through stakeholder interviews and workflow reviews, I learned how brokers searched for properties, advertised units, arranged viewings, submitted offers, and managed active deals. **These conversations acted as proxy research, helping me understand the broker experience despite not having direct access to brokers during this stage.**
 
 As the product expanded, the research also included the needs of landlords and tenants, who had less familiarity with real-estate processes and required more guidance. We classified them as clients.
 
 <div class="case-study__cards case-study__cards--stacked">
     <div class="case-study__card">
         <img
-            src="/img/case-studies/bso-club/icon-broker.svg"
+            src="/img/case-studies/icon-broker.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -151,7 +151,7 @@ Notifications, task manager, and status updates bring the process into one place
 
 ### Keeping Track of Updates and Tasks
 
-![Notifications & Task Manager in BSO Club](<../../assets/img/case-studies/bso club/bso club 5.webp>)
+<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 5.webm" aria-label="Notifications and Task Manager in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
 
 **The Notifications and Task Manager tab combines two related views in one place.** Notifications surface updates from advertisements, viewings, and offers, while the Task Manager helps users identify which requests or actions still require their attention. Together, the two views show users what has changed and what they need to do next.
 
@@ -165,7 +165,7 @@ The same feature is available to clients, but the information is filtered accord
 
 ### Opening the Platform to Property Owners
 
-![Client Account in BSO Club](<../../assets/img/case-studies/bso club/bso club 7.webp>)
+<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 7.webm" aria-label="Client Account in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
 
 As the product evolved, BSO Club expanded beyond brokers and introduced a client experience for landlords and tenants. **This allowed property owners who preferred a more hands-on approach to manage their units and order services without signing a full property-management contract.**
 
@@ -185,7 +185,7 @@ Viewing schedules, negotiations, communication, offers, and digital documents ar
 
 ### Connecting Digital Requests to Real Operations
 
-![BSO Club's Finding a Tenant Interfaces in Client Module](<../../assets/img/case-studies/bso club/bso club 9.webp>)
+<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 9.webm" aria-label="BSO Club's Finding a Tenant interfaces in the Client Module" autoplay muted loop playsinline preload="metadata"></video>
 
 **Not every property service had a complete digital pipeline therefore other services are still handled by the internal team.** Users will be thoroughly informed via a Walkthrough screen before submitting a request. **User information will be then sent to BSO’s CRM so the sales or operations team could continue the process offline.** This created a practical bridge between the app and the existing business while leaving room for those journeys to become more automated in the future.
 
@@ -332,4 +332,44 @@ Working on BSO Club taught me that designing a growing product involves much mor
     </li>
 </ol>
 
-BSO Club challenged me to design for a product that was constantly growing in users, features, and business goals. The experience strengthened my ability to turn complex requirements into scalable and practical solutions while collaborating closely with developers and stakeholders. **More than redesigning an app, I helped create a foundation that could continue evolving after my time on the project.**
+BSO Club challenged me to design for a product that was **constantly growing in users**, features, and business goals. The experience strengthened my ability to turn complex requirements into scalable and practical solutions while collaborating closely with developers and stakeholders. **More than redesigning an app, I helped create a foundation that could continue evolving after my time on the project.**
+
+<section
+    class="case-study__card case-study__download-banner"
+    aria-labelledby="explore-bso-club-title"
+>
+    <h3 id="explore-bso-club-title" class="case-study__download-title">Explore BSO Club</h3>
+    <p>Seeing the product I worked on for nearly two years come to life has been one of the most rewarding parts of my journey as a designer. <strong>Download BSO Club and see the product in action!</strong></p>
+    <div class="case-study__download-buttons">
+        <a
+            href="https://play.google.com/store/apps/details?id=ae.bso.twa&amp;pcampaignid=web_share"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="case-study__download-button"
+            aria-label="Download BSO Club on Google Play"
+        >
+            <img
+                loading="lazy"
+                src="https://cdn.prod.website-files.com/66ed556031b9f134e7837480/68b9fab0f4896d082d256f8f_1ce39a73f43777aeb730f142dae4cafe_googleplay.avif"
+                alt="Get it on Google Play"
+                class="case-study__download-badge"
+            />
+        </a>
+        <a
+            href="https://apps.apple.com/ae/app/bso-club/id6443900509"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="case-study__download-button"
+            aria-label="Download BSO Club on the App Store"
+        >
+            <img
+                loading="lazy"
+                src="https://cdn.prod.website-files.com/66ed556031b9f134e7837480/68b9fa57a77ed2bcd1336d49_132950ffc12b446bd2c8355445d894d0_appstore.avif"
+                alt="Download on the App Store"
+                class="case-study__download-badge"
+            />
+        </a>
+    </div>
+    <img src="/img/case-studies/bso-club/banner bso club.webp" alt="BSO Club mobile app screens" class="case-study__download-img hidden md:block" loading="lazy">
+    <img src="/img/case-studies/bso-club/bso club 1.webp" alt="BSO Club mobile app screens" class="case-study__download-img block md:hidden" loading="lazy">
+</section>

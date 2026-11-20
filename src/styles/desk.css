@@ -1,0 +1,188 @@
+.lamp-spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    width: 100vw;
+    height: 100dvh;
+    min-height: 770px;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    background: radial-gradient(
+        circle 55vmin at 50% 50%,
+        rgba(255, 247, 198, 0.1) 0%,
+        rgba(255, 238, 166, 0.05) 66%,
+        rgba(20, 16, 12, 0.58) 74%,
+        rgba(5, 4, 3, 0.82) 82%,
+        rgba(5, 4, 3, 0.82) 100%
+    );
+    transition:
+        opacity 450ms ease,
+        visibility 0s linear 450ms;
+}
+
+.lamp-spotlight.is-active {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.item.lamp {
+    isolation: isolate;
+}
+
+.item.lamp .lamp-image {
+    position: relative;
+    z-index: 0;
+}
+
+.item.lamp .lamp-inner-shadow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    filter: brightness(0.3) saturate(0.7);
+    mask-image: linear-gradient(
+        135deg,
+        transparent 28%,
+        rgba(0, 0, 0, 0.2) 54%,
+        rgba(0, 0, 0, 0.85) 78%,
+        #000 100%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    transition: opacity 450ms ease;
+}
+
+.item.lamp::before,
+.item.lamp::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+    opacity: 0;
+    transition: opacity 450ms ease;
+}
+
+.item.lamp::before {
+    top: 45%;
+    left: -66%;
+    z-index: -2;
+    width: 105%;
+    height: 72%;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at 86% 30%,
+        rgba(255, 253, 231, 0.62) 0%,
+        rgba(255, 250, 218, 0.3) 34%,
+        rgba(255, 248, 211, 0.12) 56%,
+        rgba(255, 255, 211, 0) 76%
+    );
+    filter: blur(10px);
+    transform: rotate(-12deg);
+}
+
+.item.lamp::after {
+    top: 40%;
+    left: -8%;
+    z-index: -1;
+    width: 62%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 254, 238, 0.84) 0%,
+        rgba(255, 251, 222, 0.42) 36%,
+        rgba(255, 249, 218, 0) 72%
+    );
+    filter: blur(10px);
+}
+
+.item.lamp.is-lit {
+    z-index: 9001;
+}
+
+.item.lamp.is-lit::before,
+.item.lamp.is-lit::after {
+    opacity: 1;
+}
+
+.item.lamp.is-lit .lamp-inner-shadow {
+    opacity: 1;
+}
+
+.item[data-desk-movable].maltesers {
+    z-index: 1;
+}
+
+.item[data-desk-movable].charger {
+    z-index: 2;
+}
+
+.item[data-desk-movable]:is(.clip, .lippie, .pen) {
+    z-index: 3;
+}
+
+.item[data-desk-movable] img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.item:is(
+    [data-desk-movable],
+    [data-desk-storage-target],
+    [data-desk-move-blocked]
+):hover {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
+}
+
+.item.is-desk-drag-source {
+    opacity: 0.25;
+}
+
+.item.is-desk-item-held {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+    opacity: 0.7;
+}
+
+.item.is-desk-item-stored {
+    display: none !important;
+}
+
+.item.desk-drag-preview {
+    position: fixed !important;
+    top: var(--desk-preview-y) !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: var(--desk-preview-x) !important;
+    z-index: 10002 !important;
+    width: var(--desk-preview-width) !important;
+    max-width: none !important;
+    height: var(--desk-preview-height) !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    opacity: 0.5;
+    filter: none !important;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.5) !important;
+    transform-origin: center;
+    transition: none !important;
+}
+
+.item.desk-drag-preview img {
+    object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lamp-spotlight,
+    .item.lamp::before,
+    .item.lamp::after,
+    .item.lamp .lamp-inner-shadow {
+        transition: none;
+    }
+
+    .item.is-desk-item-held {
+        transition: none;
+    }
+}
