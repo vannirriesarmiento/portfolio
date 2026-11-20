@@ -91,7 +91,7 @@ As the product expanded, the research also included the needs of landlords and t
 <div class="case-study__cards case-study__cards--stacked">
     <div class="case-study__card">
         <img
-            src="../../img/case-studies/icon-broker.svg"
+            src="../../img/case-studies/img/icon-broker.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
