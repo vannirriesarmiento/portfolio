@@ -45,7 +45,10 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/webp" href={`${baseUrl}favicon.webp`} />
-        <meta name="viewport" content="width=device-width" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <meta name="generator" content={Astro.generator} />
         <meta name="description" content={data.description} />
         <title>Case Studies | {data.title}</title>

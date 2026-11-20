@@ -1,6 +1,7 @@
 .splash {
   width: 100vw;
   height: 100vh;
+  height: 100lvh;
   position: fixed;
   z-index: 20;
   inset: 0;
@@ -38,6 +39,7 @@
   gap: 12px;
   width: fit-content;
   z-index: 3;
+  transform: translateY(calc((100dvh - 100lvh) / 2));
   animation: hide-splash-layer 0s linear 7s forwards;
 }
 
