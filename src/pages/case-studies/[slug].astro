@@ -36,12 +36,15 @@ const contentLightboxId = `case-study-content-${study.id
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "")}`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
 ---
 
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="icon" type="image/webp" href="/favicon.webp" />
+        <link rel="icon" type="image/webp" href={`${baseUrl}favicon.webp`} />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="description" content={data.description} />
@@ -156,6 +159,9 @@ const contentLightboxId = `case-study-content-${study.id
         </main>
         <Toast />
         <script>
+            const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+                ? import.meta.env.BASE_URL
+                : `${import.meta.env.BASE_URL}/`;
             const backButton = document.querySelector<HTMLButtonElement>(
                 "[data-case-study-back]",
             );
@@ -167,8 +173,8 @@ const contentLightboxId = `case-study-content-${study.id
                     const previousPage = new URL(document.referrer);
                     cameFromHome =
                         previousPage.origin === window.location.origin &&
-                        (previousPage.pathname === "/" ||
-                            previousPage.pathname === "/index.html");
+                        (previousPage.pathname === baseUrl ||
+                            previousPage.pathname === `${baseUrl}index.html`);
                 } catch {
                     // No usable referrer; open the case studies modal directly.
                 }
@@ -178,7 +184,7 @@ const contentLightboxId = `case-study-content-${study.id
                     return;
                 }
 
-                window.location.href = "/?open=mac-modal#case-studies";
+                window.location.href = `${baseUrl}?open=mac-modal#case-studies`;
             });
 
             const caseStudyNav =

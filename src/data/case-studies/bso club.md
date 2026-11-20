@@ -91,7 +91,7 @@ As the product expanded, the research also included the needs of landlords and t
 <div class="case-study__cards case-study__cards--stacked">
     <div class="case-study__card">
         <img
-            src="/img/case-studies/icon-broker.svg"
+            src="../../img/case-studies/icon-broker.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -102,7 +102,7 @@ As the product expanded, the research also included the needs of landlords and t
     </div>
     <div class="case-study__card">
         <img
-            src="/img/case-studies/bso-club/icon-client.svg"
+            src="../../img/case-studies/bso-club/icon-client.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -151,7 +151,7 @@ Notifications, task manager, and status updates bring the process into one place
 
 ### Keeping Track of Updates and Tasks
 
-<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 5.webm" aria-label="Notifications and Task Manager in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
+<video class="case-study__content-video" src="../../img/case-studies/bso-club/bso club 5.webm" aria-label="Notifications and Task Manager in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
 
 **The Notifications and Task Manager tab combines two related views in one place.** Notifications surface updates from advertisements, viewings, and offers, while the Task Manager helps users identify which requests or actions still require their attention. Together, the two views show users what has changed and what they need to do next.
 
@@ -165,7 +165,7 @@ The same feature is available to clients, but the information is filtered accord
 
 ### Opening the Platform to Property Owners
 
-<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 7.webm" aria-label="Client Account in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
+<video class="case-study__content-video" src="../../img/case-studies/bso-club/bso club 7.webm" aria-label="Client Account in BSO Club" autoplay muted loop playsinline preload="metadata"></video>
 
 As the product evolved, BSO Club expanded beyond brokers and introduced a client experience for landlords and tenants. **This allowed property owners who preferred a more hands-on approach to manage their units and order services without signing a full property-management contract.**
 
@@ -185,7 +185,7 @@ Viewing schedules, negotiations, communication, offers, and digital documents ar
 
 ### Connecting Digital Requests to Real Operations
 
-<video class="case-study__content-video" src="/img/case-studies/bso-club/bso club 9.webm" aria-label="BSO Club's Finding a Tenant interfaces in the Client Module" autoplay muted loop playsinline preload="metadata"></video>
+<video class="case-study__content-video" src="../../img/case-studies/bso-club/bso club 9.webm" aria-label="BSO Club's Finding a Tenant interfaces in the Client Module" autoplay muted loop playsinline preload="metadata"></video>
 
 **Not every property service had a complete digital pipeline therefore other services are still handled by the internal team.** Users will be thoroughly informed via a Walkthrough screen before submitting a request. **User information will be then sent to BSO’s CRM so the sales or operations team could continue the process offline.** This created a practical bridge between the app and the existing business while leaving room for those journeys to become more automated in the future.
 
@@ -249,7 +249,7 @@ During my one year and eight months on the project, BSO Club evolved from an ear
 <div class="case-study__cards case-study__cards--split">
     <div class="case-study__card">
         <img
-            src="/img/case-studies/bso-club/icon-appstores.webp"
+            src="../../img/case-studies/bso-club/icon-appstores.webp"
             alt="App Store & Google Play Icons"
             class="case-study__card-icon borderless"
             height="48" style="width: auto !important; margin-left: 0; margin-right: auto;"
@@ -259,7 +259,7 @@ During my one year and eight months on the project, BSO Club evolved from an ear
             Public figures show <strong>5,000+ Android downloads</strong> and <strong>5,000+ active brokers onboarded</strong>, indicating the platform’s growing reach within Dubai’s real-estate network.
         </p>
         <img
-            src="/img/case-studies/bso-club/bso club 1.webp"
+            src="../../img/case-studies/bso-club/bso club 1.webp"
             alt="App Store & Google Play Icons"
             class="hidden! md:block!"
             style="position:absolute; bottom:0; left:0; right:0; top:auto; width:150%;"
@@ -370,6 +370,6 @@ BSO Club challenged me to design for a product that was **constantly growing in 
             />
         </a>
     </div>
-    <img src="/img/case-studies/bso-club/banner bso club.webp" alt="BSO Club mobile app screens" class="case-study__download-img hidden md:block" loading="lazy">
-    <img src="/img/case-studies/bso-club/bso club 1.webp" alt="BSO Club mobile app screens" class="case-study__download-img block md:hidden" loading="lazy">
+    <img src="../../img/case-studies/bso-club/banner bso club.webp" alt="BSO Club mobile app screens" class="case-study__download-img hidden md:block" loading="lazy">
+    <img src="../../img/case-studies/bso-club/bso club 1.webp" alt="BSO Club mobile app screens" class="case-study__download-img block md:hidden" loading="lazy">
 </section>

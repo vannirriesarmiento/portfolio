@@ -106,7 +106,7 @@ I conducted a content and navigation audit alongside a general UX assessment.
 
 The previous website functioned primarily as a general company brochure. Services were presented to a broad audience, requiring visitors to determine for themselves which information was relevant to their situation.
 
-<video class="case-study__content-video" src="/img/case-studies/bso-website/bso website 18.webm" aria-label="BSO Club's Finding a Tenant interfaces in the Client Module" autoplay muted loop playsinline preload="metadata"></video>
+<video class="case-study__content-video" src="../../img/case-studies/bso-website/bso website 18.webm" aria-label="BSO Club's Finding a Tenant interfaces in the Client Module" autoplay muted loop playsinline preload="metadata"></video>
 
 <p class="w-full text-center text-sm italic">Old BSO Website, January 2023</p>
 
@@ -174,7 +174,7 @@ Keeping these experiences within one project created a consistent brand and doma
 <div class="case-study__cards case-study__cards--grid">
     <div class="case-study__card">
         <img
-            src="/img/case-studies/icon-landlord.svg"
+            src="../../img/case-studies/icon-landlord.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -184,7 +184,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="/img/case-studies/icon-tenant.svg"
+            src="../../img/case-studies/icon-tenant.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -194,7 +194,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="/img/case-studies/icon-broker.svg"
+            src="../../img/case-studies/icon-broker.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -204,7 +204,7 @@ Keeping these experiences within one project created a consistent brand and doma
     </div>
     <div class="case-study__card">
         <img
-            src="/img/case-studies/icon-vendor.svg"
+            src="../../img/case-studies/icon-vendor.svg"
             alt=""
             class="case-study__card-icon borderless"
             width="48"
@@ -274,7 +274,7 @@ The website frequently used the simplified symbol without the full company name.
 
 Motion was treated as part of the user journey rather than simple decoration. **Purposeful animations** guided attention, clarified transitions, and encouraged visitors to explore longer pages before reaching key calls to action.
 
-<video class="case-study__content-video" src="/img/case-studies/bso-website/bso website 4.webm" aria-label="3D elements from bso.ae" autoplay muted loop playsinline preload="metadata"></video>
+<video class="case-study__content-video" src="../../img/case-studies/bso-website/bso website 4.webm" aria-label="3D elements from bso.ae" autoplay muted loop playsinline preload="metadata"></video>
 
 **Custom 3D elements,** including an interactive homepage globe, added depth to the experience while visualizing BSO’s geographic reach and expanding client network across the UAE.
 
@@ -428,7 +428,7 @@ The most important challenge was balancing complexity with performance. Animatio
     </div>
 </div>
 
-**As my first project at BSO,** the website strengthened my ability to work across UI/UX design and Webflow development. It became the foundation for several connected experiences, including [BSO Club](/case-studies/bso-club) and the digital PVR *(coming soon)*, which I explore in separate case studies.
+**As my first project at BSO,** the website strengthened my ability to work across UI/UX design and Webflow development. It became the foundation for several connected experiences, including [BSO Club](../bso-club/) and the digital PVR *(coming soon)*, which I explore in separate case studies.
 
 <section
     class="case-study__card case-study__download-banner"
@@ -447,6 +447,6 @@ The most important challenge was balancing complexity with performance. Animatio
             arrow_forward
         </span>
     </a>
-    <img src="/img/case-studies/bso-website/banner bso website desktop.webp" alt="A mac with the screen of BSO Website" class="case-study__download-img hidden md:block" loading="lazy">
-    <img src="/img/case-studies/bso-website/banner bso website mobile.webp" alt="A mac and iphone with BSO Website on its screens" class="case-study__download-img block md:hidden" loading="lazy">
+    <img src="../../img/case-studies/bso-website/banner bso website desktop.webp" alt="A mac with the screen of BSO Website" class="case-study__download-img hidden md:block" loading="lazy">
+    <img src="../../img/case-studies/bso-website/banner bso website mobile.webp" alt="A mac and iphone with BSO Website on its screens" class="case-study__download-img block md:hidden" loading="lazy">
 </section>

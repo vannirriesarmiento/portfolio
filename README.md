@@ -1,33 +1,15 @@
-# Astro Starter Kit: Minimal
 
-```sh
-npm create astro@latest -- --template minimal
-```
+# My Portfolio
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+It's finally live. I've collated all the projects I'm proud of, also added little bit of myself. Interested? Get to know me as a Developer, Designer, and Assistant!
 
-## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+DEMO: [https://vannirriesarmiento.github.io/portfolio](https://vannirriesarmiento.github.io/portfolio)
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
+**To open the project locally,** here are all the commands that're run from the root of the project, from a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
@@ -38,6 +20,6 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+&nbsp;
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Xoxo V 💗
