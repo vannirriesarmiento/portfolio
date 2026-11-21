@@ -12,6 +12,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 const openGraphImage = Astro.site
 	? new URL(`${baseUrl}img/seo%20image.webp`, Astro.site).href
 	: `${baseUrl}img/seo%20image.webp`;
+const pageDescription =
+	"Hi! I am Van, a passionate web developer and designer. Welcome to my portfolio website where I showcase my projects, skills, and contact information.";
 ---
 
 <html lang="en">
@@ -21,6 +23,7 @@ const openGraphImage = Astro.site
 		<link rel="icon" href={`${baseUrl}favicon.webp`} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={pageDescription} />
 		<meta property="og:image" content={openGraphImage} />
 		<meta property="og:image:alt" content="Van's Deskfolio" />
 
