@@ -3,11 +3,9 @@
     inset: 0;
     z-index: 9000;
     width: 100vw;
-    height: 100vh;
-    height: 100lvh;
+    height: 100dvh;
     min-height: 770px;
     pointer-events: none;
-    transform: translateZ(0);
     visibility: hidden;
     opacity: 0;
     background: radial-gradient(
