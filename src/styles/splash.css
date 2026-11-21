@@ -12,25 +12,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: visible;
-  overscroll-behavior: contain;
-  touch-action: none;
+  overflow: hidden;
   transform: translateZ(0);
   animation: hide-splash 0s linear 7s forwards;
-}
-
-.splash[hidden] {
-  display: none;
 }
 
 .splash-background,
 .splash-wipe {
   position: absolute;
   inset: 0;
-}
-
-.splash-background {
-  inset: calc(-1 * var(--safari-toolbar-bleed)) 0;
 }
 
 .splash-background,
@@ -63,7 +53,6 @@
   grid-template-columns: repeat(6, 1fr);
   visibility: hidden;
   pointer-events: none;
-  overflow: hidden;
   animation: show-splash-wipe 0s linear 5s forwards;
 }
 

@@ -27,19 +27,3 @@ import "../styles/splash.css";
 				<div class="bubble last">Welcome to my DeskFolio!</div>
 			</div>
 		</div>
-
-<script>
-	const splash = document.querySelector<HTMLElement>("#splash");
-
-	if (splash && splash.dataset.initialized !== "true") {
-		splash.dataset.initialized = "true";
-		splash.addEventListener("animationend", (event) => {
-			if (
-				event.target === splash &&
-				event.animationName === "hide-splash"
-			) {
-				splash.hidden = true;
-			}
-		});
-	}
-</script>

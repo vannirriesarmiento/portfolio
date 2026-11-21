@@ -3,7 +3,6 @@ import { Image } from "astro:assets";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 
 import Desk from "../../components/Desk.astro";
-import SafariViewportFix from "../../components/SafariViewportFix.astro";
 import CaseStudyGallery from "../../components/CaseStudyGallery.astro";
 import CaseStudyLightbox from "../../components/CaseStudyLightbox";
 import Toast from "../../components/Toast.astro";
@@ -55,7 +54,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
         <title>Case Studies | {data.title}</title>
     </head>
     <body class="case-study-page">
-        <SafariViewportFix />
         <main>
         <Desk />
             <div class="wrapping">
