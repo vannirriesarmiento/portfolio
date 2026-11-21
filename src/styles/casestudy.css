@@ -441,7 +441,8 @@
 
 body.case-study-page {
     min-height: 100dvh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body.case-study-page main,
@@ -545,13 +546,24 @@ body.case-study-page .case-study-nav {
     margin: 16px 0;
     padding: 16px 32px;
     overflow-x: auto;
-    border-top: 1px solid var(--white-50);
-    border-bottom: 1px solid var(--white-50);
     border-radius: 32px;
-    background: rgba(255, 255, 255, 0.1);
     white-space: nowrap;
     scrollbar-width: none;
+    isolation: isolate;
+}
+
+body.case-study-page .case-study-nav::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-top: 1px solid var(--white-50);
+    border-bottom: 1px solid var(--white-50);
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    content: "";
+    pointer-events: none;
 }
 
 body.case-study-page .case-study-nav::-webkit-scrollbar {
@@ -559,6 +571,8 @@ body.case-study-page .case-study-nav::-webkit-scrollbar {
 }
 
 body.case-study-page .case-study-nav a {
+    position: relative;
+    z-index: 1;
     flex: 0 0 auto;
     color: var(--white-50);
     font-size: 1rem;
@@ -1036,6 +1050,10 @@ strong {
         overscroll-behavior-inline: contain;
         -webkit-overflow-scrolling: touch;
         backdrop-filter: none;
+    }
+
+    body.case-study-page .case-study-nav::before {
+        display: none;
     }
 
     body.case-study-page .case-study-nav a {

@@ -1,0 +1,21 @@
+<div class="safari-scroll-runway" aria-hidden="true"></div>
+
+<script>
+    function initializeSafariViewportFix() {
+        const isIOS =
+            /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === "MacIntel" &&
+                navigator.maxTouchPoints > 1);
+
+        if (!isIOS) return;
+
+        document.documentElement.classList.add("safari-viewport-fix");
+
+        requestAnimationFrame(() => {
+            if (window.scrollY === 0) window.scrollTo(0, 1);
+        });
+    }
+
+    initializeSafariViewportFix();
+    window.addEventListener("pageshow", initializeSafariViewportFix);
+</script>

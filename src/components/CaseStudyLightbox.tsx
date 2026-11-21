@@ -185,6 +185,7 @@ export default function CaseStudyLightbox({
                 closeOnBackdropClick: true,
                 closeOnPullDown: true,
             }}
+            noScroll={{ disabled: true }}
             zoom={{
                 maxZoomPixelRatio: 3,
                 pinchZoomV4: true,
