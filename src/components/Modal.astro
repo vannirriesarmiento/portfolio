@@ -36,6 +36,61 @@ const { id, title } = Astro.props;
         '[aria-haspopup="dialog"][aria-controls]',
     );
     const openingTriggers = new WeakMap<HTMLElement, HTMLElement>();
+    const mobileViewportQuery = window.matchMedia("(max-width: 480px)");
+    let viewportSyncFrame = 0;
+
+    function clearModalVisualViewport(modal: HTMLElement) {
+        modal.style.removeProperty("--modal-visual-top");
+        modal.style.removeProperty("--modal-visual-left");
+        modal.style.removeProperty("--modal-visual-width");
+        modal.style.removeProperty("--modal-visual-height");
+    }
+
+    function syncModalToVisualViewport(modal: HTMLElement) {
+        const viewport = window.visualViewport;
+
+        if (!mobileViewportQuery.matches || !viewport) {
+            clearModalVisualViewport(modal);
+            return;
+        }
+
+        modal.style.setProperty(
+            "--modal-visual-top",
+            `${viewport.offsetTop}px`,
+        );
+        modal.style.setProperty(
+            "--modal-visual-left",
+            `${viewport.offsetLeft}px`,
+        );
+        modal.style.setProperty(
+            "--modal-visual-width",
+            `${viewport.width}px`,
+        );
+        modal.style.setProperty(
+            "--modal-visual-height",
+            `${viewport.height}px`,
+        );
+    }
+
+    function queueOpenModalViewportSync() {
+        window.cancelAnimationFrame(viewportSyncFrame);
+        viewportSyncFrame = window.requestAnimationFrame(() => {
+            document
+                .querySelectorAll<HTMLElement>(
+                    '.modal.is-open, .modal[data-opening="true"]',
+                )
+                .forEach(syncModalToVisualViewport);
+        });
+    }
+
+    window.visualViewport?.addEventListener(
+        "resize",
+        queueOpenModalViewportSync,
+    );
+    window.visualViewport?.addEventListener(
+        "scroll",
+        queueOpenModalViewportSync,
+    );
 
     function openModal(modal: HTMLElement, trigger: HTMLElement) {
         if (
@@ -51,6 +106,7 @@ const { id, title } = Astro.props;
 
         modal.dataset.opening = "true";
         document.documentElement.classList.add("modal-active");
+        syncModalToVisualViewport(modal);
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -114,6 +170,7 @@ const { id, title } = Astro.props;
             modal.classList.remove("is-open", exitAnimation);
             modal.setAttribute("aria-hidden", "true");
             modal.dataset.closing = "false";
+            clearModalVisualViewport(modal);
 
             if (!document.querySelector(".modal.is-open")) {
                 document.documentElement.classList.remove("modal-active");

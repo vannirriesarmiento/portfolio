@@ -300,7 +300,7 @@ button.item {
   inset: 0;
   backdrop-filter: blur(24px);
   width: 100vw;
-  height: 100svh;
+  height: 100dvh;
   transition: 0.2s;
 }
 
@@ -506,8 +506,12 @@ body::-webkit-scrollbar-thumb,
   }
 
   .modal {
-    height: 100dvh;
+    height: 100svh;
     padding: 0px 32px;
+  }
+
+  .overlay {
+    height: 100svh;
   }
 
   .modal-content {
@@ -1146,6 +1150,15 @@ body::-webkit-scrollbar-thumb,
     max-height: 100dvh;
   }
 
+  .modal {
+    top: var(--modal-visual-top, 0px);
+    left: var(--modal-visual-left, 0px);
+    width: var(--modal-visual-width, 100vw);
+    height: var(--modal-visual-height, 100dvh);
+    min-height: var(--modal-visual-height, 100dvh);
+    max-height: var(--modal-visual-height, 100dvh);
+  }
+
   .modal-content,
   .casestudy-content {
     height: 100%;
@@ -1161,5 +1174,10 @@ body::-webkit-scrollbar-thumb,
     top: max(24px, env(safe-area-inset-top));
     left: max(24px, env(safe-area-inset-left));
     z-index: 10001;
+  }
+
+  .modal-content,
+  .casestudy-content {
+    margin: auto 0;
   }
 }

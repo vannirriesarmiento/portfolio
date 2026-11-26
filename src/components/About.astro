@@ -75,8 +75,9 @@ import noteCreate from "../assets/img/desk/note create.webp";
 </div>
 
 <script>
+    const clickFlip = window.matchMedia("(max-width: 991px)");
     const desktopHover = window.matchMedia(
-        "(hover: hover) and (pointer: fine)",
+        "(min-width: 992px) and (hover: hover) and (pointer: fine)",
     );
 
     document
@@ -116,7 +117,7 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 polaroidCard.classList.add("is-flipped");
 
                 if (resetAfterDelay) {
-                    resetTimer = window.setTimeout(resetPolaroid, 2000);
+                    resetTimer = window.setTimeout(resetPolaroid, 300);
                 }
             }
 
@@ -148,7 +149,7 @@ import noteCreate from "../assets/img/desk/note create.webp";
                             nextSelection.resetAfterDelay,
                         );
                     }
-                }, 400);
+                }, 200);
             }
 
             triggers.forEach((trigger) => {
@@ -169,7 +170,9 @@ import noteCreate from "../assets/img/desk/note create.webp";
                 });
 
                 trigger.addEventListener("click", () => {
-                    if (!desktopHover.matches) showPolaroid(trigger, true);
+                    if (clickFlip.matches || !desktopHover.matches) {
+                        showPolaroid(trigger, true);
+                    }
                 });
             });
         });
