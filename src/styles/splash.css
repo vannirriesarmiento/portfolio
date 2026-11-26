@@ -1,15 +1,22 @@
 .splash {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
+  min-height: 100svh;
   position: fixed;
   z-index: 20;
-  inset: 0;
+  inset: 0 0 auto;
   margin: 0;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--yellow);
   overflow: hidden;
   animation: hide-splash 0s linear 7s forwards;
+}
+
+.splash[hidden] {
+  display: none;
 }
 
 .splash-background,

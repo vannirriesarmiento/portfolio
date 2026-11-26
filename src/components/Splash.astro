@@ -28,3 +28,33 @@ import "../styles/splash.css";
 				<div class="bubble last">Welcome to my DeskFolio!</div>
 			</div>
 		</div>
+
+<script>
+	const splash = document.querySelector<HTMLElement>("#splash");
+	const finalWipeColumn = splash?.querySelector<HTMLElement>(
+		".splash-wipe span:last-child",
+	);
+
+	if (splash && finalWipeColumn) {
+		splash.addEventListener("animationend", (event) => {
+			if (
+				event.target === splash &&
+				event.animationName === "hide-splash"
+			) {
+				document.documentElement.classList.remove("splash-active");
+			}
+		});
+
+		finalWipeColumn.addEventListener(
+			"animationend",
+			(event) => {
+				if (event.animationName !== "splash-wipe") return;
+
+				splash.hidden = true;
+			},
+			{ once: true },
+		);
+	} else {
+		document.documentElement.classList.remove("splash-active");
+	}
+</script>

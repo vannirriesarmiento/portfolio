@@ -38,26 +38,47 @@ const { id, title } = Astro.props;
     const openingTriggers = new WeakMap<HTMLElement, HTMLElement>();
 
     function openModal(modal: HTMLElement, trigger: HTMLElement) {
+        if (
+            modal.classList.contains("is-open") ||
+            modal.dataset.opening === "true"
+        ) {
+            return;
+        }
+
         const modalContent = modal.querySelector<HTMLElement>(".modal-content");
         const closeButton =
             modal.querySelector<HTMLButtonElement>(".modal-close");
 
-        modal.dataset.closing = "false";
-        modal.classList.remove(exitAnimation);
-        modal.classList.add("is-open", entranceAnimation);
-        modal.setAttribute("aria-hidden", "false");
-        openingTriggers.set(modal, trigger);
-        modal.dispatchEvent(new CustomEvent("modal:open", { bubbles: true }));
-
-        if (modalContent) {
-            modalContent.scrollTop = 0;
-            modalContent.scrollLeft = 0;
-        }
-
-        closeButton?.focus({ preventScroll: true });
+        modal.dataset.opening = "true";
+        document.documentElement.classList.add("modal-active");
 
         requestAnimationFrame(() => {
-            if (modalContent) modalContent.scrollTop = 0;
+            requestAnimationFrame(() => {
+                if (modal.dataset.opening !== "true") return;
+
+                modal.dataset.opening = "false";
+                modal.dataset.closing = "false";
+                modal.classList.remove(exitAnimation);
+                modal.classList.add("is-open", entranceAnimation);
+                modal.setAttribute("aria-hidden", "false");
+                openingTriggers.set(modal, trigger);
+                modal.dispatchEvent(
+                    new CustomEvent("modal:open", { bubbles: true }),
+                );
+
+                if (modalContent) {
+                    modalContent.scrollTop = 0;
+                    modalContent.scrollLeft = 0;
+                }
+
+                closeButton?.focus({ preventScroll: true });
+
+                requestAnimationFrame(() => {
+                    if (modalContent) modalContent.scrollTop = 0;
+                });
+
+                modal.addEventListener("animationend", handleEntranceEnd);
+            });
         });
 
         function handleEntranceEnd(event: AnimationEvent) {
@@ -66,8 +87,6 @@ const { id, title } = Astro.props;
             modal.classList.remove(entranceAnimation);
             modal.removeEventListener("animationend", handleEntranceEnd);
         }
-
-        modal.addEventListener("animationend", handleEntranceEnd);
     }
 
     function closeModal(modal: HTMLElement) {
@@ -95,6 +114,11 @@ const { id, title } = Astro.props;
             modal.classList.remove("is-open", exitAnimation);
             modal.setAttribute("aria-hidden", "true");
             modal.dataset.closing = "false";
+
+            if (!document.querySelector(".modal.is-open")) {
+                document.documentElement.classList.remove("modal-active");
+            }
+
             openingTriggers.get(modal)?.focus({ preventScroll: true });
             openingTriggers.delete(modal);
         }

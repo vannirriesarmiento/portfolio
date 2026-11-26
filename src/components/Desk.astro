@@ -318,6 +318,15 @@ const fixedItemMessage = "Please don't move this! It's bolted on the desk.";
         );
         let hasShownDesktopInstruction = false;
 
+        function updateStorageTargetAvailability() {
+            if (storageTarget instanceof HTMLButtonElement) {
+                storageTarget.disabled = !desktop.matches;
+            }
+        }
+
+        updateStorageTargetAvailability();
+        desktop.addEventListener("change", updateStorageTargetAvailability);
+
         function isPointInside(
             target: HTMLElement,
             clientX: number,

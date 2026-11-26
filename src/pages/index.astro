@@ -16,12 +16,15 @@ const pageDescription =
 	"Hi! I am Van, a passionate web developer and designer. Welcome to my portfolio website where I showcase my projects, skills, and contact information.";
 ---
 
-<html lang="en">
+<html lang="en" class="splash-active">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/webp" href={`${baseUrl}favicon.webp`} />
 		<link rel="icon" href={`${baseUrl}favicon.webp`} />
-		<meta name="viewport" content="width=device-width" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, viewport-fit=cover"
+		/>
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={pageDescription} />
 		<meta property="og:image" content={openGraphImage} />
